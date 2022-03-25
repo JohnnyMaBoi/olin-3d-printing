@@ -43,12 +43,22 @@ theme_common <- function() {
 df_curr_raw <- read_csv(file = "data/3d_curr.csv")
 df_old_raw <- read_csv(file = "data/3d_old.csv")
 ```
+
+
+
+
+
 ```{r}
-df_curr <- 
-  df_curr_raw %>% 
+df_both_raw <-
+  bind_rows(df_curr_raw,df_old_raw)
+
+
+df_both <- 
+  df_both_raw %>% 
   mutate(
     print_mass = str_extract(print_mass_grams, "\\d+"), # extract just mass from print mass
-    class = tolower(class) #make class lowercase
+    class = tolower(class), #make class lowercase
+    printer = tolower(printer)
   ) %>% 
   #separate into date and time
   separate(timestamp, c("date", "time"), sep = " ", remove = FALSE) %>% 
@@ -58,11 +68,35 @@ df_curr <-
     print_mass = as.numeric(print_mass)
   )
 
+printers <- c("himalia", "elera", "ganymede", "callisto", "thebe", "themisto",
+              "io", "metis", "sinope", "dia", "europa", "queue", 
+              "valetudo", "amalthea", NA)
+
+df_both <-
+  df_both %>% 
+  mutate (
+    printer = str_replace(printer, "hima.*", "himalia"),
+    printer = str_replace(printer, "elar.*", "elera"),
+    printer = str_replace(printer, "gany.*", "ganymede"),
+    printer = str_replace(printer, "themi.*", "themisto"),
+    printer = str_replace(printer, "cal.*", "callisto"),
+    printer = str_replace(printer, "theb.*", "thebe"),
+    printer = str_replace(printer, "io.*", "io"),
+    printer = str_replace(printer, "met.*", "metis"),
+    printer = str_replace(printer, "sin.*", "sinope"),
+    printer = str_replace(printer, "dia.*", "dia"),
+    printer = str_replace(printer, "euro.*", "europa"),
+    printer = str_replace(printer, ".*que.*", "queue"),
+    printer = str_replace(printer, "val.*", "valetudo"),
+    printer = str_replace(printer, ".*thea.*", "amalthea"),
+    printer = ifelse(printer %in% printers, printer, "other")
+  )
+
 #unique(df_curr$class)
 
 # Standardize each class to ensure pie/principles of integrated engineering are the same/pieeeeeee are the same
-df_curr <-
-  df_curr %>% 
+df_both <-
+  df_both %>% 
   mutate (
     class = str_replace(class, "pie.*", "pie"),
     class = str_replace(class, "dfm|.*manufact.*", "dfm"),
@@ -93,7 +127,7 @@ df_curr <-
 ```
 
 ```{r}
-df_curr %>% 
+df_both %>% 
   group_by(class) %>% 
   summarize(
     num_class = length(class)
@@ -110,8 +144,9 @@ df_curr %>%
 ```
 
 ```{r}
-df_curr %>% 
+df_both %>% 
   count(reason_print) %>% 
+  filter(!is.na(reason_print)) %>%
   ggplot(aes(x = reorder(reason_print, -n), y = n)) +
   geom_col() +
   xlab("Reason") +
@@ -120,7 +155,7 @@ df_curr %>%
   
 ```
 ```{r}
-df_curr %>% 
+df_both %>% 
   group_by(date) %>% 
   mutate(
     num_per_date = length(date)
@@ -134,7 +169,7 @@ df_curr %>%
   
 ```
 ```{r}
-df_curr %>% 
+df_both %>% 
   filter(class == "pie") %>%
   group_by(date) %>%
   mutate(
@@ -149,7 +184,7 @@ df_curr %>%
 ```
 
 ```{r}
-df_curr %>% 
+df_both %>% 
   filter(class == "pie") %>%
   group_by(date) %>%
   mutate(
@@ -162,64 +197,15 @@ df_curr %>%
   ggtitle("Daily Prints for PIE")
 ```
 
-```{r}
-df_old <- 
-  df_old_raw %>% 
-  mutate(
-    print_mass = str_extract(print_mass_grams, "\\d+"), # extract just mass from print mass
-    printer = tolower(printer) #make class lowercase
-  ) %>% 
-  #separate into date and time
-  separate(timestamp, c("date", "time"), sep = " ", remove = FALSE) %>% 
-  transform(
-    date = as.Date(date),
-    time = chron(time = time),
-    print_mass = as.numeric(print_mass)
-  )
-
-printers <- c("himalia", "elera", "ganymede", "callisto", "thebe", "themisto",
-              "io", "metis", "sinope", "dia", "europa", "queue", 
-              "valetudo", "amalthea")
-
-df_old <-
-  df_old %>% 
-  mutate (
-    printer = str_replace(printer, "hima.*", "himalia"),
-    printer = str_replace(printer, "elar.*", "elera"),
-    printer = str_replace(printer, "gany.*", "ganymede"),
-    printer = str_replace(printer, "themi.*", "themisto"),
-    printer = str_replace(printer, "cal.*", "callisto"),
-    printer = str_replace(printer, "theb.*", "thebe"),
-    printer = str_replace(printer, "io.*", "io"),
-    printer = str_replace(printer, "met.*", "metis"),
-    printer = str_replace(printer, "sin.*", "sinope"),
-    printer = str_replace(printer, "dia.*", "dia"),
-    printer = str_replace(printer, "euro.*", "europa"),
-    printer = str_replace(printer, ".*que.*", "queue"),
-    printer = str_replace(printer, "val.*", "valetudo"),
-    printer = str_replace(printer, ".*thea.*", "amalthea"),
-    printer = ifelse(printer %in% printers, printer, "other")
-  )
-    # printer = str_replace(printer, ".*[^himalia].*|.*[^elera].*|.*[^ganymede].*|.*[^callisto].*|.*[^thebe].*|.*[^themisto].*|.*[^io].*|.*[^metis].*|.*[^sinope].*|.*[^dia].*|.*[^europa].*|.*[^queue].*|.*[^prusa].*|.*[^valetudo].*|.*[^valetudo].*", "other")
-  #   printer = str_replace(printer, "^(?!himalia).*$|^(?!lera).*$|^(?!ganymede).*$|^(?!callisto).*$|^(?!thebe).*$|^(?!themisto).*$|^(?!io).*$|^(?!metis).*$|^(?!sinope).*$|^(?!dia).*$|^(?!europa).*$|^(?!queue).*$|^(?!prusa).*$|^(?!valetudo).*$|^(?!amalthea).*$", "other")
-  # )
-    # class = factor(
-    #   class,
-    #   levels = c("pie", "dfm", "scope", "is", "desnat", "renewable energy", "eec", "mech proto", "qea", "research", "p&m", "sustdes", 
-    #     "robosys", "dbf")
-    # )
-
-unique(df_old$printer)
-```
 
 ```{r}
-df_old %>% 
+df_both %>% 
   ggplot(aes(x = print_mass)) +
   geom_histogram() 
 ```
 
 ```{r}
-df_old %>% 
+df_both %>% 
   group_by(date) %>% 
   mutate(
     num_per_date = length(date)
@@ -243,7 +229,7 @@ df_old %>%
   ggtitle("Daily Prints")
 ```
 ```{r}
-df_old %>% 
+df_both %>% 
   group_by(date) %>% 
   mutate(
     date_avg = mean(print_mass, na.rm = TRUE)
@@ -254,7 +240,8 @@ df_old %>%
 ```
 
 ```{r}
-df_old %>% 
+df_both %>% 
+  filter(printer != "other") %>%
   group_by(printer) %>% 
   mutate(
     num_per_printer = length(printer)
@@ -267,7 +254,7 @@ df_old %>%
 ```
 
 ```{r}
-df_old %>% 
+df_both %>% 
   group_by(printer) %>% 
   
   ggplot(aes(x = printer)) +
@@ -277,14 +264,14 @@ df_old %>%
 
 ```
 ```{r}
-unique(df_old$printer)
+unique(df_both$printer)
 
 
 
 ```
 
 ```{r}
-df_old %>%
+df_both %>%
   mutate(
     time=hms(as.character(time)),
     time = hour(time)
