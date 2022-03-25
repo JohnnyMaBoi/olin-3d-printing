@@ -80,7 +80,13 @@ df_curr <-
       class,
       levels = c("pie", "dfm", "scope", "is", "desnat", "renewable energy", "eec", "mech proto", "qea", "research", "p&m", "sustdes", 
         "robosys", "dbf")
-    )
+    ),
+   reason_print = str_replace(reason_print, "Class Project", "Class Project/Research"), #combine since Class Project/Research was created in middle of survey
+   reason_print = factor(
+     reason_print,
+     levels = c("Class Project/Research", "Personal Project", "Project Team/Club", "Test Piece")
+   )
+
   )
 ```
 
@@ -99,5 +105,24 @@ df_curr %>%
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   xlab("Class") +
   ylab("Count")
+```
+
+```{r}
+df_curr %>% 
+  count(reason_print) %>% 
+  ggplot(aes(x = reorder(reason_print, -n), y = n)) +
+  geom_col() 
+  
+```
+```{r}
+df_curr %>% 
+  group_by(date) %>% 
+  mutate(
+    num_per_date = length(date)
+  ) %>% 
+  ggplot(aes(x = date, y = num_per_date)) +
+  geom_line()
+  
+  
 ```
 
