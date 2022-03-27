@@ -46,9 +46,6 @@ df_old_raw <- read_csv(file = "data/3d_old.csv")
 ```
 
 
-
-
-
 ```{r}
 df_both_raw <-
   bind_rows(df_curr_raw,df_old_raw)
