@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(lubridate)
 library(chron)
+library(viridis)
 ```
 
 ```{r define-theme}
@@ -122,8 +123,8 @@ df_both <-
      reason_print,
      levels = c("Class Project/Research", "Personal Project", "Project Team/Club", "Test Piece")
    )
-
   )
+
 ```
 
 ```{r}
@@ -218,16 +219,17 @@ df_both %>%
   ggtitle("Daily Prints")
 ```
 ```{r}
-df_old %>% 
-  group_by(date) %>% 
-  mutate(
-    mass_per_date = sum(print_mass, na.rm = TRUE)
-  ) %>% 
-  ggplot(aes(x = date, y = mass_per_date)) +
-  #geom_point() +
-  geom_line() +
-  ggtitle("Daily Prints")
+# df_old %>% 
+#   group_by(date) %>% 
+#   mutate(
+#     mass_per_date = sum(print_mass, na.rm = TRUE)
+#   ) %>% 
+#   ggplot(aes(x = date, y = mass_per_date)) +
+#   #geom_point() +
+#   geom_line() +
+#   ggtitle("Daily Prints")
 ```
+
 ```{r}
 df_both %>% 
   group_by(date) %>% 
@@ -278,5 +280,192 @@ df_both %>%
   ) %>%
   ggplot() +
   geom_histogram(aes(x=time),binwidth = 1)
+```
+
+```{r}
+df_both %>% 
+  summarize(
+    total_mass = sum(print_mass, na.rm = TRUE)
+  )
+```
+```{r}
+# mass per month
+df_both %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(mass_per_month = sum(print_mass, na.rm = TRUE)) %>%   
+  mutate(
+    month_12 = month(month),
+    month_12 = factor(
+       month_12,
+       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+     ) 
+  ) %>% 
+  ggplot(aes(x = month, y = mass_per_month, fill = month_12)) +
+  geom_col() +
+  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+  #scale_color_manual(labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+```
+```{r}
+df_both %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(
+    mean_mass = mean(print_mass, na.rm = TRUE),
+    median_mass = median(print_mass, na.rm = TRUE),
+    max_mass = max(print_mass, na.rm = TRUE)
+  ) %>% 
+   mutate(
+    month_12 = month(month),
+    month_12 = factor(
+       month_12,
+       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+     ) 
+  ) %>%
+  ggplot(aes(x = month, y = mean_mass, fill = month_12)) +
+  geom_col() +
+  geom_hline(yintercept = 40.1, linetype = "dashed") +
+  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+
+```
+
+```{r}
+df_both %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(
+    mean_mass = mean(print_mass, na.rm = TRUE),
+    median_mass = median(print_mass, na.rm = TRUE),
+    max_mass = max(print_mass, na.rm = TRUE)
+  ) %>% 
+   mutate(
+    month_12 = month(month),
+    month_12 = factor(
+       month_12,
+       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+     ) 
+  ) %>%
+  ggplot(aes(x = month, y = max_mass, fill = month_12)) +
+  geom_col() +
+  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+
+```
+
+```{r}
+
+```
+```{r}
+df_both %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+   mutate(
+    month_12 = month(month),
+    month_12 = factor(
+       month_12,
+       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+     ) 
+  ) %>%
+  ggplot(aes(x = month, y = print_mass, fill = month_12, group = month)) +
+  # geom_col()
+  geom_boxplot(na.rm = TRUE) +
+  scale_y_log10() +
+  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+```
+```{r}
+df_both %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+   mutate(
+    month_12 = month(month),
+    month_12 = factor(
+       month_12,
+       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
+     ) 
+  ) %>%
+  ggplot(aes(x = month, y = print_mass, fill = month_12, group = month)) +
+  # geom_col()
+  geom_boxplot(na.rm = TRUE) +
+  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
+```
+
+```{r}
+df_both %>% 
+  group_by(class) %>% 
+  summarize(
+    num_class = length(class),
+    mean_mass = mean(print_mass, na.rm = TRUE)
+  ) %>% 
+  filter(
+    !is.na(class)
+  ) %>% 
+  ggplot(aes(x = reorder(class, -num_class), y = num_class, fill = mean_mass)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  xlab("Class") +
+  ylab("Count") +
+  scale_fill_viridis()
+```
+
+```{r}
+df_both %>% 
+  group_by(date) %>% 
+  summarize(
+    num_per_day = length(date)
+  ) %>% 
+  ggplot(aes(x = date, y = num_per_day)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_date(labels = scales::date_format("%b"), 
+               breaks = "1 month") +
+  facet_wrap(. ~ lubridate::floor_date(date, "year"), scale = "free_x") +
+   theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5,
+                                   hjust = 1))
+```
+
+```{r}
+# df_both %>% 
+#   group_by(date) %>% 
+#   summarize(
+#     num_per_day = length(date)
+#   ) %>% 
+#   mutate (
+#     year = substring(date, 1, 4),
+#     month = substring(date, 6, 10),
+#     #month = as.Date(month, format = "%m-%d")
+#   )  %>% 
+#   ggplot(aes(x = month, y = num_per_day)) +
+#   geom_smooth(aes(group = year, color = year)) +
+#   scale_x_date(labels = scales::date_format("%b"), 
+#                breaks = "1 month")
+
+df_both %>% 
+  mutate (
+    year = substring(date, 1, 4),
+    month = substring(date, 6, 10),
+    #month = as.Date(month, format = "%m-%d")
+  ) %>% 
+  group_by(year, month) %>% 
+  summarize(
+    num_per_day = length(month)
+  ) %>% 
+  ggplot(aes(x = as.Date(month, "%m-%d"), y = num_per_day, group = year, color = year)) +
+  geom_line() +
+  scale_x_date(labels = scales::date_format("%b"), breaks = "1 month") +
+  xlab("Date") +
+  ylab("Number Prints per Day")
+
+df_both %>% 
+  mutate (
+    year = substring(date, 1, 4),
+    month = substring(date, 6, 10),
+    #month = as.Date(month, format = "%m-%d")
+  ) %>% 
+  group_by(year, month) %>% 
+  summarize(
+    num_per_day = length(month)
+  ) %>% 
+  ggplot(aes(x = as.Date(month, "%m-%d"), y = num_per_day, group = year, color = year)) +
+  geom_smooth(span = 1) +
+  scale_x_date(labels = scales::date_format("%b"), breaks = "1 month") +
+  xlab("Date") +
+  ylab("Number Prints per Day")
+
+
 ```
 
