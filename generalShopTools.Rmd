@@ -1,0 +1,115 @@
+---
+title: "General Shop Tools"
+author: "Sam Coleman"
+date: "3/27/2022"
+output: 
+  github_document:
+    toc: true
+---
+```{r setup}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl) 
+library(viridis)
+```
+
+```{r load-data}
+col_names <-
+  c(
+    "training",
+    "sp22_signup",
+    "sp22_complete",
+    "sp22_comp_rate",
+    "fa21_signup",
+    "fa21_complete",
+    "fa21_comp_rate",
+    "sp20_signup",
+    "sp20_complete",
+    "sp20_comp_rate",
+    "fa19_signup",
+    "fa19_complete",
+    "fa19_comp_rate",
+    "sp19_signup",
+    "sp19_complete",
+    "sp19_comp_rate",
+    "fa18_signup",
+    "fa18_complete",
+    "fa18_comp_rate",
+    "sp18_signup",
+    "sp18_complete",
+    "sp18_comp_rate",
+    "fa17_signup",
+    "fa17_complete",
+    "fa17_comp_rate",
+    "sp17_signup",
+    "sp17_complete",
+    "sp17_comp_rate",
+    "fa16_signup",
+    "fa16_complete",
+    "fa16_comp_rate",
+    "total_signup",
+    "total_complete",
+    "total_comp_rate"
+  )
+
+df_raw <- read_excel("data/shopTrainingSummary.xlsx", sheet = 2, col_names = col_names, skip = 1)
+
+df_raw
+```
+
+```{r}
+df_raw %>% 
+  filter(
+    !training %in% c("Total", "Green"),
+    !is.na(training)
+  ) %>% 
+  ggplot(aes(x = reorder(training, -total_signup), y = total_signup, fill = total_comp_rate)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  scale_fill_viridis(name = "total completion rate") +
+  xlab("Training") +
+  ylab("Total Signup Since Fall 2016")
+  
+```
+```{r}
+df_raw %>% 
+  filter(
+    !training %in% c("Total", "Green"),
+    !is.na(training)
+  ) %>% 
+  ggplot(aes(x = reorder(training, -total_comp_rate), y = total_signup, fill = total_comp_rate)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  scale_fill_viridis(name = "total completion rate") +
+  xlab("Training") +
+  ylab("Total Signup Since Fall 2016")
+```
+```{r}
+df_raw %>% 
+  filter(
+    !training %in% c("Total", "Green"),
+    !is.na(training)
+  ) %>% 
+  mutate(
+    fully_complete = total_complete
+  ) %>% 
+  pivot_longer(names_to = "stat", values_to = "val_stat", cols = c("total_signup", "total_complete")) %>% 
+  ggplot(aes(x = reorder(training, -fully_complete), y = val_stat, fill = stat)) +
+  geom_col(position = "dodge") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  #scale_fill_viridis(name = "total completion rate") +
+  xlab("Training") +
+  ylab("Total Signup Since Fall 2016")
+```
+
+```{r}
+df_raw %>% 
+  filter(training == "3D Printing") %>% 
+  pivot_longer(names_to = "stat", values_to = "val_stat", cols = c(ends_with("complete"), ends_with("signup"), ends_with("rate"))) %>% 
+  filter(!is.na(val_stat)) %>% 
+  ggplot(aes(x = stat, y = val_stat, fill)) +
+  geom_col() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+
+```
+

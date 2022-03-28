@@ -1,0 +1,40 @@
+---
+title: "Process Very Old 3D Print Data"
+author: "Sam Coleman"
+date: "3/27/2022"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(chron)
+library(viridis)
+```
+
+```{r}
+df_vold_raw <- read_csv(file = "data/3d_very_old.csv")
+```
+```{r}
+df_vold <- 
+  df_vold_raw %>% 
+  mutate(
+    print_mass = str_extract(print_mass_grams, "\\d+"), # extract just mass from print mass
+    class = tolower(class), #make class lowercase
+    printer = tolower(printer),
+    printer = str_replace(printer, "ariel: limit to 2 hour print jobs", "ariel")
+  ) %>% 
+  #separate into date and time
+  separate(timestamp, c("date", "time"), sep = " ", remove = FALSE) %>% 
+  transform(
+    date = as.Date(date),
+    time = chron(time = time),
+    print_mass = as.numeric(print_mass)
+  )
+
+unique(df_vold$printer)
+```
+
