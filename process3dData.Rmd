@@ -30,7 +30,7 @@ theme_common <- function() {
     panel.grid.major = element_line(color = "grey90"),
     panel.grid.minor = element_line(color = "grey90"),
     aspect.ratio = 10/16,
-    plot.margin = unit(c(t = +0, b = +0, r = +0, l = +0), "cm"),
+    plot.margin = unit(c(t = +0.5, b = +0, r = +0, l = +0), "cm"),
     plot.title = element_text(size = 18),
     # plot.title.position = "plot",
     plot.subtitle = element_text(size = 16),
@@ -66,28 +66,28 @@ df_both <-
     print_mass = as.numeric(print_mass)
   )
 
-printers <- c("himalia", "elera", "ganymede", "callisto", "thebe", "themisto",
-              "io", "metis", "sinope", "dia", "europa", "queue", 
-              "valetudo", "amalthea", NA)
+printers <- c("Himalia", "Elera", "Ganymede", "Callisto", "Thebe", "Themisto",
+              "Io", "Metis", "Sinope", "Dia", "Europa", "Queue", 
+              "Valetudo", "Amalthea", NA)
 
 df_both <-
   df_both %>% 
   mutate (
-    printer = str_replace(printer, "hima.*", "himalia"),
-    printer = str_replace(printer, "elar.*", "elera"),
-    printer = str_replace(printer, "gany.*", "ganymede"),
-    printer = str_replace(printer, "themi.*", "themisto"),
-    printer = str_replace(printer, "cal.*", "callisto"),
-    printer = str_replace(printer, "theb.*", "thebe"),
-    printer = str_replace(printer, "io.*", "io"),
-    printer = str_replace(printer, "met.*", "metis"),
-    printer = str_replace(printer, "sin.*", "sinope"),
-    printer = str_replace(printer, "dia.*", "dia"),
-    printer = str_replace(printer, "euro.*", "europa"),
-    printer = str_replace(printer, ".*que.*", "queue"),
-    printer = str_replace(printer, "val.*", "valetudo"),
-    printer = str_replace(printer, ".*thea.*", "amalthea"),
-    printer = ifelse(printer %in% printers, printer, "other")
+    printer = str_replace(printer, "hima.*", "Himalia"),
+    printer = str_replace(printer, "elar.*", "Elera"),
+    printer = str_replace(printer, "gany.*", "Ganymede"),
+    printer = str_replace(printer, "themi.*", "Themisto"),
+    printer = str_replace(printer, "cal.*", "Callisto"),
+    printer = str_replace(printer, "theb.*", "Thebe"),
+    printer = str_replace(printer, "io.*", "Io"),
+    printer = str_replace(printer, "met.*", "Metis"),
+    printer = str_replace(printer, "sin.*", "Sinope"),
+    printer = str_replace(printer, "dia.*", "Dia"),
+    printer = str_replace(printer, "euro.*", "Europa"),
+    printer = str_replace(printer, ".*que.*", "Queue"),
+    printer = str_replace(printer, "val.*", "Valetudo"),
+    printer = str_replace(printer, ".*thea.*", "Amalthea"),
+    printer = ifelse(printer %in% printers, printer, "Other")
   )
 
 #unique(df_curr$class)
@@ -96,24 +96,24 @@ df_both <-
 df_both <-
   df_both %>% 
   mutate (
-    class = str_replace(class, "pie.*", "pie"),
-    class = str_replace(class, "dfm|.*manufact.*", "dfm"),
-    class = str_replace(class, ".*scope.*", "scope"),
-    class = str_replace(class, ".*indep.*|is.*", "is"),
-    class = str_replace(class, ".*nat.*|.*nt.*", "desnat"),
-    class = str_replace(class, ".*renewable.*", "renewable energy"),
-    class = str_replace(class, ".*eec.*", "eec"),
-    class = str_replace(class, ".*proto.*", "mech proto"),
-    class = str_replace(class, ".*qea.*", "qea"),
-    class = str_replace(class, ".*research.*|.*lair.*", "research"),
-    class = str_replace(class, ".*market.*|p&.*|p[[:space:]]&.*", "p&m"),
-    class = str_replace(class, ".*sust.*", "sustdes"),
-    class = str_replace(class, ".*robos.*", "robosys"),
-    class = str_replace(class, ".*dbf.*|design[[:space:]]bu.*", "dbf"),
+    class = str_replace(class, "pie.*", "PIE"),
+    class = str_replace(class, "dfm|.*manufact.*", "DFM"),
+    class = str_replace(class, ".*scope.*", "Scope"),
+    class = str_replace(class, ".*indep.*|is.*", "IS"),
+    class = str_replace(class, ".*nat.*|.*nt.*", "DesNat"),
+    class = str_replace(class, ".*renewable.*", "Ren. Energy"),
+    class = str_replace(class, ".*eec.*", "EEC"),
+    class = str_replace(class, ".*proto.*", "Mech Proto"),
+    class = str_replace(class, ".*qea.*", "QEA"),
+    class = str_replace(class, ".*research.*|.*lair.*", "Research"),
+    class = str_replace(class, ".*market.*|p&.*|p[[:space:]]&.*", "P&M"),
+    class = str_replace(class, ".*sust.*", "SustDes"),
+    class = str_replace(class, ".*robos.*", "RoboSys"),
+    class = str_replace(class, ".*dbf.*|design[[:space:]]bu.*", "DBF"),
     class = factor(
       class,
-      levels = c("pie", "dfm", "scope", "is", "desnat", "renewable energy", "eec", "mech proto", "qea", "research", "p&m", "sustdes", 
-        "robosys", "dbf")
+      levels = c("PIE", "DFM", "Scope", "IS", "DesNat", "Ren. Energy", "EEC", "Mech Proto", "QEA", "Research", "P&M", "SustDes", 
+        "RoboSys", "DBF")
     ),
    reason_print = str_replace(reason_print, "Class Project", "Class Project/Research"), #combine since Class Project/Research was created in middle of survey
    reason_print = factor(
@@ -133,39 +133,40 @@ df_both %>%
   filter(
     !is.na(class)
   ) %>% 
-  ggplot(aes(x = reorder(class, -num_class), y = num_class)) +
-  geom_col() +
-  #theme_common() +
+  mutate(
+    class = reorder(class, -num_class)
+  ) %>%
+  ggplot(aes(x = class, y = num_class, fill = class)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab("Class") +
-  ylab("Count")
+  labs(
+    title = "Prints Per Class \n",
+    x = "Class",
+    y = "Count"
+  )
 ```
 
 ```{r}
 df_both %>% 
   count(reason_print) %>% 
   filter(!is.na(reason_print)) %>%
-  ggplot(aes(x = reorder(reason_print, -n), y = n)) +
-  geom_col() +
-  xlab("Reason") +
-  ylab("Count") +
-  ggtitle("Reasons for Prints")
-  
-```
-```{r}
-df_both %>% 
-  group_by(date) %>% 
   mutate(
-    num_per_date = length(date)
-  ) %>% 
-  ggplot(aes(x = date, y = num_per_date)) +
-  geom_point() +
-  geom_line() +
-  ggtitle("Daily Prints")
+    reason_print = reorder(reason_print, -n)
+  ) %>%
+  ggplot(aes(x = reason_print, y = n, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Reasons \n",
+    x = "Reason",
+    y = "Count"
+  )
 
-  
-  
 ```
+
 ```{r}
 df_both %>% 
   filter(class == "pie") %>%
@@ -202,18 +203,57 @@ df_both %>%
   geom_histogram() 
 ```
 
+
 ```{r}
 df_both %>% 
   group_by(date) %>% 
-  mutate(
+  summarize(
     num_per_date = length(date)
-  ) %>% 
+  ) %>%
+  complete(date = seq.Date(min(date), max(date), by="day")) %>%
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
+  ) %>%
   ggplot(aes(x = date, y = num_per_date)) +
-  #geom_point() +
-  #geom_line() +
-  geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.05) +
-  geom_point() +
-  ggtitle("Daily Prints")
+  geom_line(alpha = 0.2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1.5, se = FALSE) +
+  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
+  # geom_point(alpha = 0.1) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  # theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Daily Prints \n",
+    x = "Date",
+    y = "Count"
+  )
+```
+
+```{r}
+df_both %>% 
+  group_by(date) %>% 
+  summarize(
+    mass_per_date = sum(print_mass)
+  ) %>%
+  complete(date = seq.Date(min(date), max(date), by="day")) %>%
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    mass_per_date = ifelse(is.na(mass_per_date), 0, mass_per_date)
+  ) %>%
+  ggplot(aes(x = date, y = mass_per_date)) +
+  geom_line(alpha = 0.2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1.5, se = FALSE) +
+  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
+  # geom_point(alpha = 0.1) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  # theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Daily Print Mass \n",
+    x = "Date",
+    y = "Mass (g)"
+  )
 ```
 ```{r}
 # df_old %>% 
@@ -239,29 +279,42 @@ df_both %>%
 ```
 
 ```{r}
-df_both %>% 
-  filter(printer != "other") %>%
-  group_by(printer) %>% 
-  mutate(
-    num_per_printer = length(printer)
-  ) %>% 
-  ggplot(aes(x = printer, y = num_per_printer)) +
-  #geom_point() +
-  geom_col() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+# df_both %>% 
+#   filter(printer != "other") %>%
+#   group_by(printer) %>% 
+#   mutate(
+#     num_per_printer = length(printer)
+#   ) %>% 
+#   ggplot(aes(x = printer, y = num_per_printer)) +
+#   #geom_point() +
+#   geom_col() +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
 
 ```
 
 ```{r}
 df_both %>% 
   group_by(printer) %>% 
-  
-  ggplot(aes(x = printer)) +
-  #geom_point() +
-  geom_bar() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
-
+  summarize(
+    num_printer = length(printer)
+  ) %>% 
+  filter(
+    !is.na(printer)
+  ) %>% 
+  mutate(
+    printer = reorder(printer, -num_printer)
+  ) %>%
+  ggplot(aes(x = printer, y = num_printer, fill = printer)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints Per Printer \n",
+    x = "Printer",
+    y = "Count"
+  )
 ```
+
 ```{r}
 unique(df_both$printer)
 
@@ -275,9 +328,81 @@ df_both %>%
     time=hms(as.character(time)),
     time = hour(time)
   ) %>%
-  ggplot() +
-  geom_histogram(aes(x=time),binwidth = 1)
+  group_by(time) %>%
+  summarize(
+    num_print = length(time)
+  ) %>%
+  ggplot(aes(x = time, y = num_print)) +
+  # geom_histogram(aes(x=time),binwidth = 1)
+  # geom_line() +
+  # geom_point() +
+  geom_ribbon(aes(ymax = num_print, ymin = 0), fill = "#00BFC4") +
+  scale_x_continuous(breaks = c(0, 4, 8, 12, 16, 20, 24)) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints by Time of Day \n",
+    x = "Day of Week",
+    y = "Count"
+  )
 ```
+
+```{r}
+df_both %>%
+  mutate(
+    # day = hms(as.character(time)),
+    day = wday(date),
+    dayname = wday(date, label = TRUE)
+  ) %>%
+  group_by(day, dayname) %>%
+  summarize(
+    num_print = length(day)
+  ) %>%
+  ggplot(aes(x = day, y = num_print)) +
+  # geom_histogram(aes(x=time),binwidth = 1)
+  # geom_line() +
+  # geom_point() +
+  geom_ribbon(aes(ymax = num_print, ymin = 0), fill = "#00BFC4") +
+  scale_x_continuous(breaks = c(1,2,3,4,5,6,7),
+                     labels = c("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints by Day of Week \n",
+    x = "Day of Week",
+    y = "Count"
+  )
+```
+
+```{r}
+df_both %>%
+  mutate(
+    # day = hms(as.character(time)),
+    month = month(date),
+  ) %>%
+  group_by(month) %>%
+  summarize(
+    num_print = length(month)
+  ) %>%
+  ggplot(aes(x = month, y = num_print)) +
+  # geom_histogram(aes(x=time),binwidth = 1)
+  # geom_line() +
+  # geom_point() +
+  geom_ribbon(aes(ymax = num_print, ymin = 0), fill = "#00BFC4") +
+  scale_x_continuous(
+    breaks = c(1,2,3,4,5,6,7,8,9,10,11,12),
+    labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints by Month \n",
+    x = "Month",
+    y = "Count"
+  )
+```
+
+
 
 ```{r}
 df_both %>% 
@@ -397,6 +522,62 @@ df_both %>%
   ylab("Count") +
   scale_fill_viridis()
 ```
+
+```{r}
+df_both %>% 
+  group_by(date) %>% 
+  summarize(
+    num_per_date = length(date)
+  ) %>%
+  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
+  ) %>%
+  mutate(
+    # day = hms(as.character(time)),
+    day = yday(date),
+    year = as.character(year(date))
+  ) %>%
+  ggplot(aes(x = day, y = num_per_date, color = year)) +
+  geom_line(alpha = 0.2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
+  scale_x_continuous(
+    breaks = c(1,32,60,91,121,152,182,213,243,274,304,335),
+    labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
+  # geom_point(alpha = 0.1) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  # theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Daily Prints by Day of Year \n",
+    x = "Date",
+    y = "Count"
+  )
+```
+
+
+
+
+```{r}
+df_both %>% 
+  group_by(date) %>% 
+  summarize(
+    num_per_day = length(date)
+  ) %>% 
+  ggplot(aes(x = date, y = num_per_day)) +
+  geom_point() +
+  geom_smooth() +
+  scale_x_date(labels = scales::date_format("%b"), 
+               breaks = "1 month") +
+  facet_wrap(. ~ lubridate::floor_date(date, "year"), scale = "free_x") +
+   theme(axis.text.x = element_text(angle = 90,
+                                   vjust = 0.5,
+                                   hjust = 1))
+```
+
 
 ```{r}
 df_both %>% 
