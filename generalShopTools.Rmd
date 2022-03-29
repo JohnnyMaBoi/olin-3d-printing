@@ -52,9 +52,17 @@ col_names <-
     "total_comp_rate"
   )
 
-df_raw <- read_excel("data/shopTrainingSummary.xlsx", sheet = 2, col_names = col_names, skip = 1)
+df_raw <- read_excel("data/edited_shopTrainingSummary.xlsx", sheet = 2, col_names = col_names, skip = 1)
 
-df_raw
+# create total row without green
+# make tidy
+# df_tidy <-
+#   df_raw %>% 
+#   pivot_longer(cols = !"training", names_to = "sem_stat", values_to = "stat") %>% 
+  
+
+
+# df_tidy
 ```
 
 ```{r}
@@ -103,13 +111,41 @@ df_raw %>%
 ```
 
 ```{r}
+# df_raw %>% 
+#   filter(training == "3D Printing") %>% 
+#   pivot_longer(names_to = "stat", values_to = "val_stat", cols = c(ends_with("complete"), ends_with("signup"), ends_with("rate"))) %>% 
+#   filter(!is.na(val_stat)) %>% 
+#   ggplot(aes(x = stat, y = val_stat, fill)) +
+#   geom_col() +
+#     theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+
+
 df_raw %>% 
-  filter(training == "3D Printing") %>% 
-  pivot_longer(names_to = "stat", values_to = "val_stat", cols = c(ends_with("complete"), ends_with("signup"), ends_with("rate"))) %>% 
-  filter(!is.na(val_stat)) %>% 
-  ggplot(aes(x = stat, y = val_stat, fill)) +
+  filter(training %in% c("3D Printing", "total_not_green")) %>% 
+  select("training", ends_with("complete")) %>% 
+  pivot_longer(
+    names_to = "complete", 
+    values_to = "val_stat", 
+    cols = c(
+    "sp22_complete",
+    "fa21_complete",
+    "sp20_complete",
+    "fa19_complete",
+    "sp19_complete",
+    "fa18_complete",
+    "sp18_complete",
+    "fa17_complete",
+    "sp17_complete",
+    "fa16_complete",
+    "total_complete")
+  ) %>% 
+  filter(!is.na(val_stat), complete != "total_complete", complete %in% c("sp22_complete", "fa21_complete", "sp20_complete", "fa19_complete")) %>% 
+  group_by(complete) %>% 
+  mutate(
+    perc = 
+  )
+  ggplot(aes(x = complete, y = val_stat, fill = )) +
   geom_col() +
     theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
-
-```
+``` 
 
