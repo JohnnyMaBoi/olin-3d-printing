@@ -1,7 +1,7 @@
 ---
-title: "Process 3D Print Data"
+title: "3D Print Graphs (Possibly) In Poster"
 author: "Sam Coleman"
-date: "3/24/2022"
+date: "3/30/2022"
 output: 
   github_document:
     toc: true
@@ -125,7 +125,11 @@ df_both <-
 
 ```
 
+PRINTS PER CLASS
+
 ```{r}
+
+#TOTAL PRINTS FOR ALL CLASSES
 df_both %>% 
   group_by(class) %>% 
   summarize(
@@ -146,9 +150,70 @@ df_both %>%
     x = "Class",
     y = "Count"
   )
+
+#DAILY PRINTS FOR A SPECIFIC CLASS
+df_both %>%
+  filter(class == "DesNat") %>% #can change to any class
+  group_by(date) %>%
+  mutate(
+    num_per_date = length(date),
+    mass_per_date = sum(print_mass, na.rm = TRUE)
+  ) %>%
+  ggplot(aes(x = date, fill = mass_per_date, group = interaction(date, mass_per_date))) +
+  geom_bar() +
+  scale_fill_viridis(name = "Max Print \nMass (g)") +
+  ggtitle("Daily Prints for Design Nature") +
+  theme_common()
+
+#PRINTS PER CLASS
+df_both %>% 
+  group_by(class) %>% 
+  summarize(
+    num_class = length(class)
+  ) %>% 
+  filter(
+    !is.na(class)
+  ) %>% 
+  mutate(
+    class = reorder(class, -num_class)
+  ) %>%
+  top_n(n = 6, num_class) %>% 
+  ggplot(aes(x = class, y = num_class, fill = class)) +
+  geom_col(show.legend = FALSE) +
+  #geom_text(aes(label = num_class), size = 3.5, vjust = -.2, colour = "black") +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints Per Class \n",
+    x = "Class",
+    y = "Count"
+  ) 
+
+#PRINTS PER CLASS WITH FILL
+df_both %>% 
+  group_by(class) %>% 
+  summarize(
+    num_class = length(class),
+    mean_mass = mean(print_mass, na.rm = TRUE)
+  ) %>% 
+  filter(
+    !is.na(class)
+  ) %>% 
+  top_n(6, num_class) %>% 
+  ggplot(aes(x = reorder(class, -num_class), y = num_class, fill = mean_mass)) +
+  geom_col() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  xlab("Class") +
+  ylab("Count") +
+  scale_fill_viridis() +
+  ggtitle("Prints Per Class") +
+  theme_common()
 ```
 
+SUPER BROAD GRAPHS
+
 ```{r}
+#REASON FOR PRINT
 df_both %>% 
   count(reason_print) %>% 
   filter(!is.na(reason_print)) %>%
@@ -166,134 +231,39 @@ df_both %>%
     y = "Count"
   )
 
-```
-
-```{r}
-df_both %>%
-  filter(class == "DesNat") %>%
-  group_by(date) %>%
-  mutate(
-    num_per_date = length(date),
-    mass_per_date = sum(print_mass, na.rm = TRUE)
-  ) %>%
-  ggplot(aes(x = date, fill = mass_per_date, group = interaction(date, mass_per_date))) +
-  geom_bar() +
-  scale_fill_viridis(name = "Max Print \nMass (g)") +
-  ggtitle("Daily Prints for Design Nature") +
-  theme_common()
-
-```
-
-```{r}
+#TOTAL MASS PER YEAR
 df_both %>% 
-  filter(class == "pie") %>%
-  group_by(date) %>%
-  mutate(
-    num_per_date = length(date),
-    #mass_max_date = max(print_mass, na.rm = TRUE)
-  ) #%>% 
-  # ggplot(aes(x = date, fill = mass_max_date, group = interaction(date, mass_max_date))) +
-  # geom_bar() +
-  # scale_fill_gradient(low = "green", high = "red") +
-  # ggtitle("Daily Prints for PIE")
-```
-
-
-```{r}
-df_both %>% 
-  ggplot(aes(x = print_mass)) +
-  geom_histogram() 
-```
-
-
-```{r}
-df_both %>% 
-  group_by(date) %>% 
+  group_by(year = lubridate::floor_date(date, "year")) %>% 
   summarize(
-    num_per_date = length(date)
-  ) %>%
-  complete(date = seq.Date(min(date), max(date), by="day")) %>%
-  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
-  mutate(
-    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
-  ) %>%
-  ggplot(aes(x = date, y = num_per_date)) +
-  geom_line(alpha = 0.2) +
-  geom_smooth(method = "loess", span = 0.2, size = 1.5, se = FALSE) +
-  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
-  # geom_point(alpha = 0.1) +
-  theme_common() +
-  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  # theme(axis.text.x = element_text(size = 9)) +
-  labs(
-    title = "Daily Prints \n",
-    x = "Date",
-    y = "Count"
-  )
-```
-
-```{r}
-df_both %>% 
-  group_by(date) %>% 
-  summarize(
-    mass_per_date = sum(print_mass)
-  ) %>%
-  complete(date = seq.Date(min(date), max(date), by="day")) %>%
-  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
-  mutate(
-    mass_per_date = ifelse(is.na(mass_per_date), 0, mass_per_date)
-  ) %>%
-  ggplot(aes(x = date, y = mass_per_date)) +
-  geom_line(alpha = 0.2) +
-  geom_smooth(method = "loess", span = 0.2, size = 1.5, se = FALSE) +
-  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
-  # geom_point(alpha = 0.1) +
-  theme_common() +
-  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  # theme(axis.text.x = element_text(size = 9)) +
-  labs(
-    title = "Daily Print Mass \n",
-    x = "Date",
-    y = "Mass (g)"
-  )
-```
-```{r}
-# df_old %>% 
-#   group_by(date) %>% 
-#   mutate(
-#     mass_per_date = sum(print_mass, na.rm = TRUE)
-#   ) %>% 
-#   ggplot(aes(x = date, y = mass_per_date)) +
-#   #geom_point() +
-#   geom_line() +
-#   ggtitle("Daily Prints")
-```
-
-```{r}
-df_both %>% 
-  group_by(date) %>% 
-  mutate(
-    date_avg = mean(print_mass, na.rm = TRUE)
+    total = sum(print_mass, na.rm = TRUE)
+    #year = factor(year, levels = c("2019-01-01", "2020-01-01", "2021-01-01", "2022-01-01"))
   ) %>% 
-  ggplot(aes(x = date, y = date_avg)) +
-  #geom_point() +
-  geom_line() 
+  separate(year, c("year1", "year2"), sep = 4:5, remove = FALSE) %>% 
+  ggplot(aes(x = year, y = total, fill = year1)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  xlab("Year") +
+  ylab("Mass (g)") +
+  ggtitle("Total Print Mass")
+
+#PRINTS PER MONTH
+df_both %>% 
+  filter(date > as.Date("2021-09-01")) %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(
+    mean_mass = mean(print_mass, na.rm = TRUE),
+    median_mass = median(print_mass, na.rm = TRUE),
+    max_mass = max(print_mass, na.rm = TRUE),
+    total = length(month)
+  ) %>% 
+  ggplot(aes(x = month, y = total, fill = factor(month))) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  ggtitle("Prints Per Month") +
+    scale_x_date(date_labels="%b",date_breaks  ="1 month")
 ```
 
-```{r}
-# df_both %>% 
-#   filter(printer != "other") %>%
-#   group_by(printer) %>% 
-#   mutate(
-#     num_per_printer = length(printer)
-#   ) %>% 
-#   ggplot(aes(x = printer, y = num_per_printer)) +
-#   #geom_point() +
-#   geom_col() +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
-
-```
-
+PRINTS PER PRINTER
 ```{r}
 df_both %>% 
   group_by(printer) %>% 
@@ -317,14 +287,9 @@ df_both %>%
   )
 ```
 
+RIBBON GRAPHS
 ```{r}
-unique(df_both$printer)
-
-
-
-```
-
-```{r}
+#PRINTES BY TIME OF DAY
 df_both %>%
   mutate(
     time=hms(as.character(time)),
@@ -347,9 +312,8 @@ df_both %>%
     x = "Day of Week",
     y = "Count"
   )
-```
 
-```{r}
+#PRINTS BY DAY OF WEEK
 df_both %>%
   mutate(
     # day = hms(as.character(time)),
@@ -374,9 +338,8 @@ df_both %>%
     x = "Day of Week",
     y = "Count"
   )
-```
 
-```{r}
+#PRINTS BY MONTH
 df_both %>%
   mutate(
     # day = hms(as.character(time)),
@@ -406,14 +369,9 @@ df_both %>%
 
 
 
+MASS PER MONTH BAR GRAPHS
 ```{r}
-df_both %>% 
-  summarize(
-    total_mass = sum(print_mass, na.rm = TRUE)
-  )
-```
-```{r}
-# mass per month
+# TOTAL MASS PER MONTH
 df_both %>% 
   group_by(month = lubridate::floor_date(date, "month")) %>% 
   summarize(mass_per_month = sum(print_mass, na.rm = TRUE)) %>%   
@@ -431,9 +389,8 @@ df_both %>%
   xlab("Month") +
   ylab("Mass Per Month") +
   ggtitle("Total Mass Per Month")
-  #scale_color_manual(labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
-```
-```{r}
+
+# MEAN MASS PER MONTH
 df_both %>% 
   group_by(month = lubridate::floor_date(date, "month")) %>% 
   summarize(
@@ -453,9 +410,7 @@ df_both %>%
   geom_hline(yintercept = 40.1, linetype = "dashed") +
   scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
 
-```
-
-```{r}
+#MAX MASS PER MONTH
 df_both %>% 
   group_by(month = lubridate::floor_date(date, "month")) %>% 
   summarize(
@@ -473,67 +428,16 @@ df_both %>%
   ggplot(aes(x = month, y = max_mass, fill = month_12)) +
   geom_col() +
   scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
-
 ```
 
-```{r}
 
-```
-```{r}
-df_both %>% 
-  group_by(month = lubridate::floor_date(date, "month")) %>% 
-   mutate(
-    month_12 = month(month),
-    month_12 = factor(
-       month_12,
-       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
-     ) 
-  ) %>%
-  ggplot(aes(x = month, y = print_mass, fill = month_12, group = month)) +
-  # geom_col()
-  geom_boxplot(na.rm = TRUE) +
-  scale_y_log10() +
-  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
-```
-```{r}
-df_both %>% 
-  group_by(month = lubridate::floor_date(date, "month")) %>% 
-   mutate(
-    month_12 = month(month),
-    month_12 = factor(
-       month_12,
-       levels = c("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
-     ) 
-  ) %>%
-  ggplot(aes(x = month, y = print_mass, fill = month_12, group = month)) +
-  # geom_col()
-  geom_boxplot(na.rm = TRUE) +
-  scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
-```
+
+
+PRINTS BY DAY OF YEAR 
 
 ```{r}
-df_both %>% 
-  group_by(class) %>% 
-  summarize(
-    num_class = length(class),
-    mean_mass = mean(print_mass, na.rm = TRUE)
-  ) %>% 
-  filter(
-    !is.na(class)
-  ) %>% 
-  top_n(6, num_class) %>% 
-  ggplot(aes(x = reorder(class, -num_class), y = num_class, fill = mean_mass)) +
-  geom_col() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  xlab("Class") +
-  ylab("Count") +
-  scale_fill_viridis() +
-  ggtitle("Prints Per Class") +
-  theme_common()
-```
-
-```{r}
-df_both %>% 
+#JAN- DEC
+df_both %>%
   group_by(date) %>% 
   summarize(
     num_per_date = length(date)
@@ -565,10 +469,8 @@ df_both %>%
     x = "Date",
     y = "Count"
   )
-```
 
-
-```{r}
+#SCHOOL YEAR
 df_both %>% 
   group_by(date) %>% 
   summarize(
@@ -580,7 +482,6 @@ df_both %>%
     num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
   )  %>% 
   mutate(
-    # day = hms(as.character(time)),
     day = yday(date),
     year = as.character(year(date)),
     
@@ -648,195 +549,15 @@ df_both %>%
   ggplot(aes(x = day, y = num_per_date, color = year)) +
   geom_line(alpha = 0.2) +
   geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
-  # scale_x_continuous(
-  #   breaks = c(1,32,60,91,121,152,182,213,243,274,304,335),
-  #   labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-  # ) +
   scale_x_continuous(
     breaks = c(1, 31, 62, 92, 123, 154, 182, 213, 243, 274, 304, 335),
     labels = c("Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug")
   ) +
-  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
-  # geom_point(alpha = 0.1) +
   theme_common() +
-  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  # theme(axis.text.x = element_text(size = 9)) +
   labs(
     title = "Daily Prints by Day of Year \n",
     x = "Date",
     y = "Count"
   )
-```
-
-
-```{r}
-df_both %>% 
-  group_by(date) %>% 
-  summarize(
-    num_per_day = length(date)
-  ) %>% 
-  ggplot(aes(x = date, y = num_per_day)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_date(labels = scales::date_format("%b"), 
-               breaks = "1 month") +
-  facet_wrap(. ~ lubridate::floor_date(date, "year"), scale = "free_x") +
-   theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5,
-                                   hjust = 1))
-```
-
-
-```{r}
-df_both %>% 
-  group_by(date) %>% 
-  summarize(
-    num_per_day = length(date)
-  ) %>% 
-  ggplot(aes(x = date, y = num_per_day)) +
-  geom_point() +
-  geom_smooth() +
-  scale_x_date(labels = scales::date_format("%b"), 
-               breaks = "1 month") +
-  facet_wrap(. ~ lubridate::floor_date(date, "year"), scale = "free_x") +
-   theme(axis.text.x = element_text(angle = 90,
-                                   vjust = 0.5,
-                                   hjust = 1))
-```
-
-```{r}
-# df_both %>% 
-#   group_by(date) %>% 
-#   summarize(
-#     num_per_day = length(date)
-#   ) %>% 
-#   mutate (
-#     year = substring(date, 1, 4),
-#     month = substring(date, 6, 10),
-#     #month = as.Date(month, format = "%m-%d")
-#   )  %>% 
-#   ggplot(aes(x = month, y = num_per_day)) +
-#   geom_smooth(aes(group = year, color = year)) +
-#   scale_x_date(labels = scales::date_format("%b"), 
-#                breaks = "1 month")
-
-df_both %>% 
-  mutate (
-    year = substring(date, 1, 4),
-    month = substring(date, 6, 10),
-    #month = as.Date(month, format = "%m-%d")
-  ) %>% 
-  group_by(year, month) %>% 
-  summarize(
-    num_per_day = length(month)
-  ) %>% 
-  ggplot(aes(x = as.Date(month, "%m-%d"), y = num_per_day, group = year, color = year)) +
-  geom_line() +
-  scale_x_date(labels = scales::date_format("%b"), breaks = "1 month") +
-  xlab("Date") +
-  ylab("Number Prints per Day")
-
-df_both %>% 
-  mutate (
-    year = substring(date, 1, 4),
-    month = substring(date, 6, 10),
-    #month = as.Date(month, format = "%m-%d")
-  ) %>% 
-  group_by(year, month) %>% 
-  summarize(
-    num_per_day = length(month)
-  ) %>% 
-  ggplot(aes(x = as.Date(month, "%m-%d"), y = num_per_day, group = year, color = year)) +
-  geom_smooth(span = 1) +
-  scale_x_date(labels = scales::date_format("%b"), breaks = "1 month") +
-  xlab("Date") +
-  ylab("Number Prints per Day")
-
-
-```
-
-```{r}
-df_both %>% 
-  group_by(year = lubridate::floor_date(date, "year")) %>% 
-  summarize(
-    total = sum(print_mass, na.rm = TRUE)
-    #year = factor(year, levels = c("2019-01-01", "2020-01-01", "2021-01-01", "2022-01-01"))
-  ) %>% 
-  separate(year, c("year1", "year2"), sep = 4:5, remove = FALSE) %>% 
-  ggplot(aes(x = year, y = total, fill = year1)) +
-  geom_col(show.legend = FALSE) +
-  theme_common() +
-  xlab("Year") +
-  ylab("Mass (g)") +
-  ggtitle("Total Print Mass")
-``` 
-```{r}
-
-df_both %>% 
-  group_by(year = lubridate::floor_date(date, "year")) %>% 
-  summarize(
-    total = sum(print_mass, na.rm = TRUE)
-    #year = factor(year, levels = c("2019-01-01", "2020-01-01", "2021-01-01", "2022-01-01"))
-  ) %>% 
-  separate(year, c("year1", "year2"), sep = 4:5, remove = FALSE) %>% 
-  ggplot(aes(x = year, y = total)) +
-  geom_ribbon(aes(ymax = total, ymin = 0), fill = "#00BFC4") +
-  theme_common() +
-  xlab("Year") +
-  ylab("Mass (g)") +
-  ggtitle("Total Print Mass")
-
-```
-
-```{r}
-df_both %>% 
-  group_by(class) %>% 
-  summarize(
-    num_class = length(class)
-  ) %>% 
-  filter(
-    !is.na(class)
-  ) %>% 
-  mutate(
-    class = reorder(class, -num_class)
-  ) %>%
-  top_n(n = 6, num_class) %>% 
-  ggplot(aes(x = class, y = num_class, fill = class)) +
-  geom_col(show.legend = FALSE) +
-  #geom_text(aes(label = num_class), size = 3.5, vjust = -.2, colour = "black") +
-  theme_common() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(
-    title = "Prints Per Class \n",
-    x = "Class",
-    y = "Count"
-  ) 
-```
-
-```{r}
-unique(df_both_raw$class)
-
-df_both_raw %>%
-  filter(str_detect(class, "Desnat|desnT|DesNat|dednat|Des Nat|ddesnat|desnat|desNat|Design Nature"))
-
-
-df_both %>% 
-  filter(class == "DesNat")
-```
-```{r}
-df_both %>% 
-  filter(date > as.Date("2021-09-01")) %>% 
-  group_by(month = lubridate::floor_date(date, "month")) %>% 
-  summarize(
-    mean_mass = mean(print_mass, na.rm = TRUE),
-    median_mass = median(print_mass, na.rm = TRUE),
-    max_mass = max(print_mass, na.rm = TRUE),
-    total = length(month)
-  ) %>% 
-  ggplot(aes(x = month, y = total, fill = factor(month))) +
-  geom_col(show.legend = FALSE) +
-  theme_common() +
-  ggtitle("Prints Per Month") +
-    scale_x_date(date_labels="%b",date_breaks  ="1 month")
 ```
 

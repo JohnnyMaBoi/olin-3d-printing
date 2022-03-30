@@ -14,6 +14,31 @@ library(viridis)
 library(stringr)
 ```
 
+```{r}
+theme_common <- function() {
+  theme_minimal() %+replace%
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(margin = margin(4, 4, 4, 4), size = 16),
+    axis.title.y = element_text(margin = margin(4, 4, 4, 4), size = 16, angle = 90),
+    legend.title = element_text(size = 16),
+    legend.text = element_text(size = 12),
+    strip.text.x = element_text(size = 12),
+    strip.text.y = element_text(size = 12),
+    panel.grid.major = element_line(color = "grey90"),
+    panel.grid.minor = element_line(color = "grey90"),
+    aspect.ratio = 10/16,
+    plot.margin = unit(c(t = +0, b = +0, r = +0, l = +0), "cm"),
+    plot.title = element_text(size = 18),
+    # plot.title.position = "plot",
+    plot.subtitle = element_text(size = 16),
+    plot.caption = element_text(size = 12)
+  )
+}
+```
+
+
 ```{r load-data}
 col_names <-
   c(
@@ -71,7 +96,7 @@ df_tidy
 ```{r}
 df_raw %>% 
   filter(
-    !training %in% c("Total", "Green"),
+    !training %in% c("Total", "Green", "total_not_green"),
     !is.na(training)
   ) %>% 
   ggplot(aes(x = reorder(training, -total_signup), y = total_signup, fill = total_comp_rate)) +
@@ -98,7 +123,7 @@ df_raw %>%
 ```{r}
 df_raw %>% 
   filter(
-    !training %in% c("Total", "Green"),
+    !training %in% c("Total", "Green", "total_not_green"),
     !is.na(training)
   ) %>% 
   mutate(
@@ -107,10 +132,12 @@ df_raw %>%
   pivot_longer(names_to = "stat", values_to = "val_stat", cols = c("total_signup", "total_complete")) %>% 
   ggplot(aes(x = reorder(training, -fully_complete), y = val_stat, fill = stat)) +
   geom_col(position = "dodge") +
+  theme_common() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   #scale_fill_viridis(name = "total completion rate") +
   xlab("Training") +
-  ylab("Total Signup Since Fall 2016")
+  ylab("Total Since Fall 2016") +
+  scale_fill_discrete(name = "")
 ```
 
 ```{r}
@@ -159,6 +186,7 @@ df_raw %>%
   # )
   ggplot(aes(x = complete, y = val_stat, fill = perc)) +
   geom_col() +
+  theme_common() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
   xlab("Semester") +
   ylab("Count 3D Print Completed Trainings") +
@@ -179,8 +207,9 @@ df_tidy %>%
   ggplot(aes(x = sem, y = val)) +
   geom_col() +
   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme_common() +
   scale_x_discrete(labels = c("fa16", "sp17", "fa17", "sp18", "fa18", "sp19", "fa19", "sp20", "fa21", "sp22")) +
   xlab("Semester") +
-  ylab("Total completed trainings (not including Green Machine)")
+  ylab("Count Completed Trainings (w/o Green)")
 ```
 
