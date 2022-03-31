@@ -111,19 +111,269 @@ df_both <-
     class = str_replace(class, ".*sust.*", "SustDes"),
     class = str_replace(class, ".*robos.*", "RoboSys"),
     class = str_replace(class, ".*dbf.*|design[[:space:]]bu.*", "DBF"),
+    class = ifelse(reason_print == "Personal Project", replace_na(class, "Personal Proj."), class),
+    class = ifelse(reason_print == "Test Piece", replace_na(class, "Test Piece"), class),
+    class = ifelse(reason_print == "Project Team/Club", replace_na(class, "Proj. Team/Club"), class),
     class = factor(
       class,
-      levels = c("Pass. Pursuit", "PIE", "DFM", "Scope", "IS", "DesNat", "Ren. Energy", "EEC", "Mech Proto", "QEA", "Research", "P&M", "SustDes", 
-        "RoboSys", "DBF")
+      levels = c("Pass. Pursuit", "PIE", "DFM", "Scope", "IS", "DesNat", "Ren. Energy", "EEC", "Mech Proto", "QEA", "Research", "P&M", "SustDes", "RoboSys", "DBF", "Personal Proj.", "Test Piece", "Proj. Team/Club")
     ),
-   reason_print = str_replace(reason_print, "Class Project", "Class Project/Research"), #combine since Class Project/Research was created in middle of survey
+   reason_print = ifelse(str_detect(reason_print, "Class Project"), "Class Project/Research", reason_print),
+     #str_replace(reason_print, "Class Project", "Class Project/Research"), #combine since Class Project/Research was created in middle of survey
    reason_print = factor(
      reason_print,
      levels = c("Class Project/Research", "Personal Project", "Project Team/Club", "Test Piece")
    )
   )
+```
+
+```{r}
+df_both <-
+  df_both %>% 
+  mutate(
+    num_on_campus = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), 347, 
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), 326,
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), 333, 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), 113, 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), 173, 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), 360, 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), 347, 40))))))),
+    semester = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), "Fa19",
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), "Sp19",
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), "Sp20", 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), "Fa20", 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), "Sp21", 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), "Fa21", 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), "Sp22", "Summer")))))))
+  )
+```
+
+PRINTS NORMALIZED
+```{r}
+df_both %>% 
+  #filter(semester != "Summer") %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(
+    mass_total = sum(print_mass, na.rm = TRUE),
+    mass_normalized = mass_total / num_on_campus,
+    num_normalized = length(date) / num_on_campus,
+    semester
+  ) %>% 
+  distinct() 
+  ggplot(aes(x = month, y = mass_normalized, fill = semester)) +
+  geom_col() +
+  #geom_text(aes(label = round(mass_normalized, digits = 2)), size = 2, vjust = -.2, colour = "black") +
+  ggtitle("Normalized Total Mass") +
+  xlab("Month") +
+  ylab("Total Mass Per Month / # Students on Campus") +
+  theme_common() +
+  #theme(axis.title.y = element_text(margin = margin(4, 4, 4, 4), size = 14, angle = 90)) 
+  # scale_x_date(date_breaks = "months" , date_labels = "%b") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+#ggsave("figures/massNormalizedMonthNoStats.jpg", dpi = 500, bg = "white")
+
+df_both %>% 
+  #filter(semester != "Summer") %>% 
+  group_by(month = lubridate::floor_date(date, "month")) %>% 
+  summarize(
+    mass_total = sum(print_mass, na.rm = TRUE),
+    mass_normalized = mass_total / num_on_campus,
+    num_normalized = length(date) / num_on_campus,
+    semester
+  ) %>% 
+  distinct() %>% 
+  ggplot(aes(x = month, y = num_normalized, fill = semester)) +
+  geom_col() +
+  #geom_text(aes(label = round(num_normalized, digits = 2)), size = 2, vjust = -.2, colour = "black") +
+  ggtitle("Normalized Total Prints") +
+  xlab("Month") +
+  ylab("Total # Prints Per Month / # Students on Campus") +
+  theme_common() +
+  theme(axis.title.y = element_text(margin = margin(4, 4, 4, 4), size = 14, angle = 90))   
+
+#ggsave("figures/PrintNumNormalizedMonthNoStats.jpg", dpi = 500, bg = "white")
 
 ```
+
+
+```{r}
+df_graph <- 
+  df_both %>% 
+ #filter(semester != "Summer") %>% 
+  group_by(date) %>% 
+  summarize(
+    mass_total = sum(print_mass, na.rm = TRUE),
+    mass_normalized = mass_total / num_on_campus,
+    num_normalized = length(date) / num_on_campus,
+    semester,
+  ) %>% 
+  distinct() %>% 
+   complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>% 
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    mass_normalized = ifelse(is.na(mass_normalized), 0, mass_normalized),
+    num_on_campus = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), 347, 
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), 326,
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), 333, 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), 113, 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), 173, 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), 360, 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), 347, 40))))))),
+    semester = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), "Fa19",
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), "Sp19",
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), "Sp20", 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), "Fa20", 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), "Sp21", 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), "Fa21", 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), "Sp22", "Summer")))))))
+  )
+```
+
+```{r}
+df_graph %>% 
+   mutate(
+    day = yday(date),
+    year = as.character(year(date))
+   ) %>% 
+  ggplot(aes(x = day, y = mass_normalized, color = semester)) +
+  geom_line(alpha = .2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
+  #geom_text(aes(label = round(mass_normalized, digits = 2)), size = 2, vjust = -.2, colour = "black") +
+  ggtitle("Normalized Total Mass") +
+  xlab("Month") +
+  ylab("Total Mass Per Month / # Students on Campus") +
+  theme_common() +
+  scale_x_continuous(
+    breaks = c(1,32,60,91,121,152,182,213,243,274,304,335),
+    labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+  ) +
+  theme(axis.title.y = element_text(margin = margin(4, 4, 4, 4), size = 14, angle = 90)) 
+  #scale_x_date(date_breaks = "months" , date_labels = "%b") 
+  #theme(axis.text.x = element_text(angle = 90, hjust = 1))
+#ggsave("figures/massNormalizedMonthNoStats.jpg", dpi = 500, bg = "white")
+# 
+# df_both %>% 
+#   #filter(semester != "Summer") %>% 
+#   group_by(month = lubridate::floor_date(date, "month")) %>% 
+#   summarize(
+#     mass_total = sum(print_mass, na.rm = TRUE),
+#     mass_normalized = mass_total / num_on_campus,
+#     num_normalized = length(date) / num_on_campus,
+#     semester
+#   ) %>% 
+#   distinct() %>% 
+#   ggplot(aes(x = month, y = num_normalized, fill = semester)) +
+#   geom_col() +
+#   #geom_text(aes(label = round(num_normalized, digits = 2)), size = 2, vjust = -.2, colour = "black") +
+#   ggtitle("Normalized Total Prints") +
+#   xlab("Month") +
+#   ylab("Total # Prints Per Month / # Students on Campus") +
+#   theme_common() +
+#   theme(axis.title.y = element_text(margin = margin(4, 4, 4, 4), size = 14, angle = 90))   
+
+#ggsave("figures/PrintNumNormalizedMonthNoStats.jpg", dpi = 500, bg = "white")
+```
+
+
+```{r}
+df_both %>% 
+  group_by(date, semester) %>% 
+  summarize (
+    num_per_date = length(date),
+    num_normalized
+  ) %>% 
+  # complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-08-31"), by="day")) %>%
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date),
+  ) %>% 
+  mutate(
+    day = yday(date),
+    year = as.character(year(date)),
+
+    #NOTE I know this is so bad but it works and I don't care
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-09-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-10-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-11-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-12-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-01-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-02-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-03-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-04-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-05-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-06-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-07-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-08-01", day + 122, day),
+  ) %>% 
+  ggplot(aes(x = day, y = num_per_date, color = semester)) +
+  geom_line(alpha = 0.2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
+  scale_x_continuous(
+    breaks = c(1, 31, 62, 92, 123, 154, 182, 213, 243, 274, 304, 335),
+    labels = c("Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug")
+  ) +
+  theme_common() +
+  labs(
+    title = "Daily Prints by Day of Academic Year \n",
+    x = "Date",
+    y = "Count"
+  ) +
+  labs(color = "Academic Year")
+```
+
+
 
 PRINTS PER CLASS
 
@@ -210,6 +460,35 @@ df_both %>%
   theme_common()
 ```
 
+```{r}
+#PRINTS PER CLASS
+df_both %>% 
+  group_by(class) %>% 
+  summarize(
+    num_class = length(class)
+  ) %>% 
+  filter(
+    !is.na(class)
+  ) %>% 
+  mutate(
+    class = reorder(class, -num_class)
+  ) %>%
+  top_n(n = 6, num_class) %>% 
+  ggplot(aes(x = class, y = num_class, fill = class)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = num_class), size = 3.2, vjust = -.2, colour = "black") +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Prints Per Class \n",
+    x = "Class",
+    y = "Count"
+  ) 
+
+ggsave("figures/printsPerClass.jpg", dpi = 500, bg = "white")
+```
+
+
 SUPER BROAD GRAPHS
 
 ```{r}
@@ -230,7 +509,9 @@ df_both %>%
     x = "Reason",
     y = "Count"
   )
+```
 
+```{r}
 #TOTAL MASS PER YEAR
 df_both %>% 
   group_by(year = lubridate::floor_date(date, "year")) %>% 
@@ -245,7 +526,9 @@ df_both %>%
   xlab("Year") +
   ylab("Mass (g)") +
   ggtitle("Total Print Mass")
+```
 
+```{r}
 #PRINTS PER MONTH
 df_both %>% 
   filter(date > as.Date("2021-09-01")) %>% 
@@ -437,116 +720,123 @@ PRINTS BY DAY OF YEAR
 
 ```{r}
 #JAN- DEC
-df_both %>%
-  group_by(date) %>% 
-  summarize(
-    num_per_date = length(date)
-  ) %>%
-  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
-  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
-  mutate(
-    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
-  ) %>%
-  mutate(
-    # day = hms(as.character(time)),
-    day = yday(date),
-    year = as.character(year(date))
-  ) %>% 
-  ggplot(aes(x = day, y = num_per_date, color = year)) +
-  geom_line(alpha = 0.2) +
-  geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
-  scale_x_continuous(
-    breaks = c(1,32,60,91,121,152,182,213,243,274,304,335),
-    labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
-  ) +
-  # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
-  # geom_point(alpha = 0.1) +
-  theme_common() +
-  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  # theme(axis.text.x = element_text(size = 9)) +
-  labs(
-    title = "Daily Prints by Day of Year \n",
-    x = "Date",
-    y = "Count"
-  )
+# df_both %>%
+#   group_by(date) %>%
+#   summarize(
+#     num_per_date = length(date)
+#   ) %>%
+#   complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+#   # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+#   mutate(
+#     num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
+#   ) %>%
+#   mutate(
+#     # day = hms(as.character(time)),
+#     day = yday(date),
+#     year = as.character(year(date))
+#   ) %>%
+#   ggplot(aes(x = day, y = num_per_date, color = year)) +
+#   geom_line(alpha = 0.2) +
+#   geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
+#   scale_x_continuous(
+#     breaks = c(1,32,60,91,121,152,182,213,243,274,304,335),
+#     labels = c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+#   ) +
+#   # geom_segment(aes(date,num_per_date,xend=date,yend=0), size=0.01, alpha = 0.2) +
+#   # geom_point(alpha = 0.1) +
+#   theme_common() +
+#   # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#   # theme(axis.text.x = element_text(size = 9)) +
+#   labs(
+#     title = "Daily Prints by Day of Year \n",
+#     x = "Date",
+#     y = "Count"
+#   )
 
 #SCHOOL YEAR
 df_both %>% 
   group_by(date) %>% 
   summarize(
-    num_per_date = length(date)
-  ) %>%
-  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+    num_per_date = length(date),
+  ) 
+  # complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-08-31"), by="day")) %>%
   # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
   mutate(
-    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date)
-  )  %>% 
+    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date),
+    semester = ifelse(
+      date %within% ("2019-09-01"  %--% "2020-08-31"), "19-20",
+      ifelse(date  %within% ("2018-09-01"  %--% "2019-08-31"), "18-19",
+      ifelse(date %within% ("2020-09-01"  %--% "2021-08-31"), "20-21",
+      ifelse(date  %within% ("2021-09-01"  %--% "2022-08-31"), "21-22", "Other"
+    ))))
+  ) 
   mutate(
     day = yday(date),
     year = as.character(year(date)),
-    
+
     #NOTE I know this is so bad but it works and I don't care
     day = ifelse(lubridate::floor_date(date, "month") == "2019-09-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-09-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-09-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-09-01", day - 243, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-10-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-10-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-10-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-10-01", day - 243, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-11-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-11-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-11-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-11-01", day - 243, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-12-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-12-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-12-01", day - 243, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-12-01", day - 243, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-01-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-01-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-01-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-01-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-02-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-02-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-02-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-02-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-03-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-03-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-03-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-03-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-04-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-04-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-04-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-04-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-05-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-05-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-05-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-05-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-06-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-06-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-06-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-06-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-07-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-07-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-07-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-07-01", day + 122, day),
-    
+
     day = ifelse(lubridate::floor_date(date, "month") == "2019-08-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2020-08-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2021-08-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-08-01", day + 122, day),
   ) %>% 
-  ggplot(aes(x = day, y = num_per_date, color = year)) +
+  ggplot(aes(x = day, y = num_per_date, color = semester)) +
   geom_line(alpha = 0.2) +
   geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
   scale_x_continuous(
@@ -555,9 +845,605 @@ df_both %>%
   ) +
   theme_common() +
   labs(
-    title = "Daily Prints by Day of Year \n",
+    title = "Daily Prints by Day of Academic Year \n",
     x = "Date",
     y = "Count"
-  )
+  ) +
+  labs(color = "Academic Year")
+#ggsave("figures/dailyPrintsByAcademicYear.jpg", dpi = 500, bg = "white")
 ```
+
+DAILY PRINTS TRYING TO NORMALIZE TO # ON CAMPUS
+```{r}
+#SCHOOL YEAR
+df_both %>% 
+  group_by(date) %>% 
+  summarize(
+    num_per_date = length(date),
+    semester,
+    num_on_campus
+  ) %>% 
+  # complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
+  complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-08-31"), by="day")) %>%
+  # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
+  mutate(
+    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date),
+    ac = ifelse(
+      date %within% ("2019-09-01"  %--% "2020-08-31"), "19-20",
+      ifelse(date  %within% ("2018-09-01"  %--% "2019-08-31"), "18-19",
+      ifelse(date %within% ("2020-09-01"  %--% "2021-08-31"), "20-21",
+      ifelse(date  %within% ("2021-09-01"  %--% "2022-08-31"), "21-22", "Other"
+    )))),
+    num_on_campus = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), 347, 
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), 326,
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), 333, 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), 113, 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), 173, 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), 360, 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), 347, 40))))))),
+    semester = ifelse(
+      date %within% ("2019-09-01" %--% "2019-12-20"), "Fa19",
+      ifelse(date  %within% ("2019-01-01" %--% "2019-05-31"), "Sp19",
+      ifelse(date %within% ("2020-01-01" %--% "2020-05-20"), "Sp20", 
+      ifelse(date %within% ("2020-09-01" %--% "2020-12-20"), "Fa20", 
+      ifelse(date %within% ("2021-01-01" %--% "2021-05-20"), "Sp21", 
+      ifelse(date %within% ("2021-09-01" %--% "2021-12-20"), "Fa21", 
+      ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), "Sp22", "Summer")))))))
+  ) %>% 
+  mutate(
+    day = yday(date),
+    year = as.character(year(date)),
+
+    #NOTE I know this is so bad but it works and I don't care
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-09-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-09-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-10-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-10-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-11-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-11-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-12-01", day - 243, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-12-01", day - 243, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-01-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-01-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-02-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-02-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-03-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-03-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-04-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-04-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-05-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-05-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-06-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-06-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-07-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-07-01", day + 122, day),
+
+    day = ifelse(lubridate::floor_date(date, "month") == "2019-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2020-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2021-08-01", day + 122, day),
+    day = ifelse(lubridate::floor_date(date, "month") == "2022-08-01", day + 122, day),
+  ) %>% 
+  ggplot(aes(x = day, y = num_per_date/num_on_campus, color = semester)) +
+  geom_line(alpha = 0.2) +
+  geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
+  scale_x_continuous(
+    breaks = c(1, 31, 62, 92, 123, 154, 182, 213, 243, 274, 304, 335),
+    labels = c("Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug")
+  ) +
+  theme_common() +
+  labs(
+    title = "Daily Prints by Day of Academic Year \n",
+    x = "Date",
+    y = "Count"
+  ) +
+  labs(color = "Semester")
+```
+
+
+
+
+REGEX FOR NAME OF PEOPLE
+```{r}
+df_both_names <-
+  df_both %>% 
+  mutate(
+    name = tolower(name),
+    name = str_replace(name, ".*aarn huang.*|.*aaron huagn.*|.*aaron huang.*", "aaron huang"),
+    name = str_replace(name, ".*adrian.*|.*adrian botran.*", "adrian botran"),
+    name = str_replace(name, ".*aaron b.*|.*aaron blust.*", "aaron blust"),
+    name = str_replace(name, ".*adhishri.*|.*adhishri hande.*", "adhishri hande"),
+    name = str_replace(name, ".*alber.*|.*albert.*|.*albert m.*|.*albert manrique.*|.*albet.*|.*albwer m.*", "albert"),
+    name = str_replace(name, ".*amit.*|.*amit kumar.*", "amit"),
+    name = str_replace(name, ".*amy.*|.*amy phung.*", "amy phung"),
+    name = str_replace(name, ".*argryis kriezis.*|.*argyris.*|.*argyris kriezis.*|.*anargyros kriezis.*", "argyris"),
+    name = str_replace(name, ".*bahar.*|.*bahar maghbouleh.*", "bahar"),
+    name = str_replace(name, "becca.*", "becca"),
+    name = str_replace(name, ".*ben z.*|.*ben ziemann.*", "ben z"),
+    name = str_replace(name, ".*berwin.*", "berwin"),
+    name = str_replace(name, ".*bren.*|.*brent usui.*", "brent"),
+    name = str_replace(name, ".*chr allum.*|.*chr alum.*|.*chra.*|.*chrchris allum.*|.*chris \'night owl\' allum.*|.*chris a.*|chris alllum.*|.*chris allum.*|.*chris alum.*", "chris allum"),
+    name = str_replace(name, ".*chris sanchez.*|.*chrissanchez.*", "chris sanchez"),
+    name = str_replace(name, ".*cj.*|.*cj hilty.*|.*cjhilty.*", "cj"),
+    name = str_replace(name, ".*elias.*|.*elias w.*|.*elias wheatfall.*", "elias w"),
+    name = str_replace(name, ".*elisa.*|.*elisa dhanger.*", "elisa"),
+    name = str_replace(name, ".*emm fox.*|.*emma fox.*", "emma fox"),
+    name = str_replace(name, ".*ethan.*|.*ethan c.*|.*ethan cheen.*|.*ethan chen.*", "ethan c"),
+    name = str_replace(name, ".*jadeliln.*|.*jadeliln.*|.*jadelin mcleod.*|.*jadelin mcloed.*", "jadelin"),
+    name = str_replace(name, ".*jay.*|.*julia chomowicz.*", "jay c"),
+    name = str_replace(name, ".*jerry.*", "jerry"),
+    name = str_replace(name, ".*jgilberrt.*|.*jgilbert.*|.*jjoseph gilbewrt.*|.*jose4ph gilbert.*|.*joseh.*|.*joseh gilbeert.*|.*joseh gilbert.*|.*joseph.*|.*joseph gilbert.*|.*joseph gilbet.*|.*joseph gilbrt.*|.*josephgilbert.*|.*josepj gilbert.*|.*josph gilbert.*|.*josrh gilbert.*|.*josrhgilbert.*", "joseph g"),
+    name = str_replace(name, ".*jonas.*", "jonas"),
+    name = str_replace(name, ".*jonathan zerez.*|.*jonthan zerez.*", "jonathan zerez"),
+    name = str_replace(name, ".*karen.*|karen hinh", "karen h"),
+    name = str_replace(name, ".*kel stellmacher.*.|.*kelly stellmacher.*|.*kelly stelmacher.*|.*kely stellmacher.*", "kelly s"),
+    name = str_replace(name, ".*luke nonas-hunter.*|.*luke nonas0hunter.*", "luke nonas-hunter"),
+    name = str_replace(name, ".*mason grabowski.*|.*mason grabowski.*|.*mason grabpowski.*", "mason g"),
+    name = str_replace(name, ".*nabih.*", "nabih"),
+    name = str_replace(name, ".*nia*", "nia"),
+    name = str_replace(name, ".*olivia jo.*|.*olivia jo bradley.*", "olivia jo"),
+    name = str_replace(name, ".*owen.*|.*owedray.*|.*owen dray.*|.*owen drayy.*", "owen dray"),
+    name = str_replace(name, ".*rajiv.*|.*rajv.*", "rajiv"),
+    name = str_replace(name, ".*solomon.*", "solomon"),
+    name = str_replace(name, ".*tim.*|timothy.*|.*lilly novak.*", "lilly n"),
+    ame = str_replace(name, ".*tigey.*|timothy.*|.*lilly novak.*", "tigey"),
+    name = str_replace(name, ".*zoie.*", "zoie"),
+    name = str_replace(name, ".*aja.*", "aja"),
+    name = str_replace(name, ".*anusha.*", "anusha k"),
+    name = str_replace(name, ".*bennett.*", "bennett"),
+    name = str_replace(name, ".*celvi.*", "celvi"),
+    name = str_replace(name, ".*danny burns.*|.*dany burns.*", "danny burns"),
+    name = str_replace(name, ".*diana garci.*", "diana garcia"),
+    name = str_replace(name, ".*gabiele blake.*|.*gabielle blake.*|.*gabriele blake.*|.*gabrielle blake.*", "gabriele blake"),
+    name = str_replace(name, ".*isabela abilheira.*|.*isabella abilheira.*|.*isabella abilhiera.*|.*isablla abilheira.*", "isabella abilheira"),
+    name = str_replace(name, ".*jasmine.*", "jasmine"),
+    name = str_replace(name, ".*jong ho.*", "jong ho"),
+    name = str_replace(name, ".*julhunt.*|.*julia hunt.*", "julia hunt"),
+    name = str_replace(name, ".*laurel.*", "laurel"),
+    name = str_replace(name, ".*laurel.*", "laurel"),
+    name = str_replace(name, ".*madeline.*", "madeline robertson"),
+    name = ifelse(str_detect(name, "nia (for gati aher)|nia aywar|nia mayar|nia maywar|niamaywa|niamaywar"), "nia m", name),
+    name = ifelse(str_detect(name, "row jansens|rowan jansens|rown jansens|rrowan jansens"), "rowan jansens", name),
+    name = ifelse(str_detect(name, "tigey jewel-alibhai|tigey jewell alibhai|tigey jewell_alibhai|tigey jewell-alibhai|tigey jewellalibhai"), "tigey", name),
+    name = ifelse(str_detect(name, "yeha albakri|yehya|yehya albakri"), "yehya", name)
+  ) #%>% 
+  # group_by(name) %>%
+  # summarize(
+  #   num_prints = length(name),
+  #   mass_total = sum(print_mass, na.rm = TRUE)
+  # )
+
+```
+
+```{r}
+df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(10, num_prints) %>% 
+  ggplot(aes(x = reorder(name, -num_prints), y = num_prints)) +
+  geom_col() +
+  geom_text(aes(label = num_prints), size = 2, vjust = -.2, colour = "black") +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+
+df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(10, mass_total) %>% 
+  ggplot(aes(x = reorder(name, -mass_total), y = mass_total)) +
+  geom_col() +
+  geom_text(aes(label = mass_total), size = 2, vjust = -.2, colour = "black") +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) 
+```
+
+```{r}
+all_total_mass <-
+  df_both %>% 
+  summarize(sum(print_mass, na.rm = TRUE))
+
+all_total_mass <- all_total_mass[[1]]
+all_total_nprints <- 3247
+```
+
+STATS
+```{r}
+mass_top_40 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(40, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_40 = sum(mass_total)
+  )
+mass_top_40 <- mass_top_40[[1]]
+mass_top_40 / all_total_mass
+
+mass_top_10 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(10, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_10 = sum(mass_total)
+  )
+mass_top_10 <- mass_top_10[[1]]
+mass_top_10 / all_total_mass
+
+mass_top_5 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(5, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_5 = sum(mass_total)
+  )
+mass_top_5 <- mass_top_5[[1]]
+
+mass_top_5 / all_total_mass
+
+
+mass_top_20 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(20, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_20 = sum(mass_total)
+  )
+mass_top_20 <- mass_top_20[[1]]
+
+mass_top_20 / all_total_mass
+
+nprints_top_10 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(10, num_prints) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_10 = sum(num_prints)
+  )
+nprints_top_10 <- nprints_top_10[[1]]
+
+nprints_top_10 / all_total_nprints
+
+nprints_top_5 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(5, num_prints) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_5 = sum(num_prints)
+  )
+nprints_top_5 <- nprints_top_5[[1]]
+
+nprints_top_5 / all_total_nprints
+
+nprints_top_20 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(20, num_prints) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_20 = sum(num_prints)
+  )
+nprints_top_20 <- nprints_top_20[[1]]
+
+nprints_top_20 / all_total_nprints
+
+nprints_top_40 <-
+  df_both_names %>% 
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(40, num_prints) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_40 = sum(num_prints)
+  )
+nprints_top_40 <- nprints_top_40[[1]]
+
+nprints_top_40 / all_total_nprints
+```
+
+STATS SINCE FALL SEMESTER
+```{r}
+fall_total_mass <-
+  df_both %>% 
+  filter(date >= "2021-09-01") %>% 
+  summarize(sum(print_mass, na.rm = TRUE))
+
+fall_total_mass <- fall_total_mass[[1]]
+fall_total_nprints <- 1562
+
+fnprints_top_10 <-
+  df_both_names %>%
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>%
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>%
+  top_n(10, num_prints) %>%
+  ungroup() %>%
+  summarise(
+    total_top_10 = sum(num_prints)
+  )
+fnprints_top_10 <- fnprints_top_10[[1]]
+fnprints_top_10 / fall_total_nprints
+
+fnprints_top_5 <-
+  df_both_names %>%
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>%
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>%
+  top_n(5, num_prints) %>%
+  ungroup() %>%
+  summarise(
+    total_top_5 = sum(num_prints)
+  )
+fnprints_top_5 <- fnprints_top_5[[1]]
+fnprints_top_5 / fall_total_nprints
+
+fnprints_top_40 <-
+  df_both_names %>%
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>%
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>%
+  top_n(40, num_prints) %>%
+  ungroup() %>%
+  summarise(
+    total_top_40 = sum(num_prints)
+  )
+fnprints_top_40 <- fnprints_top_40[[1]]
+fnprints_top_40 / fall_total_nprints
+
+#MASS
+fmass_top_5 <-
+  df_both_names %>% 
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(5, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_5 = sum(mass_total)
+  )
+fmass_top_5 <- fmass_top_5[[1]]
+fmass_top_5 / fall_total_mass
+
+fmass_top_10 <-
+  df_both_names %>% 
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(10, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_10 = sum(mass_total)
+  )
+fmass_top_10 <- fmass_top_10[[1]]
+fmass_top_10 / fall_total_mass
+
+fmass_top_20 <-
+  df_both_names %>% 
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(20, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_20 = sum(mass_total)
+  )
+fmass_top_20 <- fmass_top_20[[1]]
+fmass_top_20 / fall_total_mass
+
+fmass_top_40 <-
+  df_both_names %>% 
+  filter(date >= "2021-09-01") %>%
+  group_by(name) %>% 
+  summarize(
+    num_prints = length(name),
+    mass_total = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  top_n(40, mass_total) %>%
+  ungroup() %>% 
+  summarise(
+    total_top_40 = sum(mass_total)
+  )
+fmass_top_40 <- fmass_top_40[[1]]
+fmass_top_40 / fall_total_mass
+```
+
+PRINT MASS REASONS
+```{r}
+df_both %>% 
+  count(reason_print) %>% 
+  filter(!is.na(reason_print)) %>%
+  mutate(
+    reason_print = reorder(reason_print, -n)
+  ) %>%
+  ggplot(aes(x = reason_print, y = n, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Reasons \n",
+    x = "Reason",
+    y = "Count"
+  ) +
+  geom_text(aes(label = n), size = 3.5, vjust = -.2, colour = "black") 
+#ggsave("figures/printReasonsWithLabels.jpg", dpi = 500, bg = "white")
+
+df_both %>% 
+  group_by(reason_print) %>% 
+  #filter(!is.na(reason_print)) %>%
+  summarize(
+    print_mass = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = reason_print, y = print_mass, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Mass \n",
+    x = "Print Reason",
+    y = "Mass (g)"
+  ) +
+  geom_text(aes(label = print_mass), size = 3.5, vjust = -.2, colour = "black") 
+#ggsave("figures/printReasonsMassWithLabels.jpg", dpi = 500, bg = "white")
+
+```
+
+PRINT MASS STUFF
+```{r}
+df_both %>%
+  filter(date >= "2021-11-29") %>%
+  group_by(reason_print) %>%
+  #filter(!is.na(reason_print)) %>%
+  summarize(
+    print_mass = sum(print_mass, na.rm = TRUE)
+  ) %>%
+  ggplot(aes(x = reason_print, y = print_mass, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Mass Since 11/29/21 \n",
+    x = "Print Reason",
+    y = "Mass (g)"
+  ) +
+  geom_text(aes(label = print_mass), size = 3.5, vjust = -.2, colour = "black")
+# 
+# df_both %>% 
+#   filter(date >= "2021-11-29") %>% 
+#   group_by(class) %>% 
+#   filter(!is.na(class)) %>%
+#   summarize(
+#     print_mass = sum(print_mass, na.rm = TRUE)
+#   ) %>% 
+#   ggplot(aes(x = reorder(class, -print_mass), y = print_mass, fill = class)) +
+#   geom_col(show.legend = FALSE) +
+#   theme_common() +
+#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#   theme(axis.text.x = element_text(size = 9)) +
+#   labs(
+#     title = "Print Mass Since 11/29/21 \n",
+#     x = "Print Reason",
+#     y = "Mass (g)"
+#   ) +
+#   geom_text(aes(label = print_mass), size = 2.7, vjust = -.2, colour = "black") 
+# ggsave("figures/massSince11-29ClassAndOthers.jpg", dpi = 500, bg = "white")
+```
+
+PRINT MASS BY SEMESTER
+```{r}
+df_both %>% 
+mutate(
+    semester = ifelse(
+      date %within% ("2019-09-01"  %--% "2020-08-31"), "19-20",
+      ifelse(date  %within% ("2018-09-01"  %--% "2019-08-31"), "18-19",
+      ifelse(date %within% ("2020-09-01"  %--% "2021-08-31"), "20-21",
+      ifelse(date  %within% ("2021-09-01"  %--% "2022-08-31"), "21-22", "Other"
+    ))))
+  ) %>% 
+  group_by(semester) %>% 
+  summarize(
+    total_mass = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = semester, y = total_mass, fill = semester)) +
+  geom_col(show.legend = FALSE) +
+  geom_text(aes(label = total_mass), size = 3.5, vjust = -.2, colour = "black") +
+  theme_common() +
+  labs(x = "Semester", y = "Mass (g)") +
+  ggtitle("Total Print Mass")
+ggsave("figures/totalPrintMass.jpg", dpi = 500, bg = "white")
+```
+
 

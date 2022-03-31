@@ -479,6 +479,7 @@ df_both %>%
 ```{r}
 
 ```
+
 ```{r}
 df_both %>% 
   group_by(month = lubridate::floor_date(date, "month")) %>% 
@@ -495,6 +496,7 @@ df_both %>%
   scale_y_log10() +
   scale_fill_discrete(name = "Month", labels = c("Jan", "Feb", "March", "April", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"))
 ```
+
 ```{r}
 df_both %>% 
   group_by(month = lubridate::floor_date(date, "month")) %>% 
