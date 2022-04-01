@@ -114,11 +114,19 @@ df_both <-
     class = ifelse(reason_print == "Personal Project", replace_na(class, "Personal Proj."), class),
     class = ifelse(reason_print == "Test Piece", replace_na(class, "Test Piece"), class),
     class = ifelse(reason_print == "Project Team/Club", replace_na(class, "Proj. Team/Club"), class),
+    class = ifelse(reason_print == "Class Project", replace_na(class, "Class/Research Unspec"), class),  	
+    reason_print = ifelse(str_detect(reason_print, "Class Project"), "Class Project/Research", reason_print),
+    
+   # class = ifelse(reason_print == "Class Project/Research" & is.na(class), "Class/Research Unspec", class),
+   # class = ifelse(reason_print == "Project Team/Club" & is.na(class), "Proj. Team/Club", class),
     class = factor(
       class,
-      levels = c("Pass. Pursuit", "PIE", "DFM", "Scope", "IS", "DesNat", "Ren. Energy", "EEC", "Mech Proto", "QEA", "Research", "P&M", "SustDes", "RoboSys", "DBF", "Personal Proj.", "Test Piece", "Proj. Team/Club")
+      levels = c("Pass. Pursuit", "PIE", "DFM", "Scope", "IS", "DesNat", "Ren. Energy", "EEC", "Mech Proto", "QEA", "Research", "P&M", "SustDes", "RoboSys", "DBF", "Personal Proj.", "Test Piece", "Proj. Team/Club", "Class/Research Unspec")
     ),
-   reason_print = ifelse(str_detect(reason_print, "Class Project"), "Class Project/Research", reason_print),
+   
+   
+   # class = ifelse(reason_print == "Class Project/Research" && is.na(class), "Class Unspec", class),
+   # class = ifelse(reason_print == "Project Team/Club" && is.na(class), "Proj. Team/Club Unspec", class),
      #str_replace(reason_print, "Class Project", "Class Project/Research"), #combine since Class Project/Research was created in middle of survey
    reason_print = factor(
      reason_print,
@@ -149,6 +157,18 @@ df_both <-
       ifelse(date %within% ("2022-01-01" %--% "2022-05-20"), "Sp22", "Summer")))))))
   )
 ```
+
+
+```{r}
+df_both %>% 
+  filter(semester %in% c("Fa20", "Sp21")) %>% 
+  group_by(date) %>% 
+  summarize(num_print = length(date)) %>% 
+  ggplot(aes(x = date, y = num_print)) +
+  geom_line(alpha = .2) +
+  geom_smooth()
+```
+
 
 PRINTS NORMALIZED
 ```{r}
@@ -491,6 +511,29 @@ ggsave("figures/printsPerClass.jpg", dpi = 500, bg = "white")
 
 SUPER BROAD GRAPHS
 
+
+PRINT MASS PER SEMESTER NORMALIZED
+```{r}
+
+df_both %>% 
+  filter(semester %in% c("Fa21", "Sp22", "Sp19", "Fa19", "Sp20", "Fa20", "Sp21")) %>% 
+  group_by(semester) %>% 
+  summarize(
+    total_mass = sum(print_mass, na.rm = TRUE),
+    mass_norm = total_mass / num_on_campus,
+    num_on_campus
+  ) %>% 
+  mutate(
+    semester = factor(semester, levels = c("Sp19", "Fa19", "Sp20", "Fa20", "Sp21", "Fa21", "Sp22"))
+  ) %>% 
+  distinct() %>% 
+  ggplot(aes(x = semester, y = total_mass, fill = semester)) +
+  geom_col(show.legend = FALSE)
+
+
+```
+
+
 ```{r}
 #REASON FOR PRINT
 df_both %>% 
@@ -758,19 +801,20 @@ df_both %>%
   group_by(date) %>% 
   summarize(
     num_per_date = length(date),
-  ) 
+    mass_per_date = sum(print_mass, na.rm = TRUE)
+  )  %>% 
   # complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-12-31"), by="day")) %>%
   complete(date = seq.Date(ymd("2019-01-01"), ymd("2022-08-31"), by="day")) %>%
   # https://blog.exploratory.io/populating-missing-dates-with-complete-and-fill-functions-in-r-and-exploratory-79f2a321e6b5
   mutate(
-    num_per_date = ifelse(is.na(num_per_date), 0, num_per_date),
+    mass_per_date = ifelse(is.na(mass_per_date), 0, mass_per_date),
     semester = ifelse(
       date %within% ("2019-09-01"  %--% "2020-08-31"), "19-20",
       ifelse(date  %within% ("2018-09-01"  %--% "2019-08-31"), "18-19",
       ifelse(date %within% ("2020-09-01"  %--% "2021-08-31"), "20-21",
       ifelse(date  %within% ("2021-09-01"  %--% "2022-08-31"), "21-22", "Other"
     ))))
-  ) 
+  ) %>% 
   mutate(
     day = yday(date),
     year = as.character(year(date)),
@@ -836,7 +880,7 @@ df_both %>%
     day = ifelse(lubridate::floor_date(date, "month") == "2021-08-01", day + 122, day),
     day = ifelse(lubridate::floor_date(date, "month") == "2022-08-01", day + 122, day),
   ) %>% 
-  ggplot(aes(x = day, y = num_per_date, color = semester)) +
+  ggplot(aes(x = day, y = mass_per_date, color = semester)) +
   geom_line(alpha = 0.2) +
   geom_smooth(method = "loess", span = 0.2, size = 1, se = FALSE) +
   scale_x_continuous(
@@ -845,13 +889,18 @@ df_both %>%
   ) +
   theme_common() +
   labs(
-    title = "Daily Prints by Day of Academic Year \n",
+    title = "Daily Print Mass \n",
     x = "Date",
-    y = "Count"
+    y = "Mass (g)"
   ) +
   labs(color = "Academic Year")
-#ggsave("figures/dailyPrintsByAcademicYear.jpg", dpi = 500, bg = "white")
+ggsave("figures/dailymassPerAcademicYear.jpg", dpi = 500, bg = "white")
 ```
+```{r}
+
+```
+
+
 
 DAILY PRINTS TRYING TO NORMALIZE TO # ON CAMPUS
 ```{r}
@@ -1382,44 +1431,52 @@ df_both %>%
 
 PRINT MASS STUFF
 ```{r}
-df_both %>%
-  filter(date >= "2021-11-29") %>%
-  group_by(reason_print) %>%
-  #filter(!is.na(reason_print)) %>%
-  summarize(
-    print_mass = sum(print_mass, na.rm = TRUE)
-  ) %>%
-  ggplot(aes(x = reason_print, y = print_mass, fill = reason_print)) +
-  geom_col(show.legend = FALSE) +
-  theme_common() +
-  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  theme(axis.text.x = element_text(size = 9)) +
-  labs(
-    title = "Print Mass Since 11/29/21 \n",
-    x = "Print Reason",
-    y = "Mass (g)"
-  ) +
-  geom_text(aes(label = print_mass), size = 3.5, vjust = -.2, colour = "black")
-# 
-# df_both %>% 
-#   filter(date >= "2021-11-29") %>% 
-#   group_by(class) %>% 
-#   filter(!is.na(class)) %>%
+# df_both %>%
+#   filter(date >= "2021-11-29") %>%
+#   group_by(reason_print) %>%
+#   #filter(!is.na(reason_print)) %>%
 #   summarize(
 #     print_mass = sum(print_mass, na.rm = TRUE)
-#   ) %>% 
-#   ggplot(aes(x = reorder(class, -print_mass), y = print_mass, fill = class)) +
+#   ) %>%
+#   ggplot(aes(x = reason_print, y = print_mass, fill = reason_print)) +
 #   geom_col(show.legend = FALSE) +
 #   theme_common() +
-#   theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+#   # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
 #   theme(axis.text.x = element_text(size = 9)) +
 #   labs(
 #     title = "Print Mass Since 11/29/21 \n",
 #     x = "Print Reason",
 #     y = "Mass (g)"
 #   ) +
-#   geom_text(aes(label = print_mass), size = 2.7, vjust = -.2, colour = "black") 
+#   geom_text(aes(label = print_mass), size = 3.5, vjust = -.2, colour = "black")
+
+df_both %>%
+  filter(date >= "2021-11-29") %>%
+  group_by(class) %>%
+  filter(is.na(class)) %>% 
+  group_by(reason_print) %>% 
+  summarize(total = sum(print_mass, na.rm = TRUE))
+  summarize(
+    print_mass = sum(print_mass, na.rm = TRUE),
+    print_num = length(class),
+  ) %>% 
+  ggplot(aes(x = reorder(class, -print_mass), y = print_mass, fill = class)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Mass Since 11/29/21 \n",
+    x = "Print Reason",
+    y = "Mass (g)"
+  ) +
+  geom_text(aes(label = print_mass), size = 2.7, vjust = -.2, colour = "black")
 # ggsave("figures/massSince11-29ClassAndOthers.jpg", dpi = 500, bg = "white")
+
+# df_both %>% 
+#   filter(date >= "2021-11-29") %>% 
+#   group_by(class) %>% 
+#   filter(is.na(class))
 ```
 
 PRINT MASS BY SEMESTER
