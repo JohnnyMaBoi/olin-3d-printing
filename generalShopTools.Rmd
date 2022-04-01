@@ -170,11 +170,11 @@ df_raw %>%
     "total_complete")
   ) %>% 
   filter(!is.na(val_stat), complete != "total_complete", complete %in% c("sp22_complete", "fa21_complete", "sp20_complete", "fa19_complete")) %>% 
-  group_by(complete) %>% 
+  group_by(complete)  
   mutate(
     perc = sum(val_stat)
   ) %>% 
-  ungroup() %>% 
+  #ungroup() %>% 
   mutate(
     perc = val_stat / perc,
     complete = factor(complete, levels = c("fa19_complete", "sp20_complete", "fa21_complete", "sp22_complete"), ordered = TRUE)
@@ -195,6 +195,31 @@ df_raw %>%
   #scale_fill_viridis()
 ``` 
 ```{r}
+df_3d_total <-
+  tribble(
+    ~semester, ~num_train, ~ratio,
+    "fa19", 38, 38/410,
+    "sp20", 7, 7/110,
+    "fa21", 59, 59/459,
+    "sp22", 24, 24/104
+  ) %>% 
+  mutate(
+    semester = factor(semester, levels = c("fa19", "sp20", "fa21", "sp22"))
+  )
+
+df_3d_total %>% 
+  ggplot(aes(x = semester, y = num_train, fill = ratio)) +
+  geom_col() +
+  theme_common() +
+  xlab("Semester") +
+  ylab("Count 3D Print Completed Trainings") +
+  scale_fill_continuous(name = "Perc of completed \ntrainings \n(excl. Green) that were \n3D printer") +
+  geom_text(aes(label = num_train), size = 3.2, vjust = -.2, colour = "black")
+```
+
+
+
+```{r}
 df_tidy %>% 
   filter(
     training == "total_not_green", 
@@ -211,5 +236,34 @@ df_tidy %>%
   scale_x_discrete(labels = c("fa16", "sp17", "fa17", "sp18", "fa18", "sp19", "fa19", "sp20", "fa21", "sp22")) +
   xlab("Semester") +
   ylab("Count Completed Trainings (w/o Green)")
+```
+```{r fig.height=6, fig.width=6}
+
+df_tidy %>% 
+  filter(
+    str_detect(sem, "complete"),
+    training != "total_not_green",
+    training != "Total",
+    sem != "total_complete"
+  ) %>% 
+  mutate(
+    val = ifelse(is.na(val), 0, val)
+  ) %>% 
+  filter(sem == "sp22_complete", val != 0) %>% 
+  ggplot(aes(x = reorder(training, -val), y = val, fill = training)) +
+  geom_col() +
+  theme_common() +
+  ggtitle("Trainings Spring 2022") +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  geom_text(aes(label = val), size = 3.2, vjust = -.2, colour = "black") +
+  labs(x = "Training", y = "Number Completed") 
+ 
+# 
+# # Basic piechart
+# ggplot(data, aes(x="", y=value, fill=group)) +
+#   geom_bar(stat="identity", width=1, color="white") +
+#   coord_polar("y", start=0) +
+#   
+#   theme_void() # remove background, grid, numeric labels
 ```
 

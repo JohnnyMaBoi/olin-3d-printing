@@ -527,9 +527,13 @@ df_both %>%
     semester = factor(semester, levels = c("Sp19", "Fa19", "Sp20", "Fa20", "Sp21", "Fa21", "Sp22"))
   ) %>% 
   distinct() %>% 
-  ggplot(aes(x = semester, y = total_mass, fill = semester)) +
-  geom_col(show.legend = FALSE)
-
+  ggplot(aes(x = semester, y = mass_norm, fill = semester)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  labs(x = "Semester", y = "Mass (g)") +
+  ggtitle("Normalized Print Mass By Semester") +
+   geom_text(aes(label = round(mass_norm, 2)), size = 3.2, vjust = -.2, colour = "black")
+ 
 
 ```
 
