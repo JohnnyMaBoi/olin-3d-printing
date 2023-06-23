@@ -1,0 +1,117 @@
+---
+title: "Takeda EDA"
+output: html_notebook
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(lubridate)
+library(chron)
+library(viridis)
+```
+
+# EDA OVERVIEW
+
+## Questions of Interest
+
+- How has per student consumption changed over time? 
+- Every year a new freshman class comes in - how has the consumption for incoming freshman classes changed? I think this can provide valuable insights for how desnat and other courses influence students. Similarly, can we break out each class year into their own 4 year "story" to see how they 3d printed more or less over time? 
+- Similarly, if you break down each years into freshman-senior earmarked consumption, which classes print the most each year? is it consistent (i.e. sophomores always win). 
+- Lastly, looking into how the class related consumptions have changed over the time they have been recorded
+- Also, last but probably most important - if there is any data that you think other schools could provide that would be interesting to compare Olin's metrics to, i.e. how much filament they buy or # of students with access, Daniela has contacts I need to reach out to with some Q's
+
+
+## Hypotheses to Explore
+
+- Does first year desnat usage correlate with print usage following? 
+- How does print habits change over time within a given class? 
+- Percentage of total printing associated with a given class
+
+## Questions from Data Analysis
+
+- Source of population on campus numbers? 
+  - Is there a directory of students? 
+- How many students actually fill out the print log? How representative is this data? 
+  - Send student survey asking for estimates for how often students fill out the survey? 
+- 
+
+## Improvements to Data
+
+- Ask students to use student ID number instead of name? Or use dropdown as current system is awful for data sorting
+- 
+
+
+```{r load data frames}
+getwd()
+load("data/df_both.Rdata")
+load("data/df_graph.Rdata")
+load("data/df_both_names.Rdata")
+```
+
+```{r}
+df_both %>% 
+  glimpse()
+
+df_graph %>% 
+  glimpse()
+
+df_both_names %>% 
+  glimpse()
+```
+
+```{r}
+df_just_names <- df_both_names %>% 
+  select(name) %>% 
+  distinct(name)
+
+write.csv(df_just_names, file = "data/df_just_names.csv")
+```
+
+
+
+```{r}
+df_both %>% 
+  count(reason_print) %>% 
+  filter(!is.na(reason_print)) %>%
+  mutate(
+    reason_print = reorder(reason_print, -n)
+  ) %>%
+  ggplot(aes(x = reason_print, y = n, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Reasons \n",
+    x = "Reason",
+    y = "Count"
+  ) +
+  geom_text(aes(label = n), size = 3.5, vjust = -.2, colour = "black") 
+#ggsave("figures/printReasonsWithLabels.jpg", dpi = 500, bg = "white")
+
+df_both %>% 
+  group_by(reason_print) %>% 
+  #filter(!is.na(reason_print)) %>%
+  summarize(
+    print_mass = sum(print_mass, na.rm = TRUE)
+  ) %>% 
+  ggplot(aes(x = reason_print, y = print_mass, fill = reason_print)) +
+  geom_col(show.legend = FALSE) +
+  theme_common() +
+  # theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(size = 9)) +
+  labs(
+    title = "Print Mass \n",
+    x = "Print Reason",
+    y = "Mass (g)"
+  ) +
+  geom_text(aes(label = print_mass), size = 3.5, vjust = -.2, colour = "black") 
+#ggsave("figures/printReasonsMassWithLabels.jpg", dpi = 500, bg = "white")
+
+```
+
+## Observations 
+- Unclear why NA is so high compared to all other sources
+- Is this due to high volume users or due to individuals not reporting the print reason
+
