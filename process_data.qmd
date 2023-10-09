@@ -95,6 +95,7 @@ def fix_print_mass(df:pd.DataFrame):
     if not is_numeric_dtype(df['mass']):
         # df["mass"] = df["mass"].str.replace(r'[^\d\.]', '', regex=True).replace(r'/(\.\d+)+/', '', regex=True).replace('.','').replace('...','').replace('', np.nan)
         df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
+        # df["mass"] = df["mass"].str.replace(r'[^\d.]', '', regex=True).replace(r'[.][0-9]+$', "", regex=True).replace(r".","", regex=True).replace('', np.nan)
 
     df = df[df["mass"].notnull()] # remove any colums with nan print mass
     df["mass"] = df["mass"].astype(float)
@@ -181,7 +182,7 @@ df = pd.concat([df_veryold, df_old, df_curr, df_newest])
 df.sort_values(by="timestamp", inplace=True)
 df.to_csv(path_or_buf="data/rajiv_output.csv")
 
-print(df.dtypes)
+print(df.head())
 ```
 
 ## print mass vs time
@@ -430,19 +431,29 @@ df["class names corrected"] = correct_series(df["class"], class_names_correction
 ### Create Bar Graph Plot
 
 ```{python}
-# # find top 5 most frequent classes
-# print(df['class names corrected'].value_counts()[:5].index.tolist())
+# find top 5 most frequent classes
+n = 10 # number of class categories to plot
+top_classes = df['class names corrected'].value_counts()[:n].index.tolist()
 
-# for testing purposes (before we dedupe the class names) I will test with this list of the top 5 class names
-classes_top5 = ['Mech Proto', 'POE', 'DesNat', 'PIE', 'Project Team or Club']
+# # for testing purposes (before we dedupe the class names) I will test with this list of the top 5 class names
+# classes_top5 = ['Mech Proto', 'POE', 'DesNat', 'PIE', 'Project Team or Club']
 
 # downselect df to top 5 classes only
-df_top5 = df[df["class names corrected"].isin(classes_top5)]
-df_top5.head()
+df_top_classes = df[df["class names corrected"].isin(top_classes)]
+df_top_classes.head()
 
 # group by class name and semester
-double_groupby = df_top5.groupby(["class names corrected", "semester"])["mass"].sum()
+double_groupby = df_top_classes.groupby(["class names corrected", "semester"])["mass"].sum()
 
+df_double_groupby = pd.DataFrame(double_groupby)
+print(df_double_groupby)
+```
+
+### Testing out how to make the bar graph
+
+#### Per class bar plot
+
+```{python}
 # convert that double groupby object into an iterable nested dict structure
 semester_totals_by_class = {}
 for key in double_groupby.keys():
@@ -456,18 +467,14 @@ for class_name, mass_by_sem in semester_totals_by_class.items():
     print(f"-------------{class_name}-------------")
     for sem, total_mass in mass_by_sem.items():
         print(f"{sem}: {total_mass}g")
-```
 
-### Testing out how to make the bar graph
-
-#### Per class bar plot
-
-```{python}
 # creating the dataset
-data = semester_totals_by_class["PIE"]
+data = semester_totals_by_class["DesNat"]
 
 semesters = list(data.keys())
+print(semesters)
 total_masses = list(data.values())
+print(total_masses)
 
 fig = plt.figure(figsize = (10, 5))
 
@@ -477,79 +484,23 @@ plt.bar(semesters, total_masses,
 
 plt.xlabel("Semester")
 plt.ylabel("Total mass printed")
-plt.title("PIE")
-plt.show()
-```
-
-```{python}
-classes = ("PIE", "ADE", "Desnat")
-class_masses = {
-    'Fall 21': (18.35, 18.43, 14.98),
-    'Spring 22': (38.79, 48.83, 47.50),
-    'Fall 22': (18.35, 18.43, 14.98),
-    'Spring 23': (38.79, 48.83, 47.50),
-}
-
-num_classes = 
-
-x = np.arange(len(classes))  # the label locations
-width = 0.25  # the width of the bars
-multiplier = 0
-
-fig, ax = plt.subplots(layout='constrained')
-
-for semester, mass in class_masses.items():
-    offset = width * multiplier
-    rects = ax.bar(x + offset, mass, width, label=semester)
-    ax.bar_label(rects, padding=3)
-    multiplier += 1
-
-# Add some text for labels, title and custom x-axis tick labels, etc.
-ax.set_ylabel('Length (mm)')
-ax.set_title('Penguin attributes by species')
-ax.set_xticks(x + width, classes)
-ax.legend(loc='upper left', ncols=3)
-ax.set_ylim(0, 250)
-
+plt.title("DesNat")
 plt.show()
 ```
 
 #### All Classes Bar Plot
 
 ```{python}
-# create data 
-df = pd.DataFrame([['A', 10, 20, 10, 30], ['B', 20, 25, 15, 25], ['C', 12, 15, 19, 6], 
-                   ['D', 10, 29, 13, 19]], 
-                  columns=['Team', 'Round 1', 'Round 2', 'Round 3', 'Round 4']) 
-# view data 
-print(df) 
-  
-# plot grouped bar chart 
-df.plot(x='Team', 
-        kind='bar', 
-        stacked=False, 
-        title='Grouped Bar Graph with dataframe') 
-```
+ax = pd.crosstab(df_top_classes["class names corrected"], df_top_classes["semester"]).plot.bar()
 
-```{python}
-df = pd.DataFrame(double_groupby)
+ax.set_title("Filiment Consumption by Class")
+ax.set_ylabel("Filiment Consumed (g)")
+ax.set_xlabel("")
+ax.tick_params(labelrotation = 90)
 
-# view data 
-print(df)
+plt.show()
 
-# plot grouped bar chart 
-df.plot(x='class names corrected', 
-        kind='bar', 
-        stacked=False, 
-        title='Grouped Bar Graph with dataframe') 
-```
-
-```{python}
-import seaborn as sns
-sns.countplot(data=df,x='category',hue='sex')
-
-# or,
-sns.catplot(data=df,kind='count',x='category',hue='sex')
+print(df_top_classes)
 ```
 
 ## Deal with student names?
