@@ -3,7 +3,6 @@ title: Data Processing
 jupyter: python3
 ---
 
-
 ### Graphs:
 - 1. Cum. Mass vs time [groupby year] [per person (divide by num students)]
 - 2. 
@@ -17,6 +16,7 @@ jupyter: python3
 ## Imports
 
 ```{python}
+#| vscode: {languageId: python}
 import pandas as pd
 from pandas.api.types import is_numeric_dtype
 import matplotlib.pyplot as plt
@@ -29,6 +29,7 @@ import calendar
 ### Download Data from current Google Sheet
 
 ```{python}
+#| vscode: {languageId: python}
 import os
 import requests
 import sys
@@ -65,23 +66,31 @@ newest_filepath = getGoogleSeet(newest_id, outDir, "data/data_newest.csv")
 ### Read Data into Pandas Dataframes, clean, concat
 
 ```{python}
-def clean_df(df:pd.DataFrame):
+#| vscode: {languageId: python}
+### DATA CLEANING HELPER FUNCTIONS
+def fix_timestamps(df:pd.DataFrame):
     """
-    Clean timestamp and print mass columns of dataframe
+    Convert timestamp column into pandas datetime series
 
     Args:
-        df (pd.DataFrame): dataframe to clean
-
-    Returns:
-        pd.DataFrame: cleaned dataframe
+        df (pd.DataFrame): dataframe
     """
-
     # convert timestamp column from str to pd.Timestamp
     df['timestamp'] = pd.to_datetime(df['timestamp'])
     
     # drop rows with undefined timestamps
     df = df[df["timestamp"].notna()]
+    
+    return df
 
+# TODO: Fix this regex. High averages in the mass come from removing periods and considering decimal masses as ints
+def fix_print_mass(df:pd.DataFrame):
+    """
+    Clean and convert, and rename "print mass (grams)" column
+
+    Args:
+        df (pd.DataFrame): dataframe
+    """
     # clean all alphabetic characters from print_mass col and replace empty strings with nan
     # TODO: Fix this regex. High averages in the mass come from removing periods and considering decimal masses as ints
     
@@ -94,85 +103,87 @@ def clean_df(df:pd.DataFrame):
 
     # filter out rediculous masses (10kg)
     df = df[df["mass"] < 10000]
-
     return df
 
+def process_csv_file(path:str, rename_map:dict):
+    """
+    Load data from csv file, store into pd dataframe, downselect and rename columns, clean data.
+    Provide `rename_map` dictionary to specify which columns to downselect to and their new names.
 
-# read current data from csv
-df_curr = pd.read_csv("data/data_current.csv")
-# rename and downselect relevant columns
-rename_map = {
-    "Timestamp": "timestamp",
-    "Name": "name",
-    "Print Mass (in grams)": "mass",
-    "If you chose Class Project, which class? If a Project Team/Club, which group?": "class"
-}
-df_curr.rename(columns = rename_map, inplace = True)      # rename
-df_curr = df_curr[["timestamp", "name", "mass", "class"]] # downselect
-# Clean timestamp and print mass columns of dataframe
-df_curr = clean_df(df_curr)
+    Args:
+        path (str): path to csv file
+        rename_map (dict {"new col name":"old col name"}): dictates which columns to put into returned dataframe
 
-print("current data\n", df_curr["mass"].describe())
+    Returns:
+        pd.DataFrame: cleaned and downselected dataframe generated from csv file
+    """
+    # read current data from csv
+    df = pd.read_csv(path)
 
-# read current data from csv
-df_newest = pd.read_csv("data/data_newest.csv")
-# rename and downselect relevant columns
-rename_map = {
-    "Start time": "timestamp",
-    "Your Name": "name",
-    "Print Mass (Grams)": "mass",
-    "If applicable, which class, research group, or project team?": "class"
-}
-df_newest.rename(columns = rename_map, inplace = True)      # rename
-df_newest = df_newest[["timestamp", "name", "mass", "class"]] # downselect
-# Clean timestamp and print mass columns of dataframe
-df_newest = clean_df(df_newest)
+    # downselect and rename relevant columns from dataframe according to rename_map dict
+    df = df[list(rename_map.values())]                # downselect
+    df.rename(columns = rename_map, inplace = True) # rename
+    df.columns = rename_map.keys()
 
-print("current data\n", df_curr["mass"].describe())
+    # cleaning timestamps
+    df = fix_timestamps(df)
 
+    # clean print mass in grams column
+    df = fix_print_mass(df)
 
-# read old data from csv
-df_old = pd.read_csv("data/data_old_python.csv")
-# rename and downselect relevant columns
-rename_map = {
-    "Print Mass (in grams)": "mass",
-    "Timestamp":"timestamp",
-    "Your Name":"name",
+    return df
     
+# process "very old" data
+very_old_rename_map = {
+    "timestamp" : "timestamp",
+    "name"      : "name",
+    "mass"      : "print_mass_grams",
+    "reason"    : "reason_print",
+    "class"     : "class"
 }
-df_old.rename(columns = rename_map, inplace = True)      # rename
-df_old = df_old[["timestamp", "name", "mass"]] # downselect
-# df_old.drop(df.tail(4).index, inplace=True)
-# Clean timestamp and print mass columns of dataframe
-df_old = clean_df(df_old)
-print("old data\n", df_old["mass"].describe())
+df_veryold = process_csv_file("data/3d_very_old.csv", very_old_rename_map)
+df_veryold.head()
 
-
-# read veryold data from csv
-df_veryold = pd.read_csv("data/3d_very_old.csv")
-
-# rename and downselect relevant columns
-rename_map = {
-    "print_mass_grams": "mass",
-    "name":"name",
-    "reason_print":"class"
+# process "old" data
+old_rename_map = {
+    "timestamp" : "Timestamp",
+    "name"      : "Your Name",
+    "mass"      : "Print Mass (in grams)",
+    # "reason" : "What are you printing for?",
+    # "class"  : "If you chose Class Project, which class? If a Project Team/Club, which group?"
 }
-df_veryold.rename(columns = rename_map, inplace = True)      # rename
-df_veryold = df_veryold[["timestamp", "name", "mass"]] # downselect , "class"
-# Clean timestamp and print mass columns of dataframe
-df_veryold = clean_df(df_veryold)
+df_old = process_csv_file("data/data_old_python.csv", old_rename_map)
+
+# Process "current" data
+curr_rename_map = {
+    "timestamp": "Timestamp",
+    "name"   : "Name",
+    "mass"   : "Print Mass (in grams)",
+    "reason" : "What are you printing for?",
+    "class"  : "If you chose Class Project, which class? If a Project Team/Club, which group?"
+}
+df_curr = process_csv_file("data/data_current.csv", curr_rename_map)
+
+# Process "very new" data
+newest_rename_map = {
+    "timestamp": "Start time",
+    "name"   : "Your Name",
+    "mass"   : "Print Mass (Grams)",
+    "reason" : "Reason For Print",
+    "class"  : "If applicable, which class, research group, or project team?"
+}
+df_newest = process_csv_file("data/data_current.csv", curr_rename_map)
+df_newest.head()
 
 
-# print("veryold\n", df_veryold["mass"].describe())
-
-
-#concat all data
+# concat all data
 df = pd.concat([df_veryold, df_old, df_curr, df_newest])
+
 # sort data by timestamp
 df.sort_values(by="timestamp", inplace=True)
 df.to_csv(path_or_buf="data/rajiv_output.csv")
 
-print(df.describe())
+print(df.dtypes)
 ```
 
 ## print mass vs time
@@ -180,6 +191,7 @@ print(df.describe())
 ### Cumulative Mass
 
 ```{python}
+#| vscode: {languageId: python}
 # create new dataframe with copies of timestamp and print_mass_grams columns
 df_print_mass = df[["timestamp", "mass"]]
 
@@ -202,6 +214,7 @@ plt.show()
 ### Groupby Year
 
 ```{python}
+#| vscode: {languageId: python}
 # function to groupby academic year
 def get_academic_year(timestamp:pd.Timestamp):
     """
@@ -266,10 +279,12 @@ df["normalized mass"].describe()
 ```
 
 ```{python}
+#| vscode: {languageId: python}
 print(plt.rcParams["axes.prop_cycle"])
 ```
 
 ```{python}
+#| vscode: {languageId: python}
 def get_ac_year_day(timestamp: pd.Timestamp):
     """
     Get day of the academic year
@@ -336,6 +351,7 @@ df.head()
 ### Class/Reason Data Bar Charts
 
 ```{python}
+#| vscode: {languageId: python}
 # Set up plot
 plt.figure(figsize=(10, 6))  # Optional: Set the figure size
 plt.title("Filament Used Per Semester")         # Per reason
@@ -365,6 +381,7 @@ plt.show()
 ### Individual Person Consumption Scatterplot
 
 ```{python}
+#| vscode: {languageId: python}
 def person_point_scatter(df:pd.DataFrame, semester_list):
     """
     Create a scatterplot with y axis total mass and x axis number of prints and 
@@ -423,6 +440,7 @@ output_scatter = person_point_scatter(df, semesters_to_scatter)
 ## Deal with correcting shitty data (uuuhhhHHH)
 
 ```{python}
+#| vscode: {languageId: python}
 def correct_series(series, map:dict):
     """
     Iterate through each correct value in the map dictionary,
@@ -443,15 +461,9 @@ def correct_series(series, map:dict):
         series = series.str.replace(map[correction_key], correction_key, regex=True, case=False)
     
     return series
-```
-
-## Deal with class names
-
-```{python}
-class_names = df_curr["class"]
 
 # dictionary for defining name correction map
-class_name_map = {
+class_names_correction_map = {
     "DesNat" : "Desnat|desnT|DesNat|dednat|Des Nat|ddesnat|desnat|desNat|Design Nature",
     "Pass. Pursuit" : "passion.*",
     "PIE" : "pie.*",
@@ -472,17 +484,24 @@ class_name_map = {
     "Project Team or Club" : "DBF|Formula|Rocketry|Baja|pint"
 }
 
-# correct class names
-class_names = correct_series(class_names, class_name_map)
 
-print(len(class_names.unique()), class_names.unique())
+# correct class names
+df["class names corrected"] = correct_series(df["class"], class_names_correction_map)
+
+df.head()
+
+# groupby class name
+
+# print(len(class_names.unique()), class_names.unique())
 ```
+
+### Create Bar Graph Plot
 
 
 ## Deal with student names?
 
 ```{python}
+#| vscode: {languageId: python}
 # do later, holy shit
 ```
-
 
