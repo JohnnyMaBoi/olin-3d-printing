@@ -78,8 +78,9 @@ col_names_curr <-
     "class",
     "comments",
     "printer",
-    "9",
-    "10"
+    "print_time_minutes",
+    "10",
+    "11"
   )
 
 #read as data frame
@@ -87,7 +88,7 @@ df_curr <- read_sheet(
   ss_curr,
   sheet = 1,
   col_names = col_names_curr,
-  col_types = "Tccccccccc",
+  col_types = "Tcccccccccc",
   skip = 1
   ) %>%
   select("timestamp", "name", "print_time", "print_mass_grams", "reason_print", "class", "printer")
@@ -145,9 +146,9 @@ df_very_old
 NOTE: Running this cell will write-over existing data files.
 ```{r save-data}
 # save data to csv files
-write.table(df_old, file = "data/3d_old.csv", sep=",", row.names = FALSE)
-write.table(df_curr, file = "data/3d_curr.csv", sep=",", row.names = FALSE)
-write.table(df_very_old, file = "data/3d_very_old.csv", sep = ",", row.names = FALSE)
+write.table(df_old, file = ".\\data\\3d_old.csv", sep=",", row.names = FALSE)
+write.table(df_curr, file = ".\\data\\3d_curr.csv", sep=",", row.names = FALSE)
+write.table(df_very_old, file = ".\\data\\3d_very_old.csv", sep = ",", row.names = FALSE)
 ```
 
 
