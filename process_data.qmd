@@ -5,10 +5,10 @@ jupyter: python3
 
 
 ### Graphs:
-- 1. Cum
-- 2. Cum
-- 3. Cum
-- 4. Cum
+- 1. Cum. Mass vs time [groupby year] [per person (divide by num students)]
+- 2. 
+- 3. 
+- 4. 
 
 ### subtasks:
 - Integrate previous name consolidations
@@ -257,8 +257,7 @@ def get_population_on_campus(semester:str, population_dict=None):
     else:                   # after september: fall semester
         # print(f"{semester} not in population dict!")
         return np.nan
-
-# add aacademic year column to df
+# add academic year column to df
 df["academic year"] = df["timestamp"].apply(lambda x: get_academic_year(x))
 df["semester"] = df["timestamp"].apply(lambda x: get_semester(x))
 df["population on campus"] = df["semester"].apply(lambda x: get_population_on_campus(x))
@@ -361,6 +360,64 @@ for sem, _df in sem_groupby:
 # Display the plot
 plt.legend(title="Academic Year")
 plt.show()
+```
+
+### Individual Person Consumption Scatterplot
+
+```{python}
+def person_point_scatter(df:pd.DataFrame, semester_list):
+    """
+    Create a scatterplot with y axis total mass and x axis number of prints and 
+    one point for each name represented in the dataset
+
+    Args:
+        dataframe (pd.DataFrame): dataframe with rows name, mass, semester, and academic year
+        semester_list (list): list of strings, in form: [FA19, SP20] to graph only 
+            the per person data in the 19-20 school year.
+    """
+    # group data by academic year
+    sem_groupby = df.groupby('semester')[["timestamp", "name", "mass"]]
+    
+    # create new dataframe for sums
+    person_prints_overtime = pd.DataFrame(columns=["name", "total mass", "total prints"])
+    # plot for each academic year on same axes
+    for sem, _df in sem_groupby:
+        if sem not in semester_list:
+            print(f"ignoring year {sem}")    
+            pass
+        else:
+            print(f"semester is {sem}")
+            
+            # iterate through entries in dataframe and check if name has been recorded
+            for idx, row in df.iterrows():
+                entry = df.iloc[idx]
+                # if it doesn't, create and populate row in person_prints_overtime
+                if entry["name"] not in person_prints_overtime["name"].values:
+                    first_entry = pd.Series({"name":entry["name"],"total mass":entry["mass"], "total prints":1})
+                    person_prints_overtime.loc[person_prints_overtime.shape[0]] = first_entry
+                # if it does, add this entry's print mass to the values and +1 num prints to the right name in sum df
+                else:
+                    person_prints_overtime.loc[person_prints_overtime["name"]==entry["name"], "total mass"] +=entry["mass"]
+                    person_prints_overtime.loc[person_prints_overtime["name"]==entry["name"], "total prints"] += 1
+    # plot every entry in the dataframe on the scatterplot 
+    ax1 = person_prints_overtime.plot.scatter(x="total prints", y="total mass")
+        # plt.plot(_df["timestamp"].apply(lambda x: get_ac_year_day(x)), _df["mass"].cumsum(), label=f'{sem}')
+        # print(_df.head())
+
+    # Set up plot
+    semester_ends = [semester_list if len(semester_list)==1 else semester_list[0]+semester_list[-1]]
+    ax1.set_title(f"Individual Consumption Specifics {', '.join(semester_ends)}")         # Per reason
+    ax1.set_xlabel('Total prints')
+    ax1.set_ylabel("Total Print Mass (g)")
+
+    # Display the plot
+    ax1.legend(title="Individual People")
+    person_prints_overtime.sort_values(by="total mass", inplace=True)
+
+    return person_prints_overtime
+
+semesters_to_scatter = ["FA18", "SP19", "FA19", "SP20", "FA20", "SP21", "FA21", "FA22"]
+output_scatter = person_point_scatter(df, semesters_to_scatter)
 ```
 
 ## Deal with correcting shitty data (uuuhhhHHH)
