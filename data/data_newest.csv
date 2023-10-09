@@ -1,0 +1,751 @@
+ID,Start time,Your Name,Print Time (Hours),Print Time (Minutes),Print Mass (Grams),Reason For Print,"If applicable, which class, research group, or project team?",Which Printer Are You Using?
+1,8/30/22 10:46:38,Bryce Ferguson,5,47,63,Personal Project,,Mini: Kale
+2,8/31/22 11:22:53,Jeremy Skoler,2:42,162,17.6,Personal Project,,Mini: Io
+3,8/31/22 20:20:55,CJ Hilty,1,39,129,Personal Project,,Mini: Elara
+4,9/1/22 9:11:42,Bryce,8,,72,Personal Project,,Mini: Elara
+5,9/4/22 21:15:56,Jeremy skoler,7:03,423,54.5,Personal Project,,Mini: Io
+6,9/5/22 15:10:29,Florian Schwarzinger,5,18,44.66,Personal Project,,Mini: Leda
+7,9/6/22 15:47:42,linda,3,,12,Class Project / Research,osstp,Mini: Aitne
+8,9/13/22 14:52:50,chris bocamazo,0.2,23,3,Personal Project,,Mini: Io
+9,9/14/22 17:49:50,Karina Lamoreux,3,57,33.85,Class Project / Research,Pie,Mini: Aitne
+10,9/14/22 17:48:00,Arturo,0.383,23,4.4,Test Piece,,Mini: Kale
+11,9/16/22 16:01:57,Krishna Suresh,1,25,5.7,Test Piece,,Mini: Elara
+12,9/16/22 16:02:40,Daniel Quinteros,1,32,6.82,Test Piece,,Mini: Aitne
+13,9/18/22 12:20:56,Madeline Robertson,5,34,159,Class Project / Research,PIE,Mini: Elara
+14,9/19/22 10:12:51,Lillian Shoemaker,6,18,151.32,Class Project / Research,PIE,Mini: Kale
+15,9/19/22 10:13:46,Kelly Stellmacher,4,12,31.16,Class Project / Research,PIE,Mini: Aitne
+16,9/20/22 14:22:29,Olivia Jo Bradley,0,46,12,Shop Demo Part,,Mini: Aitne
+17,9/20/22 14:46:02,Madeline Robertson,1,46,50,Class Project / Research,PIE,Mini: Kale
+18,9/20/22 14:46:42,Madeline Robertson,12,0,300,Class Project / Research,PIE,Mini: Elara
+19,9/20/22 14:59:24,Laurel,1,3,7.76,Personal Project,,Mini: Ersa
+20,9/20/22 14:55:47,Lillian Shoemaker,4,52,45.79,Class Project / Research,PIE,Mini: Kale
+21,9/20/22 18:45:05,Laurel,1,45,11.42,Personal Project,,Mini: Aitne
+22,9/22/22 17:23:02,KD Vo,1,18,10.65,Class Project / Research,PIE,Mini: Io
+23,9/23/22 11:27:45,Olga,2 hrs,23 mins,18,Class Project / Research,pie,Mini: Ersa
+24,9/24/22 12:47:29,Lillian Shoemaker,0,36,7.36,Class Project / Research,PIE,Mini: Elara
+25,9/24/22 12:54:56,Lillian Shoemaker,,45,9.26,Class Project / Research,PIE,Mini: Aitne
+26,9/24/22 12:55:49,Lillian Shoemaker,0,31,5.53,Class Project / Research,PIE,Mini: Elara
+27,9/24/22 15:42:08,Lillian Shoemaker,0,33,6.25,Class Project / Research,PIE,Mini: Elara
+28,9/24/22 17:27:37,Olga P,2 h,25 m,17,Class Project / Research,pie,Mini: Aitne
+29,9/25/22 12:56:53,alexis,5,31,na,Test Piece,,Mini: Kale
+30,9/25/22 15:29:44,Tara Lee,3,47,43,Class Project / Research,PIE,Mini: Aitne
+31,9/26/22 10:33:00,Jacob Prisament,,54,,Class Project / Research,,Mini: Elara
+32,9/26/22 15:10:53,KD Vo,2,49,24.11,Class Project / Research,PIE,Mini: Arche
+33,9/26/22 15:11:24,phillip post,7,27,25,Class Project / Research,pie,Mini: Ersa
+34,9/26/22 18:35:07,Owen Johnston,1,58,13.64,Test Piece,,Mini: Dia
+35,9/26/22 19:01:18,Owen Himsworth,13,46,31.37,Test Piece,FDM Training,Mini: Leda
+36,9/26/22 19:04:30,Vaughn Rhinehart,,12,2.12,Project Team / Club,FWOP,Mini: Elara
+37,9/26/22 19:12:07,Ben Tarr,,34,8.64,Test Piece,,Mini: Kale
+38,9/26/22 22:01:05,Vaughn Rhinehart,2,,,Project Team / Club,FWOP,Mini: Arche
+39,9/26/22 22:02:52,Vaughn Rhinehart,1,46,,Project Team / Club,FWOP,Mini: Elara
+40,9/27/22 13:22:32,Ben Tarr,4,48,57,Personal Project,,Mini: Ersa
+41,9/27/22 13:26:17,Ben Tarr,6,26,95,Personal Project,,Mini: Aitne
+42,9/27/22 13:50:47,Carter Harris,2,31,19,Test Piece,,Mini: Io
+43,9/27/22 14:03:34,Maya McKoneSweet,2,56,17.72,Test Piece,,Mini: Arche
+44,9/27/22 14:10:48,Martin,0,17,1.7,Test Piece,,Mini: Kale
+45,9/27/22 14:17:03,Mark Belanger,1,5,9.15,Training,,Mini: Elara
+46,9/27/22 15:41:25,Jo Fryling,0,26,3.16,Class Project / Research,PIE,Mini: Elara
+47,9/27/22 16:04:34,Vaani Bhatnagar,6h,33mins,78.94 g,Class Project / Research,PIE,Mini: Kale
+48,9/27/22 16:33:57,KD Vo,2,53,24.66,Class Project / Research,PIE,Mini: Elara
+49,9/27/22 16:34:28,Evan Lockwood,4,37,30,Class Project / Research,PIE,Mini: Io
+50,9/28/22 2:03:53,Evan Lockwood,0,54,15,Class Project / Research,PIE,Mini: Elara
+51,9/28/22 2:04:32,Evan Lockwood,1,15,8,Class Project / Research,PIE,Mini: Io
+52,9/28/22 11:22:44,Mateo Macias,2,41,20,Class Project / Research,PIE,Mini: Elara
+53,9/28/22 11:23:22,Phillip post,2,25,21,Class Project / Research,Pie,Mini: Dia
+54,9/28/22 14:03:16,Celvi,1,8,54,Class Project / Research,Just Energy,Mini: Leda
+55,9/29/22 11:40:51,Celvi,1,8,54,Class Project / Research,Just Energy,Mini: Kale
+56,9/29/22 11:41:23,Celvi,1,8,54,Class Project / Research,Just Energy,Mini: Ersa
+57,9/29/22 11:41:55,Vaughn Rhinehart,2,19,23.6,Project Team / Club,FWOP,Mini: Io
+58,9/29/22 21:07:37,Vaughn Rhinehart,3,3,28.8,Project Team / Club,FWOP,Mini: Io
+59,9/30/22 12:52:50,miriam Rich,0,18,4.54,Class Project / Research,pie,Mini: Ersa
+60,9/30/22 14:54:28,Vaughn Rhinehart,0,11,0.88,Project Team / Club,FWOP,Mini: Io
+61,10/1/22 13:19:20,Olivia Jo Bradley,29,14,885.15,Class Project / Research,PLA Recycling,Mini: Aitne
+62,10/1/22 13:20:26,Olivia Jo Bradley,6,23,114.4,Personal Project,,Mini: Io
+63,10/2/22 13:48:52,Ari Bobesh,3,51,22,Test Piece,,Mini: Elara
+64,10/2/22 12:48:45,Alex George,1.2,73,13.47,Test Piece,,Mini: Leda
+65,10/2/22 14:17:52,Dokyun Kim,2,8,30.23,Test Piece,,Mini: Arche
+66,10/2/22 14:18:24,Dominic Salmieri,1,17,10.03,Test Piece,,Mini: Ersa
+67,10/2/22 14:17:52,Florian,3,30,38.35,Class Project / Research,DFM,Mini: Kale
+68,10/3/22 0:12:37,Vaani Bhatnagar,,28 mins,4g,Class Project / Research,PIE,Mini: Elara
+69,10/3/22 15:36:46,Ike Walker,5.5,,,Test Piece,,Mini: Kale
+70,10/3/22 22:01:51,Anna Holbrook,4,4,67,Personal Project,,Mini: Leda
+71,10/3/22 22:22:31,Reuben Lewis,1,0,30,Test Piece,,Mini: Aitne
+72,10/3/22 22:25:13,anna holbrook,2,,15.37,Personal Project,,Mini: Arche
+73,10/3/22 22:28:27,Reuben Lewis,1,0,30,Personal Project,,Mini: Kale
+74,10/4/22 12:46:05,Ian,0,43,7.35,Personal Project,,Mini: Ersa
+75,10/3/22 22:30:29,Kenta Terasaki,1,55,16.9,Test Piece,training,Mini: Kale
+76,10/4/22 13:56:12,Mira Chew,0,8,2.5,Test Piece,Training,Mini: Elara
+77,10/4/22 14:01:21,Leslie Bostwick,4,26,43.04,Test Piece,,Mini: Dia
+78,10/4/22 14:03:45,Dasha,5,7,79.73,Test Piece,,Mini: Arche
+79,10/4/22 14:09:13,sucheta sunder,1,20,15,Test Piece,,Mini: Leda
+80,10/4/22 14:49:17,Marta Chojkiewicz,2,14,20,Test Piece,,Mini: Io
+81,10/4/22 17:30:51,Ian Lum,1,26,5.69,Personal Project,,Mini: Ersa
+82,10/4/22 18:23:20,William Skelly,1,0,12,Class Project / Research,Robolab Hummingbird,Mini: Kale
+83,10/4/22 19:08:10,Leslie B,1,27,10.77,Test Piece,,Mini: Dia
+84,10/5/22 16:00:10,Emery Lauer,5,35,45,Personal Project,,Mini: Kale
+85,10/5/22 16:03:42,Maya M,2,55,,Prospie Gift,,Mini: Arche
+86,10/5/22 17:21:27,Rizza,zero,six,0.39,Class Project / Research,PIE,Mini: Io
+87,10/6/22 11:01:44,Ben Eisenbraun,4,0,60,Class Project / Research,PIE,Mini: Arche
+88,10/6/22 13:02:54,Austin Cline,,59,4,Class Project / Research,PIE,Mini: Ersa
+89,10/6/22 13:19:53,Austin Cline,22,1,23,Class Project / Research,PIE,Mini: Dia
+90,10/6/22 13:49:55,Dasha,7,30,100,Personal Project,,Mini: Elara
+91,10/6/22 13:50:46,Dasha,8,50,114,Personal Project,,Mini: Io
+92,10/6/22 13:52:11,Dasha,8,50,114,Personal Project,,Mini: Kale
+93,10/6/22 16:33:40,Dokyun Kim,0,14,0.87,Personal Project,,Mini: Leda
+94,10/6/22 16:51:20,Ian Lum,0,44,7.51,Personal Project,,Mini: Ersa
+95,10/6/22 16:52:40,Rizza,1,24,six.51,Project Team / Club,PInT,Mini: Leda
+96,10/7/22 9:16:23,rizza,zero,six,0.49,Class Project / Research,PIE,Mini: Io
+97,10/7/22 10:17:30,rizza,zero,six,0.49,Class Project / Research,PIE,Mini: Arche
+98,10/7/22 10:40:11,Clay Oates,1,41,13.5,Class Project / Research,PIE,Mini: Io
+99,10/7/22 11:22:00,rizza,1,24,11,Class Project / Research,PIE,Mini: Arche
+100,10/7/22 12:04:35,Karina Lamoreux,2,15,22,Project Team / Club,PIE,Mini: Leda
+101,10/7/22 17:45:06,Mateo Macias,2,40,30,Personal Project,,Mini: Leda
+102,10/10/22 12:22:45,Mateo Macias,2,45,33,Personal Project,,Mini: Ersa
+103,10/11/22 10:32:44,Vaughn Rhinehart,6,57,70,Project Team / Club,FWOP,Mini: Ersa
+104,10/11/22 10:36:42,Vaughn Rhinehart,0,52,7.73,Project Team / Club,FWOP,Mini: Leda
+105,10/11/22 10:47:22,Vaughn Rhinehart,5,33,53.6,Project Team / Club,FWOP,Mini: Elara
+106,10/11/22 19:57:50,Rowan Jansens,2,1,21,Personal Project,,Mini: Leda
+107,10/12/22 10:11:39,rizza,1,34,213,Class Project / Research,PIE,Mini: Arche
+108,10/12/22 17:23:02,Ari Bobesh,5,56,102,Project Team / Club,Rocketry,Mini: Elara
+109,10/12/22 18:51:44,Carter Harris,2,30,37,Personal Project,,Mini: Leda
+110,10/13/22 8:19:41,Rizza,1,thirty eight,14,Class Project / Research,PIE,Mini: Arche
+111,10/13/22 11:00:21,rizza,zero,six,0.5,Class Project / Research,PIE,Mini: Arche
+112,10/13/22 12:41:55,Vaani Bhatnagar,zero,twenty eight,3.94,Class Project / Research,PIE,Mini: Elara
+113,10/13/22 12:44:29,Vaani Bhatnagar,zero,twenty eight,3.94,Class Project / Research,PIE,Mini: Kale
+114,10/13/22 12:45:10,Tara,0,50,25,Class Project / Research,PIE,Mini: Leda
+115,10/13/22 14:50:02,Rizza,1,thirty,six,Project Team / Club,PInT,Mini: Kale
+116,10/14/22 12:33:35,anna holbrook,1,53,17.5,Personal Project,,Mini: Dia
+117,10/14/22 12:39:31,anna holbrook,4,13,40,Personal Project,,Mini: Io
+118,10/14/22 13:13:47,Sanju Jatti,6,359,33.75,Test Piece,,Mini: Kale
+119,10/14/22 14:22:52,albert,1,0,9,Class Project / Research,pie,Mini: Kale
+120,10/17/22 2:54:13,albert,1,0,9,Class Project / Research,pie,Mini: Elara
+121,10/17/22 2:55:55,albert,0,19,3,Class Project / Research,pie,Mini: Leda
+122,10/17/22 2:57:08,albert,3,50,26,Class Project / Research,pie,Mini: Dia
+123,10/17/22 3:00:19,albert,2,41,19,Class Project / Research,pie,Mini: Ersa
+124,10/17/22 15:18:21,Vaani Bhatnagar,,35,5,Class Project / Research,PIE,Mini: Leda
+125,10/17/22 17:22:49,Vaani Bhatnagar,10,33,80,Class Project / Research,PIE,Mini: Leda
+126,10/17/22 17:33:10,Kevin Lie Atjam,2,42,21.51,Test Piece,,Mini: Ersa
+127,10/17/22 17:52:17,Mo Ampane,1,35,3.2,Test Piece,,Mini: Arche
+128,10/17/22 17:58:19,Mihir Vemuri,3hr,,24,Test Piece,,Mini: Aitne
+129,10/17/22 18:01:02,Jun Park,1,27,8.32,Personal Project,,Mini: Elara
+130,10/17/22 18:06:37,Venkadesh,0,33,3.69,Test Piece,,Mini: Io
+131,10/17/22 18:36:58,Kelly Stellmacher,0,24,26,Class Project / Research,PIE,Mini: Aitne
+132,10/17/22 20:19:01,Jun Park,1,25,9.72,Personal Project,,Mini: Elara
+133,10/18/22 12:36:54,Jun Park,0,39,4.34,Personal Project,,Mini: Aitne
+134,10/18/22 13:41:31,corinna kraemer,zero,5,0.62,Test Piece,,Mini: Ersa
+135,10/18/22 13:47:43,corinna,11,35,98,Test Piece,,Mini: Io
+136,10/18/22 16:01:24,joseph g,0,53,7,Class Project / Research,eclec,Mini: Elara
+137,10/18/22 17:46:55,Rajiv,0,50,9.51,Class Project / Research,DFM,Mini: Ersa
+138,10/18/22 20:45:46,dokyun,zero,2,1.seven2,Project Team / Club,PInT,Mini: Ersa
+139,10/19/22 10:16:29,kelly Stellmacher,9,53,99.8,Class Project / Research,PIE,Mini: Elara
+140,10/19/22 10:50:43,corinna,3,20,34,Personal Project,,Mini: Io
+141,10/19/22 14:28:17,Sydney,3,23,22,Personal Project,,Mini: Ersa
+142,10/19/22 18:43:43,Jo Fryling,3,9,27,Personal Project,,Mini: Io
+143,10/19/22 22:14:21,Carter,1,20,15,Personal Project,,Mini: Ersa
+144,10/20/22 20:53:59,Dokyun Kim,1,25,5.54,Project Team / Club,PInT,Mini: Ersa
+145,10/20/22 21:16:01,Jo Fryling,2,4,24,Personal Project,,Mini: Dia
+146,10/21/22 11:10:55,albert,0,20,3,Class Project / Research,pie,Mini: Dia
+147,10/21/22 11:11:26,albert,0,20,3,Class Project / Research,pie,Mini: Dia
+148,10/21/22 11:11:49,albert,0,20,3,Class Project / Research,pie,Mini: Kale
+149,10/21/22 11:17:57,albert,0,20,3,Class Project / Research,pie,Mini: Aitne
+150,10/21/22 11:21:02,albert,0,20,3,Class Project / Research,pie,Mini: Ersa
+151,10/21/22 18:15:21,Tyler Ewald,1,40,15,Class Project / Research,pie,Mini: Dia
+152,10/22/22 14:46:35,Kevin,3,9,33.O2,Test Piece,,Mini: Ersa
+153,10/22/22 14:48:09,Kevin Lie Atjam,1,59,19.38,Test Piece,,Mini: Elara
+154,10/22/22 18:01:50,albert,4,25,62,Personal Project,,Mini: Elara
+155,10/22/22 18:02:23,albert,1,12,18.13,Personal Project,,Mini: Kale
+156,10/23/22 18:35:18,Rin,9,10,116,Class Project / Research,DF,Mini: Elara
+157,10/23/22 18:45:54,Rin,9,33,199,Class Project / Research,Dfm,Mini: Dia
+158,10/23/22 18:46:22,Rin,4,2,80,Class Project / Research,Dfm,Mini: Ersa
+159,10/23/22 18:46:54,Rin,12,50,19,Class Project / Research,Dfm,Mini: Arche
+160,10/23/22 20:05:50,Martin,2,41,21.23,Personal Project,,Mini: Io
+161,10/23/22 20:16:00,Dominic Salmieri,1,15,19.85,Personal Project,,Mini: Aitne
+162,10/23/22 23:27:37,Matt Neal,12j,17,131,matsci lab,,Mini: Dia
+163,10/24/22 16:33:04,Olivia Jo Bradley,2,5,22,Personal Project,,Mini: Ersa
+164,10/24/22 16:33:37,Olivia Jo Bradley,2,15,24,Personal Project,,Mini: Aitne
+165,10/24/22 16:34:12,Karina Lamoreux,,31,2.13,Class Project / Research,PIE,Mini: Dia
+166,10/25/22 10:52:29,Madeline Robertson,3,20,57.11,Class Project / Research,pie,Mini: Ersa
+167,10/25/22 10:53:25,Madeline Robertson,3,34,58.63,Class Project / Research,pie,Mini: Leda
+168,10/25/22 11:39:03,William Skelly,0,9,1,Class Project / Research,PIE,Mini: Dia
+169,10/25/22 12:07:26,corinna,11,4,800,Personal Project,,Mini: Dia
+170,10/25/22 16:17:58,Daniel Quinteros,6,3,62.35,Personal Project,,Mini: Aitne
+171,10/25/22 19:03:27,Nia Maywar,,,,Reprinting someone's failed print,,Mini: Ersa
+172,10/25/22 21:00:00,dokyun kim,1,25,5.58,Project Team / Club,pint,Mini: Io
+173,10/25/22 21:04:59,Nathan W,9,31,111,Class Project / Research,JustEnergy,Mini: Elara
+174,10/26/22 15:35:33,Daniel Quinteros,7,29,72.36,Personal Project,,Mini: Aitne
+175,10/26/22 16:37:35,rizza,1,15,4,Project Team / Club,pint,Mini: Io
+176,10/26/22 17:21:07,Rowan Jansens,2,31,3,Personal Project,,Mini: Dia
+177,10/26/22 18:54:47,Ari Bobesh,5,49,35,Personal Project,,Mini: Leda
+178,10/26/22 18:44:01,corinna,3,,50,Personal Project,,Mini: Io
+179,10/27/22 15:14:26,Isabel de Luis,zero,45,six. zero five,Class Project / Research,PIE,Mini: Dia
+180,10/27/22 15:42:03,Matt Neal,8,38,87,Matsci Lab,,Mini: Arche
+181,10/27/22 15:43:45,Lillian Shoemaker,1,18,20,Class Project / Research,PIE,Mini: Leda
+182,10/27/22 15:44:58,Lillian Shoemaker,0,45,20,Class Project / Research,PIE,Mini: Dia
+183,10/27/22 16:38:19,Lillian Shoemaker,0,58,15,Class Project / Research,PIE,Mini: Ersa
+184,10/27/22 17:00:59,Madeline Robertson,6,23,122.58,Class Project / Research,PIE,Mini: Io
+185,10/27/22 22:47:45,Daniel Quinteros,0,27,2.89,Personal Project,,Mini: Elara
+186,10/28/22 3:41:25,Kelly Stellmacher,1,4,7,Class Project / Research,PIE,Mini: Ersa
+187,10/29/22 23:11:15,Kevin Lie Atjam,1,5O,11.3,Personal Project,,Mini: Io
+188,10/30/22 14:57:38,corinna,19,0,150,Personal Project,,Mini: Io
+189,10/30/22 17:53:53,Rowan Jansens,5,1,81,Personal Project,,Mini: Aitne
+190,10/31/22 16:11:36,Kelly Stellmacher,3,54,35,Class Project / Research,PIE,Mini: Arche
+191,10/31/22 17:15:52,Rajiv,4,,53.45,Class Project / Research,DFM,Mini: Ersa
+192,10/31/22 18:10:02,florian,1,5,,Class Project / Research,DFM,Mini: Aitne
+193,10/31/22 21:34:22,Nia,11,,111,Class Project / Research,DFM,Mini: Io
+194,10/31/22 23:05:37,Rajiv,3,28,40,Class Project / Research,DFM,Mini: Ersa
+195,11/1/22 9:51:44,Tara Lee,3,21,22,Class Project / Research,PIE,Mini: Aitne
+196,11/1/22 15:29:38,Tara Lee,0,15,1.99,Class Project / Research,PIE,Mini: Aitne
+197,11/1/22 16:35:04,Mark Belanger,2,15,21.72,Personal Project,,Mini: Aitne
+198,11/1/22 16:35:58,dokyun kim,0,36,5.03,Personal Project,SCOPE,Mini: Dia
+199,11/1/22 21:42:53,Dokyun Kim,0,46,5.57,Personal Project,,Mini: Dia
+200,11/2/22 12:14:25,Kevin Lie Atjam,3,1,25.14,Class Project / Research,,Mini: Ersa
+201,11/2/22 14:46:06,dokyun Kim,0,45,5.6,Personal Project,,Mini: Leda
+202,11/2/22 15:15:19,dokyun kim,0,44,5.54,Personal Project,,Mini: Arche
+203,11/2/22 16:29:42,dokyun kim,4,59,42.02,Personal Project,,Mini: Io
+204,11/2/22 16:35:29,dokyun kim,0,37,4.16,Personal Project,,Mini: Arche
+205,11/2/22 22:54:40,dokyun kim,4,58,42.04,Personal Project,,Mini: Io
+206,11/2/22 22:56:49,dokyun kim,0,38,4.25,Personal Project,,Mini: Arche
+207,11/3/22 17:35:15,will young,4,39,23.95,Test Piece,,Mini: Elara
+208,11/5/22 0:34:36,dokyun kim,0,39,3.79,Personal Project,,Mini: Arche
+209,11/5/22 9:40:12,albert,2,0,40,Class Project / Research,ITERATE,Mini: Dia
+210,11/5/22 9:40:41,albert,2,0,40,Class Project / Research,iterate,Mini: Elara
+211,11/5/22 9:41:07,Albert,1,25,27,Class Project / Research,iterate,Mini: Ersa
+212,11/5/22 9:41:39,albert,1,25,30,Class Project / Research,iterate,Mini: Aitne
+213,11/5/22 9:46:16,albert,1,25,30,Class Project / Research,iterate,Mini: Arche
+214,11/5/22 14:57:27,rowan jansens,2,45,59,Class Project / Research,PIE,Mini: Aitne
+215,11/5/22 21:26:31,Lily,1,47,20.8,Test Piece,,Mini: Aitne
+216,11/7/22 9:41:18,Karina Lamoreux,9,81,21.59,Personal Project,,Mini: Dia
+217,11/7/22 14:25:51,Lillian Shoemaker,1,43,26.53,Class Project / Research,PIE,Mini: Ersa
+218,11/7/22 14:26:25,Jadelin,2,,25.5,Personal Project,,Mini: Leda
+219,11/7/22 15:21:23,Jadelin,1.5,,22,Personal Project,,Mini: Arche
+220,11/7/22 15:59:01,miriam,6,15,101.94,Class Project / Research,pie,Mini: Aitne
+221,11/8/22 16:13:39,Will Young,4,36,29,Test Piece,,Mini: Elara
+222,11/8/22 17:20:53,Han,1,3,5..9,Personal Project,,Mini: Leda
+223,11/8/22 20:34:44,Han,2,44,15,Personal Project,,Mini: Leda
+224,11/8/22 21:04:33,dokyun kim,2,4,16.49,Project Team / Club,pint,Mini: Arche
+225,11/9/22 9:11:09,Reuben Lewis,0,16,1,Class Project / Research,TWIST,Mini: Arche
+226,11/9/22 11:54:00,Han,3,2,15.99,Personal Project,,Mini: Leda
+227,11/9/22 16:28:56,Ellen Sun,4,19,34,Personal Project,,Mini: Arche
+228,11/9/22 17:01:27,Han,2,35,15.8,Personal Project,,Mini: Leda
+229,11/9/22 20:51:30,Madeline Robertson,8,4,126.29,Class Project / Research,PIE,Mini: Dia
+230,11/10/22 10:27:38,miriam rich,0,7,1.59,Class Project / Research,pie,Mini: Io
+231,11/10/22 16:34:54,Matt Neal,0,20,3,msl,,Mini: Elara
+232,11/11/22 8:23:44,Lillian Shoemaker,0,35,11.31,Project Team / Club,PIE,Mini: Ersa
+233,11/11/22 8:24:31,Madeline Robertson,6,22,121.87,Class Project / Research,PIE,Mini: Elara
+234,11/11/22 12:00:39,albert,1,,30,Class Project / Research,pie,Mini: Dia
+235,11/11/22 13:33:45,Ben Tarr,2,,34,Personal Project,,Mini: Dia
+236,11/11/22 16:58:56,Kelly Stellmacher,11,59,85.5,Class Project / Research,PIE,Mini: Ersa
+237,11/11/22 17:26:14,Rajiv,,42,9.28,Class Project / Research,DFM,Mini: Dia
+238,11/12/22 11:16:10,Tabitha Davison,1h,7m,10.34,Test Piece,Training,Mini: Dia
+239,11/12/22 11:32:00,Solomiia Kachur,4,50,43.23,Personal Project,,
+240,11/12/22 10:02:25,Ellen Sun,,21,1.33,Personal Project,,Mini: Io
+241,11/13/22 0:05:40,dokyun kim,3,28,25.05,Personal Project,,Mini: Arche
+242,11/13/22 0:44:43,Ellen Sun,7,10,53.8,Personal Project,,Mini: Io
+243,11/13/22 0:45:31,Madeline Robertson,1,25,17.3,Class Project / Research,PIE,Mini: Dia
+244,11/13/22 17:00:02,dokyun kim,3,39,27.51,Personal Project,,Mini: Arche
+245,11/13/22 18:34:46,Jo Fryling,1,24,9,Class Project / Research,PIE,Mini: Dia
+246,11/13/22 22:10:42,Ellen Sun,1,19,7.81,Personal Project,,Mini: Kale
+247,11/13/22 22:11:14,Ellen Sun,1,19,7.83,Personal Project,,Mini: Io
+248,11/13/22 22:21:29,Ellen Sun,3,27,38.37,Personal Project,,Mini: Ersa
+249,11/13/22 23:21:50,dokyun kim,4,49,33.87,Personal Project,,Mini: Io
+250,11/14/22 12:23:57,Brooke Moss,1,20,9.19,Class Project / Research,PIE,Mini: Leda
+251,11/14/22 12:36:59,zoie,4,,30,Personal Project,,Mini: Elara
+252,11/14/22 16:15:15,Jo Fryling,0,30,1.06,Class Project / Research,pie,Mini: Kale
+253,11/14/22 20:24:52,albert,0,15,3,Class Project / Research,pie,Mini: Elara
+254,11/14/22 20:25:15,albert,0,15,3,Class Project / Research,pie,Mini: Dia
+255,11/14/22 20:25:38,Albert,1,20,18,Class Project / Research,pie,Mini: Dia
+256,11/14/22 20:25:59,albert,0,33,8.63,Class Project / Research,pie,Mini: Dia
+257,11/14/22 20:43:56,albert,0,29,7,Class Project / Research,pie,Mini: Leda
+258,11/14/22 20:46:14,albert,0,44,12,Class Project / Research,pie,Mini: Kale
+259,11/14/22 20:48:46,albert,1,0,15,Class Project / Research,pie,Mini: Leda
+260,11/15/22 10:24:12,corinna,24,1,220,Personal Project,,Mini: Elara
+261,11/15/22 13:55:15,Jo Fryling,1,16,2,Project Team / Club,pie,Mini: Ersa
+262,11/15/22 18:00:13,Malvina Clavering,1,24,4.04,Class Project / Research,PIE,Mini: Leda
+263,11/15/22 18:59:50,dokyun kim,3,37,26.39,Personal Project,,Mini: Io
+264,11/15/22 20:53:13,dokyun kim,0,42,6.37,Project Team / Club,PInT,Mini: Leda
+265,11/15/22 21:53:08,Malvina Clavering,1,0,1.86,Project Team / Club,PIE,Mini: Kale
+266,11/16/22 17:21:04,Mateo Macias,3,20,25,Class Project / Research,PIE,Mini: Elara
+267,11/16/22 18:27:56,Mateo Macias,4,44,30,Class Project / Research,PIE,Mini: Leda
+268,11/16/22 21:59:32,Mira,0,47,9.54,Test Piece,prototyping for desnat,Mini: Dia
+269,11/17/22 11:54:57,Oscar,3,50,36,Class Project / Research,SCOPE,Mini: Kale
+270,11/17/22 13:23:15,Mira,,47,23,Test Piece,DesNat,Mini: Kale
+271,11/17/22 17:02:36,dokyun kim,0,39,6.62,Project Team / Club,PInT,Mini: Io
+272,11/17/22 17:14:45,Brooke Wager,2,43,28.41,Test Piece,,Mini: Ersa
+273,11/17/22 18:05:56,Zachary del Rosario,2,33,38.04,Test Piece,,Mini: Elara
+274,11/17/22 20:14:49,Brooke Wager,2,43,28.41,Test Piece,,Mini: Dia
+275,11/17/22 20:35:53,Mira,1,7,11.87,Class Project / Research,DesNat,Mini: Elara
+276,11/17/22 21:06:05,dokyun kim,0,39,6.64,Project Team / Club,PInT,Mini: Ersa
+277,11/17/22 21:06:33,Mira,0,12,0.99,Class Project / Research,DesNat,Mini: Kale
+278,11/17/22 23:13:51,Florian Schwarzinger,1,36,14.41,Class Project / Research,DFM,Mini: Leda
+279,11/18/22 9:27:12,rizza,0,20,1.36,Class Project / Research,pie,Mini: Dia
+280,11/18/22 11:54:37,rizza,0,28,2.81,Class Project / Research,PIE,Mini: Dia
+281,11/19/22 18:05:52,Isabel de Luis,6,28,57.78,Class Project / Research,Passionate Pursuit,Mini: Leda
+282,11/19/22 18:08:37,Isabel de Luis,3,32,39.46,Class Project / Research,Passionate Pursuit,Mini: Io
+283,11/19/22 18:09:14,Isabel de Luis,2,25,19.29,Class Project / Research,Passionate Pursuit,Mini: Io
+284,11/26/22 20:57:36,Martin,0,40,4.5,Personal Project,,Mini: Leda
+285,11/26/22 23:17:21,Martin Gioannetti,5,0,37.76,Personal Project,,Mini: Elara
+286,11/26/22 23:17:55,Martin Gioannetti,2,0,12.19,Personal Project,,Mini: Leda
+287,11/27/22 10:34:47,Martin Gioannetti,2,6,15.52,Personal Project,,Mini: Leda
+288,11/27/22 21:52:54,Martin Gioannetti,1,30,11.3,Personal Project,,Mini: Ersa
+289,11/27/22 21:55:06,Martin Gioannetti,1,38,11.8,Personal Project,,Mini: Leda
+290,11/28/22 14:08:19,moises Sabido Garcia,1,0,9,Class Project / Research,Mech Des,Mini: Dia
+291,11/28/22 17:29:46,Rin,5,2,53,Personal Project,,Mini: Io
+292,11/29/22 8:34:13,Zach del Rosario,2,33,38,Personal Project,,Mini: Elara
+293,11/29/22 11:06:05,rizza,0,13,1.09,Class Project / Research,pie,Mini: Ersa
+294,11/29/22 12:05:17,Olivia Jo Bradley,1,2,22.45,Personal Project,,Mini: Kale
+295,11/29/22 12:13:31,myles lack-zell,1,5,10,Class Project / Research,TAD,Mini: Leda
+296,11/29/22 12:43:34,Olivia Jo Bradley,0,30,15,Personal Project,,Mini: Aitne
+297,11/29/22 15:55:22,Laurel,0,22,1.9,Class Project / Research,Eclectronics,Mini: Kale
+298,11/29/22 16:57:30,Malvina Clavering,1,28,15.66,Class Project / Research,PIE,Mini: Arche
+299,11/29/22 22:39:21,phillip post,7,,60,Class Project / Research,pie,Mini: Kale
+300,11/29/22 22:40:10,Oscar,1,40,34,Class Project / Research,SCOPE,Mini: Kale
+301,11/30/22 13:53:43,rizza,0,24,2,Class Project / Research,PIE,Mini: Ersa
+302,11/30/22 14:24:08,Bahar,3,11,5,Class Project / Research,Scope,Mini: Dia
+303,11/30/22 14:24:50,Bahar,1,43,2. Something,Class Project / Research,Scope,Mini: Kale
+304,11/30/22 15:42:35,Jo Frykung,1,8,17,Class Project / Research,PIE,Mini: Leda
+305,11/30/22 17:46:26,Jo Fryling,4,35,50,Class Project / Research,PIE,Mini: Ersa
+306,11/30/22 18:52:40,rizza,0,30,2.2,Class Project / Research,pie,Mini: Arche
+307,12/1/22 10:00:51,Kevin Lie-Atjam,5,43,48.55,Class Project / Research,Design Nature Play Project,Mini: Ersa
+308,12/1/22 13:32:27,will young,6,13,27.6,Personal Project,,Mini: Dia
+309,12/1/22 15:35:45,miriam,1,3,12.31,Class Project / Research,pie,Mini: Leda
+310,12/1/22 16:22:00,Mateo Macias,9,20,40,Class Project / Research,,Mini: Kale
+311,12/1/22 17:12:29,KD Vo,1,1,7.66,Class Project / Research,PIE,Mini: Ersa
+312,12/1/22 19:06:01,ben g,0,51,3,Class Project / Research,CompRobo,Mini: Io
+313,12/1/22 19:07:16,albert,0,30,3,Class Project / Research,iterate,Mini: Aitne
+314,12/1/22 23:11:22,albert,0,30,3,Class Project / Research,iterate,Mini: Dia
+315,12/1/22 23:23:16,phillip post,7,,60,Class Project / Research,pie,Mini: Arche
+316,12/2/22 0:01:00,albert,1,44,12,Class Project / Research,iterate,Mini: Dia
+317,12/2/22 0:01:19,alber,0,12,1,Class Project / Research,iterate,Mini: Ersa
+318,12/2/22 1:33:09,albert,5,59,78,Class Project / Research,iterate,Mini: Elara
+319,12/2/22 1:33:42,albert,5,59,78,Class Project / Research,iterate,Mini: Dia
+320,12/2/22 13:06:15,Sohum,0,33,5.85,Test Piece,,Mini: Elara
+321,12/2/22 13:30:35,Malvina Clavering,0,9,0.85,Class Project / Research,PIE,Mini: Ersa
+322,12/2/22 14:38:27,Malvina Clavering,0,13,1.5,Class Project / Research,PIE,Mini: Ersa
+323,12/2/22 15:58:01,Jo Fryling,2,33,26,Project Team / Club,pie,Mini: Ersa
+324,12/2/22 16:10:46,Jo,0,35,4.8,Project Team / Club,pie,Mini: Aitne
+325,12/2/22 20:23:17,KD v,1,3,7.56,Class Project / Research,PIE,Mini: Ersa
+326,12/2/22 20:23:47,Carter,1,15,10,Class Project / Research,Desnat,Mini: Elara
+327,12/3/22 14:58:17,Lillian Shoemaker,13,52,160.72,Class Project / Research,OSSTP,Mini: Dia
+328,12/4/22 9:55:40,Lillian Shoemaker,0,35,6.7,Class Project / Research,Mech Solids,Mini: Aitne
+329,12/4/22 9:56:19,rizza,0,19,2,Class Project / Research,pie,Mini: Kale
+330,12/4/22 12:15:12,Ellen Sun,9,58,113.18,Personal Project,,Mini: Aitne
+331,12/4/22 12:15:52,Myles Lack-Zell,1,14,13,Class Project / Research,TAD,Mini: Leda
+332,12/4/22 15:09:20,Malvina Clavering,3,0,28.32,Class Project / Research,PI,Mini: Arche
+333,12/4/22 15:21:02,Malvina Clavering,0,34,3.23,Project Team / Club,Hydroponics,Mini: Ersa
+334,12/4/22 16:23:00,MateoMacias,4,20,20,Class Project / Research,PIE,Mini: Io
+335,12/4/22 16:23:32,Mateo Macias,5,10,22,Class Project / Research,PIE,Mini: Leda
+336,12/4/22 16:36:15,Myles Lack-Zell,1,16,13,Class Project / Research,TAD,Mini: Kale
+337,12/4/22 20:47:54,Carter,1,30,12,Class Project / Research,Desnat,Mini: Kale
+338,12/4/22 21:21:24,phillip post,7,,45,Class Project / Research,pie,Mini: Arche
+339,12/5/22 12:35:29,Isa de Luis,0,18,1.03,Personal Project,,Mini: Dia
+340,12/5/22 13:15:35,Carter,1,15,12,Class Project / Research,Desnat,Mini: Aitne
+341,12/5/22 13:16:19,rizza,2,27,20,Class Project / Research,pi,Mini: Aitne
+342,12/5/22 15:18:04,miriam,1,0,12,Class Project / Research,pie,Mini: Leda
+343,12/5/22 15:49:51,KD Vo,2,28,22.95,Class Project / Research,PIE,Mini: Leda
+344,12/5/22 15:51:25,Kenta Terasaki,0,46,,Class Project / Research,QEA,
+345,12/5/22 19:16:20,Solomiia,1,4,50,Project Team / Club,RoboFish,Mini: Leda
+346,12/5/22 20:26:53,Karina Lamoreux,1,15,3.26,Class Project / Research,PIE,Mini: Ersa
+347,12/6/22 8:01:33,Kene Mbanisi,1,24,11.52,Test Piece,RoboSys,Mini: Aitne
+348,12/6/22 11:39:20,Myles Lack-Zell,1,30,14,Class Project / Research,TAD,Mini: Ersa
+349,12/6/22 11:42:27,Myles Lack-Zell,1,18,13,Class Project / Research,TAD,Mini: Aitne
+350,12/6/22 12:13:45,Myles Lack-Zell,1,29,14,Class Project / Research,TAD,Mini: Kale
+351,12/6/22 13:43:48,Myles Lack-Zell,1,31,14,Class Project / Research,TAD,Mini: Ersa
+352,12/6/22 19:01:33,isa de Luis,0,32,2.1,Personal Project,,Mini: Ersa
+353,12/6/22 22:07:15,Solomiia,10,4,76,Project Team / Club,RoboFish,Mini: Aitne
+354,12/7/22 10:26:19,Isa de Luis,1,4,19.2,Class Project / Research,PIE,Mini: Ersa
+355,12/7/22 13:19:10,karen,12,0,,Class Project / Research,mechanical design,Mini: Leda
+356,12/7/22 13:26:49,Isa de Luis,1,17,22.18,Class Project / Research,PIE,Mini: Ersa
+357,12/7/22 14:32:25,KD Vo,3,37,35.17,Class Project / Research,PIE,Mini: Aitne
+358,12/7/22 14:32:58,Isa de Luis,7,41,92.73,Class Project / Research,PIE,Mini: Ersa
+359,12/7/22 17:48:52,dokyun kim,0,29,2.79,Project Team / Club,pin,Mini: Arche
+360,12/7/22 19:29:46,Isa de Luis,1,15,19.37,Class Project / Research,PIE,Mini: Arche
+361,12/7/22 21:31:21,Myles Lack-Zell,2,43,29,Class Project / Research,TA,Mini: Leda
+362,12/7/22 22:50:13,Kenta Terasaki,1,0,8.26,Class Project / Research,QEA1,Mini: Aitne
+363,12/8/22 9:50:13,Isa de Luis,3,8,36.11,Class Project / Research,PIE,Mini: Arche
+364,12/8/22 13:12:35,will,2,35,14,Personal Project,,Mini: Arche
+365,12/8/22 14:11:15,Laurel,2,45,40,Class Project / Research,MechDes,Mini: Ersa
+366,12/8/22 15:25:07,Ethan,2,10,10,Project Team / Club,Rocketry,Mini: Aitne
+367,12/8/22 17:25:12,Isa de Luis,4,4,51.1,Class Project / Research,PIE,Mini: Ersa
+368,12/8/22 17:39:45,William Skelly,1,3,7.92,Class Project / Research,Hummingbird,Mini: Arche
+369,12/9/22 11:03:53,Lillian Shoemaker,0,32,8.46,Class Project / Research,PIE,Mini: Arche
+370,12/9/22 11:04:33,Isa de Luis,7,32,109.7,Class Project / Research,PIE,Mini: Aitne
+371,12/9/22 13:35:37,Carter,3,15,34,Class Project / Research,Desnat,Mini: Leda
+372,12/9/22 16:17:09,Reuben Lewis,2,,10,Personal Project,,Mini: Arche
+373,12/9/22 18:43:36,Jadelin,1,20,11,Library,,Mini: Aitne
+374,12/9/22 18:50:10,Jadelin,0,45,5,library,,Mini: Ersa
+375,12/9/22 18:50:41,Jadelin,0,45,5,library,,Mini: Leda
+376,12/9/22 20:13:25,dokyun kim,0,31,3.22,Project Team / Club,pint,Mini: Arche
+377,12/10/22 12:00:58,Olivia Jo Bradley,0,59,9.97,Shop Improvement,,Mini: Arche
+378,12/10/22 14:00:46,Ellen Sun,9,4,71.75,Personal Project,,Mini: Aitne
+379,12/10/22 14:01:32,Laurel,1,23,20,Class Project / Research,MechDes,Mini: Ersa
+380,12/10/22 15:46:30,Mateo Macias,3,0,15,Class Project / Research,PIE,Mini: Arche
+381,12/10/22 17:13:33,Laurel,1,25,20,Class Project / Research,MechDes,Mini: Ersa
+382,12/11/22 13:10:11,Ian Lum,0,43,7.29,Personal Project,,Mini: Arche
+383,12/11/22 13:09:11,Ian Lum,1,41,7.4,Personal Project,,Mini: Aitne
+384,12/11/22 13:18:33,,,,,,,Mini: Aitne
+385,12/11/22 13:30:20,dokyun kim,4,11,15.14,Personal Project,,Mini: Elara
+386,12/11/22 14:42:42,Milo Song-Weiss,0,10,a few,Class Project / Research,PIE,Mini: Leda
+387,12/11/22 15:13:27,Milo,0,10,1,Class Project / Research,PIE,Mini: Arche
+388,12/12/22 9:31:38,Laurel,1,23,20,Class Project / Research,MechDes,Mini: Ersa
+389,12/12/22 10:30:31,Carter,1,0,11,Class Project / Research,Desnat,Mini: Ersa
+390,12/12/22 11:39:12,Dexter Friis-Hecht,13,23,133,Class Project / Research,Design Nature,Mini: Arche
+391,12/12/22 11:43:37,Isa de Luis,2,24,32.24,Class Project / Research,PIE,Mini: Aitne
+392,12/12/22 15:23:57,Milo,0,10,1,Class Project / Research,PIE,Mini: Leda
+393,12/12/22 15:25:42,,,,,,,Mini: Leda
+394,12/12/22 17:23:16,Kelly Stellmacher,0,57,7.8,Class Project / Research,Pie,
+395,12/12/22 17:23:04,Karina Lamoreux,0,9,0.69,Class Project / Research,PIE,Mini: Aitne
+396,12/12/22 22:15:13,Karina Lamoreux,0,15,1.3,Class Project / Research,PIE,Mini: Aitne
+397,12/12/22 22:27:38,Brooke Moss,8,46,153.23,Personal Project,Shop team,Mini: Elara
+398,12/12/22 22:34:46,KD VO,0,30,3.32,Class Project / Research,PIE,Mini: Kale
+399,12/13/22 12:09:41,Carter,1,34,22,Class Project / Research,Desnat,Mini: Ersa
+400,12/14/22 14:19:22,Kelly Stellmacher,1,57,19.01,Class Project / Research,PIE,Mini: Dia
+401,12/13/22 12:59:35,Dexter Friis-Hecht,10,27,,Class Project / Research,Design Nature,Mini: Kale
+402,12/14/22 15:01:52,Ben Tarr,3,25,50,Class Project / Research,desnat,Mini: Leda
+403,12/14/22 16:07:34,Carter,0,33,9,Class Project / Research,Desnat,Mini: Ersa
+404,12/14/22 16:19:11,joseph,1,35,11.23,Class Project / Research,eclec,Mini: Elara
+405,12/14/22 18:18:38,joseph gilber,1,0,12,Class Project / Research,ecelec,Mini: Leda
+406,12/14/22 19:04:38,Dominic Salmieri,0,54,5.31,Personal Project,,Mini: Dia
+407,12/14/22 19:12:26,Kevin Lie-Atjam,11,43,116.9,Class Project / Research,Design Nature,Mini: Elara
+408,12/15/22 1:19:30,Kevin Lie-Atjam,11,43,116.96,Class Project / Research,Design Nature,Mini: Kale
+409,12/15/22 1:31:22,Martin Gioannetti,6,0,41,Personal Project,,Mini: Arche
+410,12/15/22 15:48:53,Dominic Salmieri,0,53,4.95,Personal Project,,Mini: Kale
+411,12/16/22 9:58:36,Jadelin,1,30,14,Library,,Mini: Kale
+412,12/16/22 9:59:08,Jadelin,1,20,14,Library,,
+413,12/16/22 15:43:06,Kevin Lie-Atjam,1,53,21.58,Class Project / Research,Design Nature,Mini: Elara
+414,12/16/22 15:43:51,Kevin Lie-Atjam,1,53,21.58,Class Project / Research,Design Nature,Mini: Arche
+415,12/16/22 15:44:27,Ellen Sun,4,57,48.56,Personal Project,,Mini: Arche
+416,12/16/22 17:56:15,Martin Gioannetti,1,21,10,Personal Project,,Mini: Elara
+417,12/17/22 16:01:47,Kevin Lie-Atjam,5,3,41.15,Personal Project,,Mini: Elara
+418,12/17/22 16:07:26,solomiia,7,,100,Class Project / Research,DesNat,Mini: Arche
+419,12/17/22 16:23:56,Solomiia,7,,100,Class Project / Research,DesNat,Mini: Io
+420,12/17/22 16:24:19,Solomiia,7,,100,Class Project / Research,DesNat,Mini: Aitne
+421,12/17/22 23:21:58,Dexter Friis-Hecht,4,30,50,Class Project / Research,Design Nature,Mini: Arche
+422,12/18/22 12:57:36,Mark Belanger,,45,2.65,Personal Project,,Mini: Kale
+423,12/18/22 13:14:59,Venkadesh Eswaranandam,0,59,6.83,Personal Project,,Mini: Elara
+424,12/19/22 16:01:06,Benji,7,20,60,Personal Project,,Mini: Dia
+425,1/17/23 14:39:03,Owen Dray,6,3,68,Personal Project,,Mini: Kale
+426,1/18/23 12:56:18,joseph,1,7,20,Personal Project,,Mini: Ersa
+427,1/18/23 13:01:38,Kevin Lie-Atjam,3,55,36.39,Personal Project,,Mini: Elara
+428,1/18/23 20:36:12,Esme,4,16,39,Personal Project,,Mini: Aitne
+429,1/18/23 21:41:06,Martin Gioannetti,5,27,42.62,Personal Project,,Mini: Ersa
+430,1/18/23 21:42:12,Martin Gioannetti,5,15,32.56,Personal Project,,Mini: Arche
+431,1/18/23 21:41:19,Dominic Salmieri,3,9,46.17,Personal Project,,Mini: Leda
+432,1/19/23 20:01:57,Lillian Shoemaker,0,11,5,Project Team / Club,Rocketry,Mini: Elara
+433,1/20/23 20:01:31,diego riverbay,0,6,0.72,Test Piece,,Mini: Ersa
+434,1/22/23 15:05:12,sam kaplan,2,17,21.14,Personal Project,,Mini: Dia
+435,1/23/23 16:43:49,Venkadesh Eswaranandam,0,43,5.95,Personal Project,,Mini: Leda
+436,1/24/23 17:35:44,sam kaplan,1,0,7.15,Personal Project,,Mini: Dia
+437,1/25/23 14:09:57,Laurel,0,56,19.41,Class Project / Research,SCOPE,Mini: Aitne
+438,1/25/23 18:15:24,Joe Leedy,0,49,10.8,Test Piece,,Mini: Arche
+439,1/26/23 20:12:28,Olivia Jo Bradley,6,6,,Personal Project,,Mini: Arche
+440,1/27/23 10:09:11,Olivia Jo Bradley,5,40,,Personal Project,,Mini: Ersa
+441,1/27/23 10:17:03,Olivia Jo Bradley,4,44,,shop demo,,Mini: Leda
+442,1/27/23 10:18:10,Olivia Jo Bradley,3,11,20,Shop demo,,Mini: Leda
+443,1/27/23 11:13:37,anagha babu,1,20,5 g,Test Piece,mechanical prototyping,Mini: Aitne
+444,1/27/23 15:13:15,Venkadesh Eswaranandam,0,36,8.4,Personal Project,,Mini: Elara
+445,1/28/23 12:17:34,dokyun kim,4,20,,Personal Project,,Mini: Arche
+446,1/28/23 14:23:30,Lillian Shoemaker,0,21,6,Project Team / Club,Rocketry,Mini: Elara
+447,1/28/23 14:24:15,Milo Song-Weiss,9,58,100,Personal Project,,Mini: Arche
+448,1/30/23 17:44:48,Solomiia,1,17,8.98,Class Project / Research,RoboLab,Mini: Dia
+449,1/30/23 19:55:06,Dominic Salmieri,2,20,46.21,Personal Project,,Mini: Ersa
+450,1/30/23 20:03:28,Solomiia,2,56,24.19,Project Team / Club,robolab,Mini: Dia
+451,1/30/23 22:19:15,Jadelin,2,6,4,Project Team / Club,FWOP,Mini: Kale
+452,1/31/23 12:56:24,Jadelin,0,38,4,Project Team / Club,FWOP,Mini: Dia
+453,1/31/23 14:18:10,Aaron Huang,,18,5,Personal Project,,Mini: Ersa
+454,1/31/23 17:10:56,samkaplan,9,30,75,Personal Project,,Mini: Dia
+455,2/1/23 10:30:45,sam kaplan,6,42,55,Personal Project,,Mini: Dia
+456,2/1/23 16:50:54,Lila Smith,20,33,43,Personal Project,,Mini: Ersa
+457,2/2/23 19:07:09,Jo Fryling,0,12,1.66,Class Project / Research,mechproto,Mini: Ersa
+458,2/3/23 13:51:05,sam kaplan,8,12,67,Personal Project,,Mini: Dia
+459,2/3/23 13:54:18,sam kaplan,6,41,58,Personal Project,,Mini: Kale
+460,2/3/23 14:23:00,sam kaplan,8,49,70,Personal Project,,Mini: Io
+461,2/4/23 14:10:29,Alex,0.8,51,35,Project Team / Club,Formula,Mini: Arche
+462,2/5/23 12:11:01,sam kaplan,18,8,148,Personal Project,,Mini: Dia
+463,2/5/23 18:48:30,Dexter Friis-Hecht,12,44,137,Class Project / Research,Products and Markets,Mini: Elara
+464,2/7/23 12:41:32,owen dray,7,5,112,Project Team / Club,Formula,Mini: Leda
+465,2/7/23 12:50:42,Owen Dray,9,18,112,Project Team / Club,Formula,Mini: Dia
+466,2/8/23 10:27:11,Krishna,1,22,50,Class Project / Research,K-12,Mini: Dia
+467,2/8/23 10:27:56,Krishna,1,15,30,Class Project / Research,K-12,Mini: Io
+468,2/8/23 10:28:19,Krishna,1,5,30,Class Project / Research,K-12,Mini: Elara
+469,2/8/23 10:28:44,Krishna,1,12,30,Class Project / Research,K-12,Mini: Ersa
+470,2/9/23 11:29:10,Owen,18,,180,Project Team / Club,Formula,Mini: Kale
+471,2/9/23 11:29:38,Owen,22,,220,Project Team / Club,Formula,Mini: Io
+472,2/9/23 14:28:03,Jadelin,1,5,4,Project Team / Club,fwop,Mini: Kale
+473,2/9/23 17:43:27,James Davis,8,40,62.54,Personal Project,,Mini: Ersa
+474,2/10/23 12:42:04,Paige Gee,2,3,5.02,Test Piece,training test piece for mechproto,Mini: Aitne
+475,2/11/23 14:55:57,Myles Lack-Zell,0,6,1,Class Project / Research,Mech Proto,Mini: Ersa
+476,2/11/23 15:11:01,Myles Lack-Zell,0,6,1,Class Project / Research,Mech proto,Mini: Ersa
+477,2/11/23 15:28:52,Myles Lack-Zell,0,6,1,Class Project / Research,Mech proto,Mini: Ersa
+478,2/11/23 15:40:53,Myles Lack-Zell,0,6,1,Class Project / Research,Mech Proto,Mini: Ersa
+479,2/11/23 15:51:40,Myles Lack-Zell,0,6,1,Class Project / Research,Mech Proto,Mini: Ersa
+480,2/11/23 16:11:03,Myles Lack-Zell,0,18,3,Class Project / Research,Mech Proto,Mini: Kale
+481,2/13/23 9:18:19,Christina Tavella,0,19,,Personal Project,,Mini: Ersa
+482,2/13/23 9:19:12,Christina Tavella,1,7,4.18,Test Piece,,Mini: Dia
+483,2/13/23 13:23:16,Aaron Huang,0,30,3,Personal Project,,Mini: Aitne
+484,2/14/23 13:53:02,Myles Lack-Zell,1,44,20,Class Project / Research,Mech Proto,Mini: Dia
+485,2/14/23 13:59:38,Myles Lack-Zell,0,25,4,Class Project / Research,Mech Proto,Mini: Elara
+486,2/14/23 16:05:19,Maya McKone-Sweet,1,20,12.58,Class Project / Research,Mech Proto,Mini: Io
+487,2/14/23 16:21:27,camilo cuartas-lopera,3,27,10.14,Test Piece,mech proto - test piece training,Mini: Aitne
+488,2/14/23 17:13:30,rizza,3,39,27,Project Team / Club,pint,Mini: Arche
+489,2/15/23 15:00:43,dokyun kim,0,8,0.41,Class Project / Research,robofish,Mini: Aitne
+490,2/15/23 15:18:13,sam kaplan,8,55,79,Personal Project,,Mini: Arche
+491,2/18/23 17:19:04,sam kaplan,12,19,105,Personal Project,,Mini: Arche
+492,2/19/23 14:27:05,sam kaplan,19,19,222,Personal Project,,Mini: Arche
+493,2/20/23 16:06:17,Joe Leedy,0,40,5,Personal Project,,Mini: Elara
+494,2/21/23 12:44:55,Kat Canavan,1,58,17.98,Class Project / Research,MechProto,Mini: Elara
+495,2/21/23 15:26:43,Joe,0,12,2,Class Project / Research,Mechproto,Mini: Leda
+496,2/21/23 15:39:07,Emery Lauer,1,22,5.83,Class Project / Research,MechProto,Mini: Arche
+497,2/21/23 15:50:03,dokyun kim,0,19,0.91,Class Project / Research,robofish,Mini: Aitne
+498,2/21/23 16:13:08,anna holbrook,2,40,59,Class Project / Research,mech proto,Mini: Leda
+499,2/21/23 16:14:23,anna holbrook,0,29,11,Personal Project,,Mini: Ersa
+500,2/21/23 16:45:42,alondra,3hrs,,,Test Piece,mechproto,Mini: Elara
+501,2/21/23 16:47:28,Solomiia,0,52,4.13,Project Team / Club,RoboFish,Mini: Ersa
+502,2/21/23 17:43:30,Jo Fryling,4,2,38.09,Personal Project,,Mini: Ersa
+503,2/21/23 21:40:22,Joe,0,14,1,Class Project / Research,MechProto,Mini: Kale
+504,2/21/23 21:46:09,Joe,,17,1,Class Project / Research,MechProto,Mini: Kale
+505,2/22/23 7:59:54,Ian Eykamp,0,58,16,Class Project / Research,Mech Proto,Mini: Arche
+506,2/22/23 9:15:49,Ian Eykamp,0,20,5,Class Project / Research,Mech Proto,Mini: Ersa
+507,2/22/23 11:02:52,Joe,0,20,1,Class Project / Research,MechProto,Mini: Arche
+508,2/22/23 13:48:10,Brooke Moss,4,42,62,Class Project / Research,MechProto,Mini: Elara
+509,2/22/23 15:29:58,sam kaplan,9,50,111,Personal Project,,Mini: Arche
+510,2/22/23 15:39:28,camilo c,1,16,10.81,Class Project / Research,mech proto,Mini: Dia
+511,2/22/23 15:44:45,camilo c,1,13,,Class Project / Research,mech proto,Mini: Leda
+512,2/22/23 17:05:16,camilo c,1,26,10.76,Class Project / Research,mech proto,Mini: Dia
+513,2/22/23 18:14:27,Sanjana,7 hrs,44m,49.6,Class Project / Research,mech proto,Mini: Ersa
+514,2/22/23 19:42:37,Alex George,1.25,75,11.18,Project Team / Club,Formula,Mini: Elara
+515,2/22/23 21:51:36,camilo c,0,23,4,Class Project / Research,mech proto,Mini: Aitne
+516,2/22/23 21:52:11,camilo c,0,24,5,Class Project / Research,mech proto,Mini: Elara
+517,2/22/23 23:48:57,anna,6,0,55,Class Project / Research,mech proto,Mini: Elara
+518,2/23/23 9:04:48,Paige Gee,,,,Class Project / Research,MEchProto,Mini: Io
+519,2/23/23 14:04:24,sam kaplan,8,55,80,Personal Project,,Mini: Dia
+520,2/23/23 15:04:33,Emery Lauer,4,0,,Class Project / Research,MechProto,Mini: Kale
+521,2/23/23 22:28:55,anagha babu,1,9,6.4,Class Project / Research,mechproto,Mini: Ersa
+522,2/23/23 22:30:02,anagha babu,1,9,6.4g,Class Project / Research,mechproto,Mini: Aitne
+523,2/23/23 22:30:35,camilo c,1,11,14,Class Project / Research,mech proto,Mini: Elara
+524,2/24/23 1:36:16,camilo c,0,50,5,Class Project / Research,mech proto,Mini: Aitne
+525,2/24/23 14:25:28,maricela,6,15,55,Personal Project,,Mini: Io
+526,2/24/23 23:59:55,Ian Eykamp,2,32,,Class Project / Research,Mech Proto,Mini: Elara
+527,2/26/23 15:09:56,Ian Eykamp,6,45,99,Class Project / Research,Mech Proto,Mini: Elara
+528,2/26/23 15:21:57,Ian Eykamp,6,45,,Class Project / Research,Mech Proto,Mini: Ersa
+529,2/28/23 11:29:09,sam kaplan,25,,260,Personal Project,,Mini: Dia
+530,2/28/23 11:32:26,sam kaplan,3,30,37,Personal Project,,Mini: Aitne
+531,3/8/23 16:53:30,Joe Leedy,2,34,18,Personal Project,,Mini: Aitne
+532,3/7/23 8:30:47,Maricela Garibay,3,24,55,Personal Project,,Mini: Arche
+533,3/9/23 14:57:00,maricela,0,37,5,Personal Project,,Mini: Kale
+534,3/9/23 15:41:21,maricela,1,37,15,Personal Project,,Mini: Io
+535,3/17/23 14:23:26,maricela,,37,6,Personal Project,,Mini: Arche
+536,3/18/23 11:46:35,Kelly Stellmacher,0,35,2.75,Personal Project,,Mini: Aitne
+537,3/20/23 9:36:37,Kelly Stellmacher,0,36,2.5,Personal Project,,Mini: Leda
+538,3/20/23 21:35:43,Jacob Prisament,9,42,101.59,Project Team / Club,Formula,Mini: Arche
+539,3/20/23 21:36:16,Jacob Prisament,9,42,101.59,Project Team / Club,Formula,Mini: Io
+540,3/21/23 14:39:33,alondra,2hrs,25min,idk,Personal Project,,Mini: Arche
+541,3/22/23 11:48:34,maya,0,56,7.5,Class Project / Research,mech proto,Mini: Ersa
+542,3/23/23 17:01:11,sam kaplan,2,15,19,Personal Project,,Mini: Io
+543,3/24/23 11:23:55,sam kaplan,2,40,20,Personal Project,,Mini: Io
+544,3/24/23 16:18:56,Myles Lack-Zell,0,14,1.87,Class Project / Research,MechProto,Mini: Kale
+545,3/25/23 13:45:23,Myles Lack-Zell,0,10,1.3,Class Project / Research,MechProto,Mini: Kale
+546,3/25/23 14:04:34,Myles Lack-Zell,0,7,0.7,Class Project / Research,MechProto,Mini: Kale
+547,3/25/23 14:16:52,Myles Lack-Zell,0,8,0.76,Class Project / Research,MechProto,Mini: Kale
+548,3/25/23 14:31:29,Myles Lack-Zell,0,28,4.03,Class Project / Research,MechProto,Mini: Kale
+549,3/25/23 15:05:55,Myles Lack-Zell,0,33,4.59,Class Project / Research,MechProto,Mini: Kale
+550,3/25/23 19:22:42,Joe Leedy,0,53,11.23,Personal Project,,Mini: Kale
+551,3/25/23 22:23:09,Jo Fryling,0,36,3,Personal Project,,Mini: Ersa
+552,3/26/23 13:01:02,Joe Leedy,1,4,12.86,Personal Project,,Mini: Dia
+553,3/26/23 14:04:37,Myles Lack-Zell,0,44,9.2,Class Project / Research,MechProto,Mini: Io
+554,3/26/23 15:00:08,Myles Lack-Zell,0,52,10.89,Class Project / Research,MechProto,Mini: Io
+555,3/26/23 22:10:47,Angela Huang,1,67,10.5,Project Team / Club,formula,Mini: Leda
+556,3/26/23 23:47:21,Jo Fryling,3,46,36,Personal Project,,
+557,3/28/23 12:55:25,Joe Leedy,3,10,20,Personal Project,,Mini: Dia
+558,3/28/23 15:31:24,Angela Huang,1,70,10.92,Project Team / Club,formula,Mini: Leda
+559,3/28/23 17:42:57,Myles Lack-Zell,0,57,11.25,Class Project / Research,MechProto,Mini: Io
+560,3/28/23 18:06:55,Myles,0,33,4.59,Class Project / Research,MechProto,Mini: Kale
+561,3/28/23 18:19:06,rizza,1,14,6.52,Project Team / Club,pint,Mini: Dia
+562,3/28/23 18:43:12,Myles,1,2,13.3,Class Project / Research,MechProto,Mini: Kale
+563,3/28/23 18:46:22,Myles,0,28,4.03,Class Project / Research,MechProto,Mini: Io
+564,3/29/23 13:17:12,Brooke Moss,0,25,2.31,Class Project / Research,MechProto,Mini: Dia
+565,3/29/23 13:19:12,rizza,1,14,6.52,Project Team / Club,pint,Mini: Dia
+566,3/29/23 15:08:57,rohan g,0,11,2,Class Project / Research,mech proto,Mini: Leda
+567,3/30/23 20:22:53,Brooke Moss,0,18,1.95,Class Project / Research,MechProto,Mini: Dia
+568,4/3/23 12:14:44,Mateo Macias,4,0,5,Personal Project,,Mini: Elara
+569,4/3/23 12:15:16,Mateo Macias,2,30,5,Personal Project,,Mini: Kale
+570,4/3/23 14:30:39,Lily Dao,0,18,,Class Project / Research,PEEP Lab,Mini: Ersa
+571,4/3/23 16:56:38,Lily Dao,,18,,Class Project / Research,PEEP Lab,Mini: Ersa
+572,4/3/23 19:25:39,rizza,3,27,9.59,Project Team / Club,pint,Mini: Aitne
+573,4/4/23 16:29:41,Rizza,3,27,28,Project Team / Club,pint,Mini: Aitne
+574,4/5/23 20:51:54,Malvina Clavering,4,21,37.02,Class Project / Research,paper panacea,Mini: Aitne
+575,4/6/23 15:36:01,Lily Dao,,12,,Class Project / Research,peep lab,Mini: Kale
+576,4/8/23 12:13:46,Lila Smith,0,12,1.31,Personal Project,,Mini: Io
+577,4/8/23 19:35:53,rohan G,5,,33,Personal Project,,Mini: Elara
+578,4/12/23 18:27:54,Madeline Robertson,3,41,34.41,Project Team / Club,Rocketry,Mini: Io
+579,4/15/23 9:35:15,Kelly Stellmacher,0,37,0.6,Personal Project,,Mini: Kale
+580,4/14/23 19:52:52,Myles Lack-Zell,0,8,0.76,Class Project / Research,MechProto,Mini: Elara
+581,4/15/23 15:40:52,Myles,0,8,0.76,Class Project / Research,MechProto,Mini: Elara
+582,4/15/23 15:43:36,Myles,0,8,0.76,Class Project / Research,MechProto,Mini: Elara
+583,4/15/23 16:04:23,Myles,0,29,2.54,Class Project / Research,MechProto,Mini: Elara
+584,4/16/23 14:09:24,Myles Lack-Zell,0,2,0.15,Class Project / Research,MechProto,Mini: Elara
+585,4/18/23 0:31:04,solomiia,5,11,34,Class Project / Research,Fun Robo,Mini: Leda
+586,4/18/23 13:25:37,rizza,0,35,3.71,Project Team / Club,pint,Mini: Dia
+587,4/19/23 14:26:26,maya,5,30,68,Class Project / Research,paper panacea,Mini: Io
+588,4/19/23 15:14:47,luke witten,10,33,91,Project Team / Club,formula,Mini: Aitne
+589,4/19/23 16:50:38,Jo Fryling,0,35,,Personal Project,,Mini: Aitne
+590,4/20/23 20:26:26,Solomiia Kachur,0,49,7.4,Class Project / Research,FunRobo,Mini: Leda
+591,4/21/23 8:51:03,rizza,0,35,3.71,Project Team / Club,pint,Mini: Dia
+592,4/21/23 12:57:17,Mo Ampane,3,10,24.66,Project Team / Club,ofac,Mini: Kale
+593,4/21/23 14:31:51,paige gee,1,,,Class Project / Research,funrobo,Mini: Io
+594,4/21/23 14:44:52,Lillian,0,6,0.51,Class Project / Research,CD,Mini: Aitne
+595,4/21/23 14:45:39,Alex George,0.23,14,0.79,Project Team / Club,Formula,Mini: Kale
+596,4/22/23 16:27:15,paige Gee,,13,1,Class Project / Research,mechproto,Mini: Aitne
+597,4/22/23 17:02:10,paige gee,,53,8,Class Project / Research,funrobo,Mini: Kale
+598,4/22/23 17:18:28,Jo Fryling,1,53,22,Personal Project,,Mini: Dia
+599,4/22/23 17:24:31,phillip post,1,20,18.83,Class Project / Research,OSSTP,Mini: Arche
+600,4/23/23 11:07:24,Myles Lack-Zell,0,27,2.37,Class Project / Research,MechProto,Mini: Elara
+601,4/24/23 13:54:08,miriam,6,29,56.16,Class Project / Research,cd,Mini: Leda
+602,4/24/23 18:03:12,rizza,0,53,6,Project Team / Club,pint,Mini: Kale
+603,4/25/23 16:11:21,rohan,0,34,5.56,Class Project / Research,mechproto,Mini: Kale
+604,4/26/23 9:15:39,Anmol Sandhu,4,12,22,Class Project / Research,CD,Mini: Leda
+605,4/26/23 11:15:28,Ike Walker,,12 10 minute long prints,,Personal Project,,Mini: Io
+606,4/26/23 22:41:54,Kat Canavan,8,6,74.88,Class Project / Research,MechProto,Mini: Arche
+607,4/26/23 22:53:09,Ellen Sun,2,30,22.93,Personal Project,,Mini: Elara
+608,4/28/23 12:00:33,rohan,2,2,26,Personal Project,,Mini: Elara
+609,4/29/23 15:05:15,Jo Fryling,0,45,3,Class Project / Research,CD,Mini: Io
+610,4/29/23 19:08:51,Jo Fryling,1,1,8,Class Project / Research,CD,Mini: Arche
+611,4/29/23 21:40:07,Jo Fryling,1,37,11,Class Project / Research,CD,Mini: Arche
+612,4/30/23 17:15:00,Jo Fryling,0,18,2,Class Project / Research,CD,Mini: Arche
+613,4/30/23 18:47:38,Jo Fryling,0,43,6,Class Project / Research,CD,Mini: Arche
+614,4/30/23 19:59:14,Jo Fryling,2,22,15,Class Project / Research,CD,Mini: Arche
+615,4/30/23 20:13:15,Jo Fryling,1,45,20,Class Project / Research,CD,Mini: Io
+616,5/1/23 15:13:37,Jo Fryling,2,49,28,Class Project / Research,CD,Mini: Arche
+617,5/1/23 23:35:40,Diego Riverbay,4,23,64g,Class Project / Research,mech proto,Mini: Kale
+618,5/2/23 18:43:41,Myles lack-Zell,0,16,2.28,Class Project / Research,MechProto,Mini: Kale
+619,5/2/23 19:09:57,Myles Lack-Zell,0,16,2,Class Project / Research,MechProto,Mini: Kale
+620,5/2/23 19:34:27,Myles Lacl-Zell,3,15,46.68,Class Project / Research,MechProto,Mini: Kale
+621,5/2/23 23:53:09,Jo Fryling,4,3,34,Class Project / Research,CD,Mini: Arche
+622,5/3/23 10:07:57,Lila Smith,8,4,70.41,Personal Project,,Mini: Arche
+623,5/4/23 16:14:44,william Skelly,2,15,21,Class Project / Research,Robolab,Mini: Aitne
+624,5/4/23 17:09:14,rohan,0,44,12,Class Project / Research,mech proto,Mini: Elara
+625,5/4/23 17:55:29,maricela,2,29,28.82,Class Project / Research,mechproto,Mini: Arche
+626,5/5/23 1:41:12,Pauline,0,26,11,Class Project / Research,funrobo,Mini: Aitne
+627,5/5/23 1:41:58,Lila Smith,4,11,37.81,Personal Project,,Mini: Arche
+628,6/1/23 10:41:56,Karina Lamoreux,6,57,64.23,Class Project / Research,National Eclipse Ballooning Project,Mini: Leda
+629,6/1/23 10:47:10,Karina Lamoreux,4,51,45.09,Class Project / Research,National Eclipse Ballooning Project,Mini: Arche
+630,6/11/23 16:29:29,Alex George,1.75,105,13.11,Project Team / Club,Formula,Mini: Leda
+631,6/13/23 13:41:35,Karina Lamoreux,0,44,4.08,Class Project / Research,Nationwide Eclipse Ballooning Project,Mini: Dia
+632,6/13/23 17:32:27,Karina Lamoreux,8,49,57.96,Class Project / Research,Nationwide Eclipse Ballooning Project,Mini: Io
+633,6/13/23 17:33:31,Karina Lamoreux,12,25,88.87,Class Project / Research,Nationwide Eclipse Ballooning Project,Mini: Dia
+634,6/14/23 11:08:44,Karina Lamoreux,0,58,5.72,Class Project / Research,Eclipse Ballooning,Mini: Leda
+635,6/16/23 13:30:07,Karina Lamoreux,1,34,8.96,Class Project / Research,Eclipse Ballooning,Mini: Leda
+636,6/20/23 10:59:24,Karina Lamoreux,2,57,17.51,Class Project / Research,Eclipse Ballooning,Mini: Leda
+637,6/23/23 11:02:31,Karina Lamoreux,1,39,8.66,Class Project / Research,Eclipse Ballooning,Mini: Kale
+638,6/26/23 14:47:28,Robin,0,8,0.6,Test Piece,,Mini: Elara
+639,6/26/23 14:48:28,Noah,0,32,4.33,Test Piece,,Mini: Kale
+640,6/26/23 14:58:23,anagha,1,17,9.55,Class Project / Research,olin h.a.i.r lab,Mini: Aitne
+641,6/29/23 11:07:00,Anagha,1,17,9.55,Class Project / Research,olin h.a.i.r lab,Mini: Elara
+642,6/29/23 12:15:28,anagha,,54,10,Class Project / Research,olin hair lab,Mini: Leda
+643,6/29/23 12:16:16,anagha,,44,9.34,Class Project / Research,olin hair lab,Mini: Ersa
+644,6/29/23 13:17:18,anagha,1,14,9.55,Class Project / Research,olin hair lab,Mini: Io
+645,6/29/23 13:46:38,anagha,,42,9.32,Class Project / Research,olin hair lab,Mini: Ersa
+646,6/29/23 16:01:19,anagha,1,17,9.48,Class Project / Research,hair lab,Mini: Ersa
+647,6/29/23 16:05:06,Karina Lamoreux,2,13,13.44,Class Project / Research,eclipse ballooning project,Mini: Aitne
+648,6/29/23 16:09:15,anagha,,45,5.07,Class Project / Research,hair lab,Mini: Leda
+649,6/29/23 16:15:00,anagha babu,1,17,9.39,Class Project / Research,hair lab,Mini: Dia
+650,6/30/23 9:22:09,Noah,2,0,14.52,Test Piece,,Mini: Aitne
+651,6/30/23 9:28:29,Noah,0,17,1.2,Test Piece,,Mini: Dia
+652,7/2/23 22:06:38,Kevin Lie-Atjam,5,58,69.59,Personal Project,,Mini: Elara
+653,7/10/23 10:57:38,anagha,1,13,8.58,Class Project / Research,olin hair lab,Mini: Io
+654,7/11/23 16:58:34,anagha,1,34,11.7,Class Project / Research,,Mini: Io
+655,7/14/23 11:10:47,anagha,1,35,12.01,Class Project / Research,olin hair lab,Mini: Aitne
+656,7/20/23 10:06:25,Karina Lamoreux,0,51,6.67,Class Project / Research,Eclipse ballooning,Mini: Aitne
+657,7/25/23 12:47:16,erika,,30,??,,,
+658,7/26/23 11:04:12,Noa,3,33,33,Class Project / Research,Hummingbird,Mini: Elara
+659,7/26/23 16:20:46,anagha,2,59,22.02,Class Project / Research,hair lab,Mini: Aitne
+660,7/26/23 16:24:25,anagha,4,9,30.18,Class Project / Research,olin hair lab,Mini: Leda
+661,7/27/23 9:04:26,Ian Eykamp,2,26,25,Personal Project,,Mini: Elara
+662,7/31/23 16:41:20,Ike Walker,0.5,,1.67,Personal Project,,Mini: Dia
+663,7/31/23 16:47:51,Ike Walker,0.5,,1.67,Personal Project,,Mini: Aitne
+664,7/31/23 16:48:18,Ike Walker,0.5,,1.67,Personal Project,,Mini: Arche
+665,8/1/23 16:55:50,Anagha,2,5,19.02,Class Project / Research,hair lab,Mini: Aitne
+666,8/4/23 13:46:47,miriam rich,1,40,32,Class Project / Research,pacifier,Mini: Leda
+667,8/4/23 13:51:11,miriam,3,5,54,Class Project / Research,pacifier,Mini: Io
+668,8/22/23 22:41:30,Jo Fryling,4,49,53,Personal Project,,Mini: Ersa
+669,8/23/23 22:07:42,Jo Fryling,0,47,8,Personal Project,,Mini: Ersa
+670,8/30/23 14:20:58,Kelly Stellmacher,0,40,4.3,Personal Project,,Mini: Io
+671,8/31/23 8:50:01,Kelly Stellmacher,2,34,11.93,Personal Project,,Mini: Arche
+672,8/31/23 8:57:24,Kelly Stellmacher,1,7,6.29,Personal Project,,Mini: Io
+673,9/6/23 18:58:40,Jo,0,21,3,Personal Project,,Mini: Dia
+674,9/6/23 22:57:29,Jo,1,55,27,Personal Project,,Mini: Dia
+675,9/7/23 12:50:19,Jo,1,54,27,Personal Project,,Mini: Dia
+676,9/7/23 15:38:37,Jo,1,0,14,Personal Project,,Mini: Dia
+677,9/12/23 13:55:01,Allison,3,1,12,Class Project / Research,CompRobo,Mini: Ersa
+678,9/13/23 18:59:35,Allison,0,39,9,Class Project / Research,CompRobo,Mini: Io
+679,9/14/23 14:45:57,Ian Lum,2,53,25.71,Class Project / Research,PIE,Mini: Aitne
+680,9/14/23 18:44:52,Ian Lum,2,53,25.71,Class Project / Research,PIE,Mini: Ersa
+681,9/15/23 17:31:42,Daeyoung Kim,2,30,27,Class Project / Research,Pie,Mini: Ersa
+682,9/15/23 21:04:03,Daeyoung Kim,0,10,5,Class Project / Research,Pie,Mini: Ersa
+683,9/16/23 14:56:00,Quinn Verrill,0,45,6.09,Test Piece,,Mini: Dia
+684,9/16/23 16:10:40,Sparsh Gupta,1,14,10.86,Test Piece,,Mini: Dia
+685,9/16/23 18:23:27,Quinn Verrill,9,0,39,Personal Project,,Mini: Dia
+686,9/17/23 18:18:47,Dakota Chang,0,58,6,Test Piece,,Mini: Kale
+687,9/18/23 14:38:24,Dokyun,10,12,89,Personal Project,,Mini: Io
+688,9/18/23 15:44:33,Ian Lum,10,13,125,Class Project / Research,PIE,Mini: Aitne
+689,9/19/23 12:09:23,Shauna Sperou,3,38,66.98,Test Piece,,Mini: Elara
+690,9/19/23 13:20:53,Caterina Cirone,1,12,6.99,Test Piece,,Mini: Dia
+691,9/19/23 13:20:33,Avery Mosley,1,28,14.43,Test Piece,,Mini: Ersa
+692,9/19/23 14:26:32,Ian Lum,5,30,77,Class Project / Research,PIE,Mini: Arche
+693,9/19/23 14:57:51,Rohan Shah,3,43,38,Test Piece,,Mini: Dia
+694,9/19/23 16:45:40,Ivy Mahncke,2,27,55.43,Test Piece,,Mini: Io
+695,9/19/23 16:48:58,Mika Gazit,5/6 (50 min),50,6.65,Test Piece,,Mini: Aitne
+696,9/19/23 20:42:22,Andrew Kurtz,6 x 2,0,74,Test Piece,,Mini: Io
+697,9/19/23 23:04:27,Dakota,0,9,1,Personal Project,,Mini: Ersa
+698,9/20/23 10:55:11,Sherry Li,1,15,,Test Piece,,Mini: Arche
+699,9/20/23 14:33:58,Rohan Shah,0,4,0.55,Project Team / Club,Opel,Mini: Ersa
+700,9/20/23 14:34:30,Rohan Shah,0,5,0.46,Project Team / Club,Opel,Mini: Aitne
+701,9/20/23 20:03:52,Rohan Shah,0,17,2,Project Team / Club,Opel,Mini: Leda
+702,9/20/23 20:43:31,Mika Gazit,58 min,58,4.05,Personal Project,,Mini: Ersa
+703,9/20/23 20:44:01,Ivy Mahncke,3,30,69.42,Personal Project,,Mini: Io
+704,9/20/23 20:52:54,Mika Gazit,2h53min,173 min,9.22,Personal Project,,Mini: Ersa
+705,9/21/23 10:16:48,Dokyun,3,24,25.06,Class Project / Research,pie,Mini: Elara
+706,9/21/23 10:26:54,Rohan Shah,0,9,1.21,Project Team / Club,Opel,Mini: Leda
+707,9/21/23 12:30:35,Shauna Sperou,3,18,37.87,Personal Project,,Mini: Dia
+708,9/21/23 14:47:28,Mika Gazit,3 hours,30 min,24.3,Personal Project,,Mini: Io
+709,9/21/23 18:52:22,Rebecca Cramer,,80,7.88,Personal Project,,Mini: Io
+710,9/21/23 18:53:36,Ivy Mahncke,3,30,63.19,Personal Project,,Mini: Arche
+711,9/21/23 20:00:33,Rohan Shah,0,9,1.21,Project Team / Club,Opel,Mini: Dia
+712,9/23/23 11:59:47,Avery Mosley,4,13,88.8,Personal Project,,Mini: Aitne
+713,9/23/23 12:37:08,Avery Mosley,4,26,45.04,Personal Project,,Mini: Aitne
+714,9/23/23 13:51:28,Avery Mosley,1,17,13.42,Personal Project,,Mini: Elara
+715,9/24/23 15:41:24,Quinn Verrill,4,35,55,Personal Project,,Mini: Io
+716,9/24/23 23:16:41,Dokyun,8,12,60.88,Class Project / Research,Pie,Mini: Dia
+717,9/25/23 10:18:32,Rohan Shah,0,4,0.55,Project Team / Club,Opel,Mini: Aitne
+718,9/25/23 10:21:08,Rohan Shah,0,15,3.3,Project Team / Club,Opel,Mini: Dia
+719,9/25/23 10:33:13,Rohan Shah,0,55,9.79,Project Team / Club,Opel,Mini: Aitne
+720,9/26/23 9:07:19,Tane Koh,2,47,17.98,Test Piece,,Mini: Ersa
+721,9/26/23 9:07:13,Alexa Zeigler,4,53,44.74,Test Piece,,Mini: Leda
+722,9/26/23 15:38:28,cooper penkava,12-Jan,5,1.35,Test Piece,,Mini: Ersa
+723,9/26/23 16:49:53,Quinn Verrill,4,35,50,Personal Project,,Mini: Io
+724,9/26/23 19:08:59,Alex Z,10,53,109,Personal Project,,Mini: Aitne
+725,9/29/23 12:59:42,Katherine Danielson,4,32,37.39,3D Printer Training,,Mini: Aitne
+726,9/29/23 15:04:16,Vivian Mak,3,59,33.77,Personal Project,,Mini: Io
+727,9/29/23 15:05:56,Minu,1,57,15.75,Test Piece,,Mini: Elara
+728,9/29/23 15:03:22,Elías López Dalla Nora,6,31,51.24,Test Piece,N/A,Mini: Leda
+729,9/30/23 11:23:52,Dokyun kim,1,25,14.26,Class Project / Research,Pie,Mini: Ersa
+730,9/30/23 14:10:13,Katherine Danielson,2,49,20.44,Personal Project,,Mini: Ersa
+731,9/30/23 14:43:01,Dokyun kim,1,26,14.25,Class Project / Research,Pie,Mini: Arche
+732,10/1/23 13:09:04,Dokyun kim,1,29,13.59,Class Project / Research,Pie,Mini: Aitne
+733,10/1/23 23:36:43,Alexa Zeigler,13,45,138.84,Gift for Sad Friend,,Mini: Elara
+734,10/2/23 10:03:30,Alex Zeigler,13,45,138,Gift for Sad Friend,,Mini: Leda
+735,10/2/23 10:23:49,Danny K,7,11,104.23,Test Piece,,Mini: Dia
+736,10/2/23 19:16:16,Rohan Shah,2,6,31.52,Project Team / Club,Formula,Mini: Elara
+737,10/2/23 20:09:43,Dokyun kim,0,41,6.31,Class Project / Research,Pie,Mini: Arche
+738,10/3/23 13:19:34,Joe Leedy,0,44,5.41,Class Project / Research,PIE,Mini: Arche
+739,10/3/23 17:34:47,Caterina Cirone,4,55,58.84,Personal Project,,Mini: Arche
+740,10/3/23 18:31:41,Rohan Shah,2,13,33.26,Project Team / Club,Formula,Mini: Elara
+741,10/3/23 20:25:06,Andrew Kurtz,5,47,78,Personal Project,,Mini: Elara
+742,10/3/23 20:27:33,Andrew Kurtz,4,18,57,Personal Project,,Mini: Leda
+743,10/5/23 15:20:45,Rohan Shah,0,24,7.81,Project Team / Club,Formula,Mini: Elara
+744,10/5/23 16:00:01,Mika Gazit,3,21,26.39,Personal Project,,Mini: Ersa
+745,10/5/23 22:22:12,Chris Nie,2,6,,Test Piece,,Mini: Kale
+746,10/5/23 22:23:40,Lucien Lin,6,43,,Test Piece,,Mini: Ersa
+747,10/8/23 10:22:46,Cooper,1,52,5.52,Test Piece,,Mini: Io
+748,10/8/23 10:23:30,Cooper,0.5,22,1.68,Test Piece,,Mini: Aitne
+749,10/8/23 14:32:31,Cooper,1,58,6.13,Test Piece,,Mini: Io
+750,10/8/23 14:33:13,Cooper,0.5,22,1.68,Test Piece,,Mini: Ersa

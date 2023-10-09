@@ -1,0 +1,154 @@
+---
+title: "4S Get 3d Print Data"
+author: "Sam Coleman"
+date: "3/23/2022"
+output: 
+  github_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(googlesheets4)
+```
+
+Since the 3d print log is updated as new prints occur, use this script to re-download the newest data from the log.
+Note: there are 2 different versions of the 3d printer survey (and thus 2 different sheets). The first (https://docs.google.com/spreadsheets/d/16gWwdpJz6Tpa92GiV3Jq7wrkmSj5Y4rFsRes-XTiOFQ/edit#gid=1489679548) is from 4/8/2019 to 12/1/2021. The current one (https://docs.google.com/spreadsheets/d/1ROWww6f3hB2OObk5Kax_cfIP3lo987lxhInNmToUtCI/edit?resourcekey#gid=549923050) is from 11/29/2021 - current.
+
+
+```{r old-sheet}
+# url for old log
+url_old <- "https://docs.google.com/spreadsheets/d/16gWwdpJz6Tpa92GiV3Jq7wrkmSj5Y4rFsRes-XTiOFQ/edit#gid=1489679548"
+
+## Put googlesheets4 in "deauthorized mode"
+gs4_deauth()
+## Get sheet metadata
+ss_old <- gs4_get(url_old)
+## change column names
+col_names_old <-
+  c(
+    "timestamp",
+    "name",
+    "file_name",
+    "printer",
+    "print_time",
+    "print_mass_grams",
+    "queue_pos",
+    "comments",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15"
+  )
+
+# read as data frame
+df_old <- read_sheet(
+  ss_old, 
+  sheet = 1, 
+  col_names = col_names_old, 
+  col_types = "Tcccccicccccccc",
+  skip = 4
+  ) %>% 
+  select("timestamp", "name", "printer", "print_time", "print_mass_grams", "queue_pos")
+
+df_old %>% tail
+```
+
+```{r current-sheet}
+# url for current sheet
+url_curr <- "https://docs.google.com/spreadsheets/d/1ROWww6f3hB2OObk5Kax_cfIP3lo987lxhInNmToUtCI/edit?resourcekey#gid=549923050"
+
+## Put googlesheets4 in "deauthorized mode"
+gs4_deauth()
+## Get sheet metadata
+ss_curr <- gs4_get(url_curr)
+
+#column names
+col_names_curr <-
+  c(
+    "timestamp",
+    "name",
+    "print_time",
+    "print_mass_grams",
+    "reason_print",
+    "class",
+    "comments",
+    "printer",
+    "print_time_minutes",
+    "10",
+    "11"
+  )
+
+#read as data frame
+df_curr <- read_sheet(
+  ss_curr,
+  sheet = 1,
+  col_names = col_names_curr,
+  col_types = "Tcccccccccc",
+  skip = 1
+  ) %>%
+  select("timestamp", "name", "print_time", "print_mass_grams", "reason_print", "class", "printer")
+
+  #mutate(Distinctness = as_factor(Distinctness))
+
+df_curr %>% tail
+```
+```{r}
+url_very_old <- "https://docs.google.com/spreadsheets/d/1aDz52W3_XNevTn0l3j63_Z7shdQvlPnMGFxr8fjkHX4/edit#gid=2089240762"
+gs4_deauth()
+ss_very_old <- gs4_get(url_very_old)
+
+col_names_very_old <-
+  c(
+    "timestamp",
+    "name",
+    "part_name",
+    "reason_print",
+    "class",
+    "print_mass_grams",
+    #"6hr_approval",
+    #"print_time",
+    "print_time",
+    "printer",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16"
+  )
+
+df_very_old_raw <- read_sheet(
+  ss_very_old,
+  sheet = 2,
+  col_names = col_names_very_old,
+  col_types = "Tccccccccccccc",
+  skip = 1
+  )
+df_very_old_raw
+```
+```{r}
+df_very_old <-
+  df_very_old_raw %>%
+  select("timestamp", "name", "reason_print", "class", "print_mass_grams", "print_time", "printer")
+
+df_very_old <- df_very_old[1:4909,] #ignore rows with recent data (its weird)
+
+df_very_old
+```
+
+
+
+NOTE: Running this cell will write-over existing data files.
+```{r save-data}
+# save data to csv files
+write.table(df_old, file = ".\\data\\3d_old.csv", sep=",", row.names = FALSE)
+write.table(df_curr, file = ".\\data\\3d_curr.csv", sep=",", row.names = FALSE)
+write.table(df_very_old, file = ".\\data\\3d_very_old.csv", sep = ",", row.names = FALSE)
+```
+
+
