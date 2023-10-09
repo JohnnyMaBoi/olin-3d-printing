@@ -1,0 +1,431 @@
+---
+title: Data Processing
+jupyter: python3
+---
+
+
+### Graphs:
+- 1. Cum
+- 2. Cum
+- 3. Cum
+- 4. Cum
+
+### subtasks:
+- Integrate previous name consolidations
+
+
+## Imports
+
+```{python}
+import pandas as pd
+from pandas.api.types import is_numeric_dtype
+import matplotlib.pyplot as plt
+import numpy as np
+import calendar
+```
+
+## Load data file into pandas dataframe
+
+### Download Data from current Google Sheet
+
+```{python}
+import os
+import requests
+import sys
+
+# sheet view/edit link: https://docs.google.com/spreadsheets/d/1ROWww6f3hB2OObk5Kax_cfIP3lo987lxhInNmToUtCI/edit?resourcekey#gid=549923050
+# NEWEST 3d print data https://docs.google.com/spreadsheets/d/1UYjxRt_q7meIHVxc4GUn3_DoRElXlRMey5oqHZZmJsI/edit?usp=sharing
+sheet_id = "1ROWww6f3hB2OObk5Kax_cfIP3lo987lxhInNmToUtCI"
+old_id = "16gWwdpJz6Tpa92GiV3Jq7wrkmSj5Y4rFsRes-XTiOFQ"
+newest_id = "1UYjxRt_q7meIHVxc4GUn3_DoRElXlRMey5oqHZZmJsI"
+def getGoogleSeet(spreadsheet_id, outDir, outFile):
+  
+  url = f'https://docs.google.com/spreadsheets/d/{spreadsheet_id}/export?format=csv'
+  response = requests.get(url)
+  if response.status_code == 200:
+    filepath = os.path.join(outDir, outFile)
+    with open(filepath, 'wb') as f:
+      f.write(response.content)
+      print('CSV file saved to: {}'.format(filepath))    
+  else:
+    print(f'Error downloading Google Sheet: {response.status_code}')
+    sys.exit(1)
+
+
+##############################################
+
+outDir = './'
+
+os.makedirs(outDir, exist_ok = True)
+filepath = getGoogleSeet(sheet_id, outDir, "data/data_current.csv")
+old_filepath = getGoogleSeet(old_id, outDir, "data/data_old_python.csv")
+newest_filepath = getGoogleSeet(newest_id, outDir, "data/data_newest.csv")
+```
+
+### Read Data into Pandas Dataframes, clean, concat
+
+```{python}
+def clean_df(df:pd.DataFrame):
+    """
+    Clean timestamp and print mass columns of dataframe
+
+    Args:
+        df (pd.DataFrame): dataframe to clean
+
+    Returns:
+        pd.DataFrame: cleaned dataframe
+    """
+
+    # convert timestamp column from str to pd.Timestamp
+    df['timestamp'] = pd.to_datetime(df['timestamp'])
+    
+    # drop rows with undefined timestamps
+    df = df[df["timestamp"].notna()]
+
+    # clean all alphabetic characters from print_mass col and replace empty strings with nan
+    # TODO: Fix this regex. High averages in the mass come from removing periods and considering decimal masses as ints
+    
+    if not is_numeric_dtype(df['mass']):
+        # df["mass"] = df["mass"].str.replace(r'[^\d\.]', '', regex=True).replace(r'/(\.\d+)+/', '', regex=True).replace('.','').replace('...','').replace('', np.nan)
+        df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
+
+    df = df[df["mass"].notnull()] # remove any colums with nan print mass
+    df["mass"] = df["mass"].astype(float)
+
+    # filter out rediculous masses (10kg)
+    df = df[df["mass"] < 10000]
+
+    return df
+
+
+# read current data from csv
+df_curr = pd.read_csv("data/data_current.csv")
+# rename and downselect relevant columns
+rename_map = {
+    "Timestamp": "timestamp",
+    "Name": "name",
+    "Print Mass (in grams)": "mass",
+    "If you chose Class Project, which class? If a Project Team/Club, which group?": "class"
+}
+df_curr.rename(columns = rename_map, inplace = True)      # rename
+df_curr = df_curr[["timestamp", "name", "mass", "class"]] # downselect
+# Clean timestamp and print mass columns of dataframe
+df_curr = clean_df(df_curr)
+
+print("current data\n", df_curr["mass"].describe())
+
+# read current data from csv
+df_newest = pd.read_csv("data/data_newest.csv")
+# rename and downselect relevant columns
+rename_map = {
+    "Start time": "timestamp",
+    "Your Name": "name",
+    "Print Mass (Grams)": "mass",
+    "If applicable, which class, research group, or project team?": "class"
+}
+df_newest.rename(columns = rename_map, inplace = True)      # rename
+df_newest = df_newest[["timestamp", "name", "mass", "class"]] # downselect
+# Clean timestamp and print mass columns of dataframe
+df_newest = clean_df(df_newest)
+
+print("current data\n", df_curr["mass"].describe())
+
+
+# read old data from csv
+df_old = pd.read_csv("data/data_old_python.csv")
+# rename and downselect relevant columns
+rename_map = {
+    "Print Mass (in grams)": "mass",
+    "Timestamp":"timestamp",
+    "Your Name":"name",
+    
+}
+df_old.rename(columns = rename_map, inplace = True)      # rename
+df_old = df_old[["timestamp", "name", "mass"]] # downselect
+# df_old.drop(df.tail(4).index, inplace=True)
+# Clean timestamp and print mass columns of dataframe
+df_old = clean_df(df_old)
+print("old data\n", df_old["mass"].describe())
+
+
+# read veryold data from csv
+df_veryold = pd.read_csv("data/3d_very_old.csv")
+
+# rename and downselect relevant columns
+rename_map = {
+    "print_mass_grams": "mass",
+    "name":"name",
+    "reason_print":"class"
+}
+df_veryold.rename(columns = rename_map, inplace = True)      # rename
+df_veryold = df_veryold[["timestamp", "name", "mass"]] # downselect , "class"
+# Clean timestamp and print mass columns of dataframe
+df_veryold = clean_df(df_veryold)
+
+
+# print("veryold\n", df_veryold["mass"].describe())
+
+
+#concat all data
+df = pd.concat([df_veryold, df_old, df_curr, df_newest])
+# sort data by timestamp
+df.sort_values(by="timestamp", inplace=True)
+df.to_csv(path_or_buf="data/rajiv_output.csv")
+
+print(df.describe())
+```
+
+## print mass vs time
+
+### Cumulative Mass
+
+```{python}
+# create new dataframe with copies of timestamp and print_mass_grams columns
+df_print_mass = df[["timestamp", "mass"]]
+
+# add column for cumulative sum of print masses
+df_print_mass["print_mass_cum"] = df_print_mass["mass"].cumsum()
+
+# Create a line plot using Matplotlib
+plt.figure(figsize=(10, 6))  # Optional: Set the figure size
+plt.plot(df_print_mass['timestamp'], df_print_mass["print_mass_cum"].div(1000), linestyle='-', color='b', label='print_mass_grams vs. Time')
+plt.title("Print mass vs. Time")
+plt.xlabel('Time')
+plt.ylabel("Cumulative print mass (kg)")
+plt.legend()
+plt.grid(True)
+
+# Display the plot
+plt.show()
+```
+
+### Groupby Year
+
+```{python}
+# function to groupby academic year
+def get_academic_year(timestamp:pd.Timestamp):
+    """
+    Return the academic year string of a timestamp
+
+    Args:
+        timestamp (pd.Timestamp): timestamp object
+
+    Returns:
+        str: Academic year string, e.g. "21/22"
+    """
+    year = int(repr(timestamp.year)[-2:]) # lat two digits of year
+    if timestamp.month < 9: # before september: year-1/year
+        return f"{year-1}/{year}"
+    else:                   # after september: year/year+1
+        return f"{year}/{year+1}"
+
+def get_semester(timestamp:pd.Timestamp):
+    """
+    Return the semester string of a timestamp
+
+    Args:
+        timestamp (pd.Timestamp): timestamp object
+
+    Returns:
+        str: Semester string, e.g. "SP21"
+    """
+    year = int(repr(timestamp.year)[-2:]) # lat two digits of year
+    if 1 <= timestamp.month <= 5: # before september spring semester
+        return f"SP{year}"
+    elif 9 <= timestamp.month <= 12:                   # after september: fall semester
+        return f"FA{year}"
+
+def get_population_on_campus(semester:str, population_dict=None):
+    """
+    Return the "population" for each entry, population on campus at that time
+    
+    Args:
+        df (pandas dataframe): relevant rows are semester (str) and mass (float)
+            semester (str): string of 2 alpha character semester (FA or SP) followed by 2 numeric character year (i.e. 19 or 20)
+            mass (float): float of mass in grams
+        population_dict (optional): dict with semester as keys and number of people as values. Can be used to override manually 
+            inputted person mapping with number of individuals printing per semester
+            TODO: add number of people printing per semester calculation after scatter plotting is completed
+    Returns:
+        normalized_mass (float)): mass of print divided by number of people currently on campus
+    """
+    # if you don't have an inputted mapping for students per semester, use the default
+    if not population_dict:
+        population_dict = {"FA18":340, "SP19":326, "FA19":347, "SP20":333, "FA20":113, "SP21":113, "FA21":360, "FA22":347}
+    if semester in population_dict: # before september spring semester
+        return population_dict[semester]
+    else:                   # after september: fall semester
+        # print(f"{semester} not in population dict!")
+        return np.nan
+
+# add aacademic year column to df
+df["academic year"] = df["timestamp"].apply(lambda x: get_academic_year(x))
+df["semester"] = df["timestamp"].apply(lambda x: get_semester(x))
+df["population on campus"] = df["semester"].apply(lambda x: get_population_on_campus(x))
+df["normalized mass"] = df["mass"].divide(df["population on campus"])
+df["normalized mass"].describe()
+```
+
+```{python}
+print(plt.rcParams["axes.prop_cycle"])
+```
+
+```{python}
+def get_ac_year_day(timestamp: pd.Timestamp):
+    """
+    Get day of the academic year
+
+    Args:
+        timestamp (pd.Timestamp): timestamp to convert
+    """
+    if timestamp.month >=9:
+       return timestamp.day_of_year - 244
+    else:
+        return timestamp.day_of_year + 365 - 244
+
+# Set up plot
+plt.figure(figsize=(10, 6))  # Optional: Set the figure size
+# fig, (ax1, ax2) = plt.subplots(1, 2, sharey=True)
+
+plt.xlabel('date')
+plt.grid(True)
+
+
+
+# group data by academic semester
+sem_groupby = df.groupby('semester')[["timestamp", "mass", "normalized mass"]]
+
+p_year = 14
+color = "blue"
+
+# plot for each academic year on same axes
+for sem, _df in sem_groupby:
+    # if sem in ["14/15", "15/16", "16/17", "17/18", "23/24", "22/23"]:    #"17/18",, "19/20", "18/19", "20/21"]
+    #     pass
+    # else:
+    #     # plt.plot(_df["timestamp"].apply(lambda x: get_ac_year_day(x)), _df["mass"].cumsum(), label=f'{ac_year}')
+    #     plt.plot(_df["timestamp"].apply(lambda x: get_ac_year_day(x)), _df["mass"].cumsum(), label=f'{sem[:2]}')
+    year = sem[-2:]
+
+    # # cycle color
+    # if year != p_year:
+    #     color = next(ax1._get_lines.prop_cycler)['color']
+
+    # p_year = year
+
+    if year in ["14"]:    #"17/18",, "19/20", "18/19", "20/21"]
+        pass
+    else:
+        plt.plot(_df["timestamp"].apply(lambda x: get_ac_year_day(x)), _df["normalized mass"].cumsum(), label=f'{sem}')
+
+# Set y-axis label for left subplot only
+plt.title('Cumulative print mass (g)')
+# plt.set_title("Fall")
+# plt.set_title("Spring")
+# plt.title("Cumulative Print mass vs. date by academic year and semester")
+# Add title to subplot
+# plt.suptitle(' Cumulative Print mass vs. date by academic year and semester ', fontsize=20)
+
+# Display the plot
+plt.legend(title="Academic Year")
+# plt.legend(title="Academic Year")
+plt.show()
+
+df.head()
+```
+
+### Class/Reason Data Bar Charts
+
+```{python}
+# Set up plot
+plt.figure(figsize=(10, 6))  # Optional: Set the figure size
+plt.title("Filament Used Per Semester")         # Per reason
+plt.xlabel('date')
+plt.ylabel("Cumulative print mass (g)")
+plt.grid(True)
+
+
+
+# group data by academic year
+sem_groupby = df.groupby('academic year')[["timestamp", "mass"]]
+
+# plot for each academic year on same axes
+for sem, _df in sem_groupby:
+    if sem in ["14/15", "15/16", "16/17", "17/18", "23/24"]:    #"17/18",, "19/20", "18/19", "20/21", "22/23"
+        pass
+    else:
+        print(f"year is {sem}")
+        plt.plot(_df["timestamp"].apply(lambda x: get_ac_year_day(x)), _df["mass"].cumsum(), label=f'{sem}')
+    # print(_df.head())
+
+# Display the plot
+plt.legend(title="Academic Year")
+plt.show()
+```
+
+## Deal with correcting shitty data (uuuhhhHHH)
+
+```{python}
+def correct_series(series, map:dict):
+    """
+    Iterate through each correct value in the map dictionary,
+    performing a regex string replacement on the series that
+    overwrites any matching value with the coorect value given
+    by the map
+
+    Args:
+        series (pandas series): series to be corrected
+        map (dict): dictionary that maps correction keys to 
+                    a regex expression targeting incorrect
+                    values (<correct value> : <regex query for misnomers>)
+    
+    Return:
+        (pandas series): corrected pandas series
+    """
+    for correction_key in map:
+        series = series.str.replace(map[correction_key], correction_key, regex=True, case=False)
+    
+    return series
+```
+
+## Deal with class names
+
+```{python}
+class_names = df_curr["class"]
+
+# dictionary for defining name correction map
+class_name_map = {
+    "DesNat" : "Desnat|desnT|DesNat|dednat|Des Nat|ddesnat|desnat|desNat|Design Nature",
+    "Pass. Pursuit" : "passion.*",
+    "PIE" : "pie.*",
+    "DFM" : "dfm|.*manufact.*",
+    "Scope" : ".*scope.*",
+    "IS" : ".*indep.*|is.*",
+    "Ren. Energy" : ".*renewable.*",
+    "EEC" : ".*eec.*",
+    "Mech Proto" : ".*proto.*|Mech Proto",
+    "QEA" : ".*qea.*",
+    "Research" : ".*research.*|.*lair.*",
+    "P&M" : ".*market.*|p&.*|p[[:space:]]&.*|p &m",
+    "SustDes" : ".*sust.*",
+    "RoboSys" : ".*robos.*|.*Robotic System*.",
+    "DBF" : ".*dbf.*|design[[:space:]]bu.*",
+    "Formula" : "formula",
+    "Large 3D Printer" : ".*rint*.",
+    "Project Team or Club" : "DBF|Formula|Rocketry|Baja|pint"
+}
+
+# correct class names
+class_names = correct_series(class_names, class_name_map)
+
+print(len(class_names.unique()), class_names.unique())
+```
+
+
+## Deal with student names?
+
+```{python}
+# do later, holy shit
+```
+
+
