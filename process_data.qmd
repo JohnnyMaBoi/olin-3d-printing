@@ -96,7 +96,7 @@ def fix_print_mass(df:pd.DataFrame):
     
     if not is_numeric_dtype(df['mass']):
         # df["mass"] = df["mass"].str.replace(r'[^\d\.]', '', regex=True).replace(r'/(\.\d+)+/', '', regex=True).replace('.','').replace('...','').replace('', np.nan)
-        df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
+        df["mass"] = df["mass"].str.replace(r'[^\d.]', '', regex=True).replace(r'[.][0-9]+$', "", regex=True).replace(r"\.","", regex=True).replace('', np.nan)
 
     df = df[df["mass"].notnull()] # remove any colums with nan print mass
     df["mass"] = df["mass"].astype(float)
