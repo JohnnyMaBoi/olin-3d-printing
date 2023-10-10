@@ -22,6 +22,7 @@ from pandas.api.types import is_numeric_dtype
 import matplotlib.pyplot as plt
 import numpy as np
 import calendar
+from thefuzz import fuzz, process
 ```
 
 ## Load data file into pandas dataframe
@@ -184,6 +185,70 @@ df.sort_values(by="timestamp", inplace=True)
 df.to_csv(path_or_buf="data/rajiv_output.csv")
 
 print(df.head())
+```
+
+```{python}
+#| vscode: {languageId: python}
+def process_duplicate_entries(df:pd.DataFrame, column_name, valid_names, threshold, supplimental_mapping=None):
+    """
+    Correct entries in a series to conform to a valid set, and if values fall outside threshold add to the valid set
+    # TODO: add back in valid names list
+
+    Args:
+        df (pd.DataFrame): dataframe lol
+        column_name (str): string column name of series within df
+        valid_names (list): list of strings that represent valid data
+        supplimental_mapping (dict): dictionary of string keys and values mapping common far-off misspellings to valid_names values
+        threshold (float): minimum similarity score for values to be overwritten by a valid_names element
+        
+    score = fuzz.token_set_ratio(row_text, other_text)
+        if score >= threshold:
+
+    
+    """
+    corrected_names = {}
+    for idx, row in df.iterrows():
+        # get the top similarity score for your entry in the form [(match, percent)]
+        value = row[column_name]
+        if value is not np.nan:
+            match_and_percentile = process.extract(value, valid_names, limit=1)
+            match, percentile = match_and_percentile[0]
+            if percentile<threshold:
+                if supplimental_mapping:
+                    # run through supplimental mapping to generate new matching and decoding
+                    match_percentile_valid_form = process.extract(value, supplimental_mapping, limit=1)
+                    match, percentile, valid_form = match_percentile_valid_form[0]
+                    if percentile > threshold:
+                        df.loc[idx, column_name] = valid_form
+                    else:
+                        valid_names.append(value)
+                        print(f"adding new name to list: {value} its rejected match was {match_percentile_valid_form}")
+                else:
+                    valid_names.append(value)
+                    print(f"adding new name to list: {value} its rejected match was {match_percentile_valid_form}")
+            else:
+                # create a list of all the matched terms to make sure we aren't doing anything funky
+                if value != match:
+                    # print(f"correcting {value} to {match} with {percentile} accuracy")
+                    if match not in corrected_names:
+                        corrected_names[match] = [value]
+                    else:
+                        corrected_names[match].append(value)
+                # df.iloc[idx, column_name] = match
+                df.loc[idx, column_name] = match
+                # df.loc[person_prints_overtime["name"]==entry["name"], "total mass"] +=entry["mass"]
+
+    return df, corrected_names
+
+             
+valid_classes = ["DesNat", "Passionate Pursuit", "PIE", "DFM", "Scope", "FunRobo","Ren. Energy", "EEC", "Mech Proto","QEA","Research","P&M","SustDes","RoboSys","DBF","Formula","Large 3D Printer"]
+# whoops you need the seeked values as the values and the correct value as the key. Guess it makes sense but mine was backwards
+supplimental_class_mapping = {"Fundamental of Robotics":"FunRobo","Design Nature":"DesNat","Design for Manufacturing":"DFM", "Products and Markets":"P&M", "Mechanical Prototyping":"Mech Proto","mechproto group":"Mech Proto", "Principles of Engineering":"PIE"}
+supplimental_class_mapping = dict((v, k) for k, v in supplimental_class_mapping.items())
+
+deduped, corrected_names = process_duplicate_entries(df, column_name="class", valid_names = valid_classes, threshold=90, supplimental_mapping=supplimental_class_mapping)
+
+
 ```
 
 ## print mass vs time
