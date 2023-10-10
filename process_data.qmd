@@ -96,9 +96,8 @@ def fix_print_mass(df:pd.DataFrame):
     
     if not is_numeric_dtype(df['mass']):
         # df["mass"] = df["mass"].str.replace(r'[^\d\.]', '', regex=True).replace(r'/(\.\d+)+/', '', regex=True).replace('.','').replace('...','').replace('', np.nan)
-        df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
-        # df["mass"] = df["mass"].str.replace(r'[^\d.]', '', regex=True).replace(r'[.][0-9]+$', "", regex=True).replace(r".","", regex=True).replace('', np.nan)
-
+        # df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
+        df["mass"] = df["mass"].str.replace(r'[^\d.]', '', regex=True).replace(r'[.][0-9]+$', "", regex=True).replace(r"\.","", regex=True).replace('', np.nan)
     df = df[df["mass"].notnull()] # remove any colums with nan print mass
     df["mass"] = df["mass"].astype(float)
 
@@ -127,7 +126,6 @@ def process_csv_file(path:str, rename_map:dict):
     df.columns = rename_map.keys()
 
     # cleaning timestamps
-    df = fix_timestamps(df)
     df = fix_timestamps(df)
 
     # clean print mass in grams column
@@ -430,7 +428,7 @@ def person_point_scatter(df:pd.DataFrame, semester_list):
 
     return person_prints_overtime
 
-semesters_to_scatter = ["FA18", "SP19", "FA19", "SP20", "FA20", "SP21", "FA21", "FA22"]
+semesters_to_scatter = ["FA21", "SP22", "FA22", "SP23"] # "FA18", "SP19", "FA19", "SP20", "FA20", "SP21",
 output_scatter = person_point_scatter(df, semesters_to_scatter)
 ```
 
@@ -489,6 +487,7 @@ df["class names corrected"] = correct_series(df["class"], class_names_correction
 ### Create Bar Graph Plot
 
 ```{python}
+#| vscode: {languageId: python}
 # find top 5 most frequent classes
 n = 10 # number of class categories to plot
 top_classes = df['class names corrected'].value_counts()[:n].index.tolist()
@@ -512,6 +511,7 @@ print(df_double_groupby)
 #### Per class bar plot
 
 ```{python}
+#| vscode: {languageId: python}
 # convert that double groupby object into an iterable nested dict structure
 semester_totals_by_class = {}
 for key in double_groupby.keys():
@@ -549,6 +549,7 @@ plt.show()
 #### All Classes Bar Plot
 
 ```{python}
+#| vscode: {languageId: python}
 ax = pd.crosstab(df_top_classes["class names corrected"], df_top_classes["semester"]).plot.bar()
 
 ax.set_title("Filiment Consumption by Class")
