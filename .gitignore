@@ -3,4 +3,6 @@
 .RData
 .Ruserdata
 olin-3d-printing.code-workspace
+env/lib/
+env/bin/
 env/

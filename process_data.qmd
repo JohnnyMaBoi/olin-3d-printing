@@ -96,8 +96,8 @@ def fix_print_mass(df:pd.DataFrame):
     
     if not is_numeric_dtype(df['mass']):
         # df["mass"] = df["mass"].str.replace(r'[^\d\.]', '', regex=True).replace(r'/(\.\d+)+/', '', regex=True).replace('.','').replace('...','').replace('', np.nan)
+        # df["mass"] = df["mass"].str.replace(r'\D', '', regex=True).replace('', np.nan)
         df["mass"] = df["mass"].str.replace(r'[^\d.]', '', regex=True).replace(r'[.][0-9]+$', "", regex=True).replace(r"\.","", regex=True).replace('', np.nan)
-
     df = df[df["mass"].notnull()] # remove any colums with nan print mass
     df["mass"] = df["mass"].astype(float)
 
@@ -183,7 +183,7 @@ df = pd.concat([df_veryold, df_old, df_curr, df_newest])
 df.sort_values(by="timestamp", inplace=True)
 df.to_csv(path_or_buf="data/rajiv_output.csv")
 
-print(df.dtypes)
+print(df.head())
 ```
 
 ## print mass vs time
@@ -226,7 +226,7 @@ def get_academic_year(timestamp:pd.Timestamp):
     Returns:
         str: Academic year string, e.g. "21/22"
     """
-    year = int(repr(timestamp.year)[-2:]) # lat two digits of year
+    year = int(repr(timestamp.year)[-2:]) # last two digits of year
     if timestamp.month < 9: # before september: year-1/year
         return f"{year-1}/{year}"
     else:                   # after september: year/year+1
@@ -276,11 +276,6 @@ df["semester"] = df["timestamp"].apply(lambda x: get_semester(x))
 df["population on campus"] = df["semester"].apply(lambda x: get_population_on_campus(x))
 df["normalized mass"] = df["mass"].divide(df["population on campus"])
 df["normalized mass"].describe()
-```
-
-```{python}
-#| vscode: {languageId: python}
-print(plt.rcParams["axes.prop_cycle"])
 ```
 
 ```{python}
@@ -433,7 +428,7 @@ def person_point_scatter(df:pd.DataFrame, semester_list):
 
     return person_prints_overtime
 
-semesters_to_scatter = ["FA18", "SP19", "FA19", "SP20", "FA20", "SP21", "FA21", "FA22"]
+semesters_to_scatter = ["FA21", "SP22", "FA22", "SP23"] # "FA18", "SP19", "FA19", "SP20", "FA20", "SP21",
 output_scatter = person_point_scatter(df, semesters_to_scatter)
 ```
 
@@ -487,16 +482,85 @@ class_names_correction_map = {
 
 # correct class names
 df["class names corrected"] = correct_series(df["class"], class_names_correction_map)
-
-df.head()
-
-# groupby class name
-
-# print(len(class_names.unique()), class_names.unique())
 ```
 
 ### Create Bar Graph Plot
 
+```{python}
+#| vscode: {languageId: python}
+# find top 5 most frequent classes
+n = 10 # number of class categories to plot
+top_classes = df['class names corrected'].value_counts()[:n].index.tolist()
+
+# # for testing purposes (before we dedupe the class names) I will test with this list of the top 5 class names
+# classes_top5 = ['Mech Proto', 'POE', 'DesNat', 'PIE', 'Project Team or Club']
+
+# downselect df to top 5 classes only
+df_top_classes = df[df["class names corrected"].isin(top_classes)]
+df_top_classes.head()
+
+# group by class name and semester
+double_groupby = df_top_classes.groupby(["class names corrected", "semester"])["mass"].sum()
+
+df_double_groupby = pd.DataFrame(double_groupby)
+print(df_double_groupby)
+```
+
+### Testing out how to make the bar graph
+
+#### Per class bar plot
+
+```{python}
+#| vscode: {languageId: python}
+# convert that double groupby object into an iterable nested dict structure
+semester_totals_by_class = {}
+for key in double_groupby.keys():
+    if key[0] not in semester_totals_by_class:
+        semester_totals_by_class[key[0]] = {key[1]: double_groupby[key]}
+    else:
+        semester_totals_by_class[key[0]].update({key[1]: double_groupby[key]})
+
+# test
+for class_name, mass_by_sem in semester_totals_by_class.items():
+    print(f"-------------{class_name}-------------")
+    for sem, total_mass in mass_by_sem.items():
+        print(f"{sem}: {total_mass}g")
+
+# creating the dataset
+data = semester_totals_by_class["DesNat"]
+
+semesters = list(data.keys())
+print(semesters)
+total_masses = list(data.values())
+print(total_masses)
+
+fig = plt.figure(figsize = (10, 5))
+
+# creating the bar plot
+plt.bar(semesters, total_masses,
+		width = 0.4)
+
+plt.xlabel("Semester")
+plt.ylabel("Total mass printed")
+plt.title("DesNat")
+plt.show()
+```
+
+#### All Classes Bar Plot
+
+```{python}
+#| vscode: {languageId: python}
+ax = pd.crosstab(df_top_classes["class names corrected"], df_top_classes["semester"]).plot.bar()
+
+ax.set_title("Filiment Consumption by Class")
+ax.set_ylabel("Filiment Consumed (g)")
+ax.set_xlabel("")
+ax.tick_params(labelrotation = 90)
+
+plt.show()
+
+print(df_top_classes)
+```
 
 ## Deal with student names?
 
